@@ -17,6 +17,7 @@ class _StartScreenState extends State<StartScreen> {
       ),
       body: Container(
         color: rRed,
+        child: const Text("Start page"),
       ),
     );
   }
