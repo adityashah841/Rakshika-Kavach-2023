@@ -3,7 +3,6 @@ import 'package:women_safety_app/screens/chat_screen.dart';
 import 'package:women_safety_app/screens/contact_screen.dart';
 import 'package:women_safety_app/screens/profile_page.dart';
 import 'package:women_safety_app/screens/start_screen.dart';
-import 'package:women_safety_app/utils/color.dart';
 
 class BottomPage extends StatefulWidget {
   const BottomPage({super.key});

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
 
 class StartScreen extends StatefulWidget {
@@ -11,14 +12,10 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Rakshika'),
-      ),
-      body: Container(
-        color: rRed,
-        child: const Text("Start page"),
-      ),
+    return const Scaffold(
+      appBar: AppBarConstant(),
+      backgroundColor: rRed,
+      body: Center(child: Text("Profile page")),
     );
   }
 }
