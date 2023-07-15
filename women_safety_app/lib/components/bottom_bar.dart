@@ -35,31 +35,38 @@ class _BottomPageState extends State<BottomPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
         onTap: onTapped,
+        elevation: 8.0,
+        showSelectedLabels: true,
+        selectedItemColor: rPurple,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: Colors.white,
+        selectedFontSize: 14.0,
+        unselectedFontSize: 12.0,
         items: const [
           BottomNavigationBarItem(
             label: "Near Me",
             icon: Icon(Icons.near_me),
-            backgroundColor: rDarkBlue,
+            backgroundColor: rLightBlue,
           ),
           BottomNavigationBarItem(
             label: "SafeNav",
             icon: Icon(Icons.location_on),
-            backgroundColor: rDarkBlue,
+            backgroundColor: rLightBlue,
           ),
           BottomNavigationBarItem(
             label: "Home",
             icon: Icon(Icons.space_dashboard_rounded),
-            backgroundColor: rDarkBlue,
+            backgroundColor: rLightBlue,
           ),
           BottomNavigationBarItem(
             label: "Fake Call",
             icon: Icon(Icons.call),
-            backgroundColor: rDarkBlue,
+            backgroundColor: rLightBlue,
           ),
           BottomNavigationBarItem(
             label: "Chat Bot",
             icon: Icon(Icons.chat_outlined),
-            backgroundColor: rDarkBlue,
+            backgroundColor: rLightBlue,
           ),
         ],
       ),
