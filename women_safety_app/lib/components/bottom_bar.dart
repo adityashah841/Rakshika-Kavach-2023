@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/chatBotScreen.dart';
-import 'package:women_safety_app/screens/fakeCallScreen.dart';
-import 'package:women_safety_app/screens/nearMeScreen.dart';
-import 'package:women_safety_app/screens/safeNavScreen.dart';
-import 'package:women_safety_app/screens/homeScreen.dart';
+import 'package:women_safety_app/screens/chat_bot_screen.dart';
+import 'package:women_safety_app/screens/fake_call_screen.dart';
+import 'package:women_safety_app/screens/near_me_screen.dart';
+import 'package:women_safety_app/screens/safe_nav_screen.dart';
+import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
 
 class BottomPage extends StatefulWidget {
