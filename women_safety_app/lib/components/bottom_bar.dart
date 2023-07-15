@@ -3,7 +3,6 @@ import 'package:women_safety_app/screens/chatBotScreen.dart';
 import 'package:women_safety_app/screens/fakeCallScreen.dart';
 import 'package:women_safety_app/screens/nearMeScreen.dart';
 import 'package:women_safety_app/screens/safeNavScreen.dart';
-import 'package:women_safety_app/screens/profileScreen.dart';
 import 'package:women_safety_app/screens/homeScreen.dart';
 import 'package:women_safety_app/utils/color.dart';
 
