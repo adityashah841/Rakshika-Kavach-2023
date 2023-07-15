@@ -3,12 +3,17 @@ import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class NearMeScreen extends StatelessWidget {
   const NearMeScreen({Key? key}) : super(key: key);
 
   static Future<void> openMap(String location) async {
+    // final currentPosition = await Geolocator.getCurrentPosition();
+    // final latitude = currentPosition.latitude;
+    // final longitude = currentPosition.longitude;
     String googleURL = 'https://www.google.co.in/maps/search/$location';
+    // String googleURL = 'https://www.google.co.in/maps/search/$location/@$latitude,$longitude,15z';
     final Uri url = Uri.parse(googleURL);
     try {
       await launchUrl(url);
@@ -22,7 +27,7 @@ class NearMeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarConstant(),
-      backgroundColor: rDarkBlue,
+      backgroundColor: rLightBlue,
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(16.0),
@@ -32,8 +37,8 @@ class NearMeScreen extends StatelessWidget {
             const Text(
               "Nearby Services",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
+                color: Colors.black,
+                fontSize: 25.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
