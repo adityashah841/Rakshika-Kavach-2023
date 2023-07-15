@@ -22,7 +22,7 @@ class _AppBarConstantState extends State<AppBarConstant> {
         AppBar(
           title: const Text('Rakshika'),
           centerTitle: true,
-          backgroundColor: rGreen,
+          backgroundColor: rDarkBlue,
           leading: GestureDetector(
             child: const Icon(
               Icons.menu,

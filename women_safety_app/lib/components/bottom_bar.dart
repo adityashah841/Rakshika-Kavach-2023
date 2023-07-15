@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/chat_screen.dart';
-import 'package:women_safety_app/screens/contact_screen.dart';
-import 'package:women_safety_app/screens/profile_page.dart';
-import 'package:women_safety_app/screens/start_screen.dart';
+import 'package:women_safety_app/screens/chatBotScreen.dart';
+import 'package:women_safety_app/screens/fakeCallScreen.dart';
+import 'package:women_safety_app/screens/nearMeScreen.dart';
+import 'package:women_safety_app/screens/safeNavScreen.dart';
+import 'package:women_safety_app/screens/profileScreen.dart';
+import 'package:women_safety_app/screens/homeScreen.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 class BottomPage extends StatefulWidget {
   const BottomPage({super.key});
@@ -12,13 +15,13 @@ class BottomPage extends StatefulWidget {
 }
 
 class _BottomPageState extends State<BottomPage> {
-  int currentIndex = 0;
+  int currentIndex = 2;
   List<Widget> pages = [
+    const NearMeScreen(),
+    const SafeNavScreen(),
     const StartScreen(),
-    const ContactScreen(),
-    const ChatScreen(),
-    const ProfilePage(),
-    const StartScreen(),
+    const FakeCallScreen(),
+    const ChatBotScreen(),
   ];
   onTapped(int index) {
     setState(() {
@@ -35,28 +38,29 @@ class _BottomPageState extends State<BottomPage> {
         onTap: onTapped,
         items: const [
           BottomNavigationBarItem(
-              label: "Home",
-              icon: Icon(Icons.home),
-              backgroundColor: Colors.black),
-          BottomNavigationBarItem(
-            label: "Contact",
-            icon: Icon(Icons.contacts),
-            backgroundColor: Colors.black,
+            label: "Near Me",
+            icon: Icon(Icons.near_me),
+            backgroundColor: rDarkBlue,
           ),
           BottomNavigationBarItem(
-            label: "Chat",
-            icon: Icon(Icons.chat),
-            backgroundColor: Colors.black,
+            label: "SafeNav",
+            icon: Icon(Icons.location_on),
+            backgroundColor: rDarkBlue,
           ),
           BottomNavigationBarItem(
-            label: "Profile",
-            icon: Icon(Icons.person_pin_outlined),
-            backgroundColor: Colors.black,
+            label: "Home",
+            icon: Icon(Icons.space_dashboard_rounded),
+            backgroundColor: rDarkBlue,
           ),
           BottomNavigationBarItem(
-            label: "Home Again",
-            icon: Icon(Icons.maps_home_work),
-            backgroundColor: Colors.black,
+            label: "Fake Call",
+            icon: Icon(Icons.call),
+            backgroundColor: rDarkBlue,
+          ),
+          BottomNavigationBarItem(
+            label: "Chat Bot",
+            icon: Icon(Icons.chat_outlined),
+            backgroundColor: rDarkBlue,
           ),
         ],
       ),

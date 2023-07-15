@@ -14,8 +14,8 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     return const Scaffold(
       appBar: AppBarConstant(),
-      backgroundColor: rRed,
-      body: Center(child: Text("Profile page")),
+      backgroundColor: rPurple,
+      body: Center(child: Text("Home Screen")),
     );
   }
 }
