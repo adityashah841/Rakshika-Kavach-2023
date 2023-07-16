@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class FakeCallScreen extends StatelessWidget {
   const FakeCallScreen({Key? key}) : super(key: key);
+  _callNumber(String number) async {
+    // const number = '08592119XXXX'; //set the number here
+    await FlutterPhoneDirectCaller.callNumber(number);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarConstant(),
-      backgroundColor: rDarkBlue,
+      backgroundColor: rBackground,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -29,25 +33,25 @@ class FakeCallScreen extends StatelessWidget {
                     name: "Police",
                     description: "Description of the Police service",
                     image: 'assets/images/policeImage.png',
-                    number: "100",
+                    number: "909",
                   ),
                   _buildServiceCard(
                     name: "Ambulance",
                     description: "Description of the Ambulance service",
                     image: 'assets/images/ambulanceImage.png',
-                    number: "102",
+                    number: "808",
                   ),
                   _buildServiceCard(
                     name: "Nirbhaya",
                     description: "Description of the Nirbhaya service",
                     image: 'assets/images/femalePolice.png',
-                    number: "1091",
+                    number: "707",
                   ),
                   _buildServiceCard(
                     name: "Help Services",
                     description: "Description of the Help Services",
                     image: 'assets/images/helpImage.png',
-                    number: "108",
+                    number: "606",
                   ),
                 ],
               ),
@@ -61,7 +65,7 @@ class FakeCallScreen extends StatelessWidget {
   Widget _buildFakeCallCard() {
     return GestureDetector(
       onTap: () {
-        _showCallOptions("Fake Call", "911");
+        _callNumber("911");
       },
       child: Container(
         margin: const EdgeInsets.all(16.0),
@@ -119,7 +123,7 @@ class FakeCallScreen extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () {
-        _showCallOptions(name, number);
+        _callNumber(number);
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -175,18 +179,6 @@ class FakeCallScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  void _showCallOptions(String serviceName, String number) {
-    Fluttertoast.showToast(
-      msg: "Call $serviceName?",
-      toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 5,
-      backgroundColor: Colors.black.withOpacity(0.8),
-      textColor: Colors.white,
-      fontSize: 16.0,
     );
   }
 }
