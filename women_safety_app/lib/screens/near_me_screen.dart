@@ -17,7 +17,7 @@ class NearMeScreen extends StatelessWidget {
         if (permission == LocationPermission.denied) {
           Fluttertoast.showToast(
               msg:
-                  'Location permissions are permanently denied, we cannot request');
+                  'Location permissions are permanently denied, we cannot request permission');
           return;
         }
       }
@@ -49,7 +49,7 @@ class NearMeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarConstant(),
-      backgroundColor: rLightBlue,
+      backgroundColor: rBackground,
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(16.0),
@@ -59,7 +59,7 @@ class NearMeScreen extends StatelessWidget {
             const Text(
               "Nearby Services",
               style: TextStyle(
-                color: Colors.black,
+                color: Color.fromARGB(255, 8, 0, 123),
                 fontSize: 25.0,
                 fontWeight: FontWeight.bold,
               ),
