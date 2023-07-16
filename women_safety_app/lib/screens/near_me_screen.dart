@@ -1,19 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:geolocator/geolocator.dart';
 
 class NearMeScreen extends StatelessWidget {
   const NearMeScreen({Key? key}) : super(key: key);
 
   static Future<void> openMap(String location) async {
-    // final currentPosition = await Geolocator.getCurrentPosition();
-    // final latitude = currentPosition.latitude;
-    // final longitude = currentPosition.longitude;
-    String googleURL = 'https://www.google.co.in/maps/search/$location';
-    // String googleURL = 'https://www.google.co.in/maps/search/$location/@$latitude,$longitude,15z';
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          Fluttertoast.showToast(
+              msg:
+                  'Location permissions are permanently denied, we cannot request');
+          return;
+        }
+      }
+    }
+
+    Position position;
+    try {
+      position = await Geolocator.getCurrentPosition();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Error getting current location. Please try again later.');
+      return;
+    }
+
+    String lat = position.latitude.toString();
+    String long = position.longitude.toString();
+    String googleURL =
+        'https://www.google.co.in/maps/search/$location/@$lat,$long,12z';
     final Uri url = Uri.parse(googleURL);
     try {
       await launchUrl(url);
@@ -50,46 +72,40 @@ class NearMeScreen extends StatelessWidget {
               mainAxisSpacing: 16.0,
               children: [
                 _buildServiceBox(
-                  icon: Icons.local_police,
+                  image: 'assets/images/policeStation.png',
                   text: "Police Stations",
                   gradientColors: [Colors.lightBlue, Colors.white],
-                  iconColor: Colors.black,
-                  searchLocation: "police stations near me",
+                  searchLocation: "Police stations",
                 ),
                 _buildServiceBox(
-                  icon: Icons.train,
+                  image: 'assets/images/railwayStation.png',
                   text: "Railway Stations",
                   gradientColors: [Colors.teal, Colors.white],
-                  iconColor: Colors.black,
-                  searchLocation: "railway stations near me",
+                  searchLocation: "Railway stations",
                 ),
                 _buildServiceBox(
-                  icon: Icons.local_hospital,
+                  image: 'assets/images/hospital.png',
                   text: "Hospitals",
                   gradientColors: [Colors.orange, Colors.white],
-                  iconColor: Colors.black,
-                  searchLocation: "hospitals near me",
+                  searchLocation: "Hospitals",
                 ),
                 _buildServiceBox(
-                  icon: Icons.directions_bus,
+                  image: 'assets/images/busStation.png',
                   text: "Bus Stations",
                   gradientColors: [Colors.yellow, Colors.white],
-                  iconColor: Colors.black,
-                  searchLocation: "bus stations near me",
+                  searchLocation: "Bus stations",
                 ),
                 _buildServiceBox(
-                  icon: Icons.local_pharmacy_outlined,
+                  image: 'assets/images/pharmacies.png',
                   text: "Pharmacies",
                   gradientColors: [Colors.deepPurple, Colors.white],
-                  iconColor: Colors.black,
-                  searchLocation: "pharmacies near me",
+                  searchLocation: "Pharmacies",
                 ),
                 _buildServiceBox(
-                  icon: Icons.account_balance,
+                  image: 'assets/images/temples.png',
                   text: "Religious Centers",
                   gradientColors: [Colors.pinkAccent, Colors.white],
-                  iconColor: Colors.black,
-                  searchLocation: "temples near me",
+                  searchLocation: "Temples",
                 ),
               ],
             ),
@@ -100,10 +116,9 @@ class NearMeScreen extends StatelessWidget {
   }
 
   Widget _buildServiceBox({
-    required IconData icon,
+    required String image,
     required String text,
     required List<Color> gradientColors,
-    required Color iconColor,
     required String searchLocation,
   }) {
     return GestureDetector(
@@ -123,10 +138,10 @@ class NearMeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 48.0,
-              color: iconColor,
+            Image.asset(
+              image,
+              width: 48.0,
+              height: 48.0,
             ),
             const SizedBox(height: 10.0),
             Text(
