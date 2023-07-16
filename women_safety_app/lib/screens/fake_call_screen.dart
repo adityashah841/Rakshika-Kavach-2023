@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
+// import 'package:url_launcher/url_launcher.dart';
+// import 'package:faker/faker.dart';
 
 class FakeCallScreen extends StatelessWidget {
   const FakeCallScreen({Key? key}) : super(key: key);
+
+  void _makeFakeCall(String phoneNumber) async {
+    await FlutterPhoneDirectCaller.callNumber(phoneNumber);
+  }
+
   _callNumber(String number) async {
-    // const number = '08592119XXXX'; //set the number here
     await FlutterPhoneDirectCaller.callNumber(number);
   }
 
@@ -20,7 +26,7 @@ class FakeCallScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 10.0),
-            _buildFakeCallCard(),
+            _buildFakeCallCard('7303404504'),
             const SizedBox(height: 5.0),
             Expanded(
               child: GridView.count(
@@ -62,10 +68,10 @@ class FakeCallScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFakeCallCard() {
+  Widget _buildFakeCallCard(String number) {
     return GestureDetector(
       onTap: () {
-        _callNumber("911");
+        _makeFakeCall(number);
       },
       child: Container(
         margin: const EdgeInsets.all(16.0),
@@ -102,9 +108,9 @@ class FakeCallScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            const Text(
-              "Call: 911",
-              style: TextStyle(
+            Text(
+              "Call: $number",
+              style: const TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
               ),
