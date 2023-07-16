@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_callkit_incoming/entities/entities.dart';
+import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:faker/faker.dart';
 
 class FakeCallScreen extends StatelessWidget {
-  const FakeCallScreen({Key? key}) : super(key: key);
-
-  void _makeFakeCall(String phoneNumber) async {
-    await FlutterPhoneDirectCaller.callNumber(phoneNumber);
-  }
+  const FakeCallScreen({super.key});
 
   _callNumber(String number) async {
     await FlutterPhoneDirectCaller.callNumber(number);
@@ -26,7 +22,7 @@ class FakeCallScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 10.0),
-            _buildFakeCallCard('7303404504'),
+            _buildFakeCallCard(context),
             const SizedBox(height: 5.0),
             Expanded(
               child: GridView.count(
@@ -68,10 +64,59 @@ class FakeCallScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFakeCallCard(String number) {
+  Widget _buildFakeCallCard(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        _makeFakeCall(number);
+//       onTap: () {
+//         Navigator.of(context).push(
+//           MaterialPageRoute(
+//             builder: (context) => const FakeCallLogic(),
+//           ),
+//         );
+// // Adjust the call duration as needed
+//       },
+      onDoubleTap: () async {
+        CallKitParams params = CallKitParams(
+          id: "3912891h0u90",
+          nameCaller: "Krish Shah",
+          appName: "Rakshika",
+          avatar: "https://i.pravata.cc",
+          handle: "123456",
+          type: 0,
+          textAccept: "Accept",
+          textDecline: "Decline",
+          textMissedCall: "Missed call",
+          textCallback: "call back",
+          duration: 300000,
+          extra: {'userId': "gqyu9e1gf39b"},
+          android: const AndroidParams(
+            isCustomNotification: true,
+            isShowLogo: false,
+            isShowCallback: false,
+            isShowMissedCallNotification: true,
+            ringtonePath: 'assets/ringtones/ringTone.mp3',
+            backgroundColor: "#8955fa",
+            backgroundUrl: "https://",
+            actionColor: "#4CAF56",
+            incomingCallNotificationChannelName: "Incoming call",
+            missedCallNotificationChannelName: "Missed call",
+          ),
+          ios: IOSParams(
+            iconName: "Call Demo",
+            handleType: "generic",
+            supportsVideo: true,
+            maximumCallGroups: 2,
+            maximumCallsPerCallGroup: 2,
+            audioSessionMode: 'default',
+            audioSessionActive: true,
+            audioSessionPreferredSampleRate: 44100.0,
+            audioSessionPreferredIOBufferDuration: 0.005,
+            supportsDTMF: true,
+            supportsHolding: true,
+            supportsGrouping: false,
+            ringtonePath: 'assets/ringtones.ringTone.mp3',
+          ),
+        );
+        await FlutterCallkitIncoming.showCallkitIncoming(params);
       },
       child: Container(
         margin: const EdgeInsets.all(16.0),
@@ -108,9 +153,9 @@ class FakeCallScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              "Call: $number",
-              style: const TextStyle(
+            const Text(
+              "Call Your Number",
+              style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
               ),
