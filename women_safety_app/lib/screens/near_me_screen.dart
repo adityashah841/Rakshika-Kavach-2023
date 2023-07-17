@@ -92,7 +92,7 @@ class NearMeScreen extends StatelessWidget {
                 _buildServiceBox(
                   image: 'assets/images/busStation.png',
                   text: "Bus Stations",
-                  gradientColors: [Colors.white, Colors.white],
+                  gradientColors: [Colors.yellow, Colors.white],
                   searchLocation: "Bus stations",
                 ),
                 _buildServiceBox(

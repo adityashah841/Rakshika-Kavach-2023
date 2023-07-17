@@ -66,46 +66,38 @@ class FakeCallScreen extends StatelessWidget {
 
   Widget _buildFakeCallCard(BuildContext context) {
     return GestureDetector(
-//       onTap: () {
-//         Navigator.of(context).push(
-//           MaterialPageRoute(
-//             builder: (context) => const FakeCallLogic(),
-//           ),
-//         );
-// // Adjust the call duration as needed
-//       },
       onDoubleTap: () async {
         CallKitParams params = CallKitParams(
-          id: "3912891h0u90",
+          id: "123abc456def",
           nameCaller: "Krish Shah",
           appName: "Rakshika",
-          avatar: "https://i.pravata.cc",
-          handle: "123456",
+          avatar: "https://i.pravatar.cc/100",
+          handle: "+91 7303404505",
           type: 0,
           textAccept: "Accept",
           textDecline: "Decline",
           textMissedCall: "Missed call",
           textCallback: "call back",
           duration: 300000,
-          extra: {'userId': "gqyu9e1gf39b"},
+          extra: {'userId': "098xyz765uvw"},
           android: const AndroidParams(
             isCustomNotification: true,
             isShowLogo: false,
             isShowCallback: false,
             isShowMissedCallNotification: true,
-            ringtonePath: 'assets/ringtones/ringTone.mp3',
-            backgroundColor: "#8955fa",
-            backgroundUrl: "https://",
-            actionColor: "#4CAF56",
+            ringtonePath: "system_ringtone_default",
+            backgroundColor: "#0955fa",
+            backgroundUrl: "https://i.pravatar.cc/500",
+            actionColor: "#4CAF50",
             incomingCallNotificationChannelName: "Incoming call",
             missedCallNotificationChannelName: "Missed call",
           ),
           ios: IOSParams(
-            iconName: "Call Demo",
+            iconName: "CallKitLogo",
             handleType: "generic",
             supportsVideo: true,
             maximumCallGroups: 2,
-            maximumCallsPerCallGroup: 2,
+            maximumCallsPerCallGroup: 1,
             audioSessionMode: 'default',
             audioSessionActive: true,
             audioSessionPreferredSampleRate: 44100.0,
@@ -113,7 +105,7 @@ class FakeCallScreen extends StatelessWidget {
             supportsDTMF: true,
             supportsHolding: true,
             supportsGrouping: false,
-            ringtonePath: 'assets/ringtones.ringTone.mp3',
+            ringtonePath: 'system_ringtone_default',
           ),
         );
         await FlutterCallkitIncoming.showCallkitIncoming(params);
@@ -147,7 +139,7 @@ class FakeCallScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8.0),
             const Text(
-              "Description of the Fake Call service",
+              "Double Tap here to generate a Fake Call.",
               style: TextStyle(
                 fontSize: 16.0,
               ),
