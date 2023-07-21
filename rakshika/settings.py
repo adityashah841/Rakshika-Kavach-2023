@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'accounts'
 ]
 
-# AUTH_USER_MODEL = 'Accounts.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -101,17 +101,30 @@ WSGI_APPLICATION = "rakshika.wsgi.application"
 #     }
 # }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE":config('ENGINE'),
+#         "NAME" : config('NAME'),
+#         "CLIENT": {
+#         "host": config('host'),
+#         "username": config('username'),
+#         "password": config('password')
+#         }
+#     }
+# }
+
+
 DATABASES = {
-    "default": {
-        "ENGINE":config('ENGINE'),
-        "NAME" : config('NAME'),
-        "CLIENT": {
-        "host": config('host'),
-        "username": config('username'),
-        "password": config('password')
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME'), 
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'), 
+        'PORT': config('DB_PORT'),
     }
 }
+
 
 REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY': 'error',
