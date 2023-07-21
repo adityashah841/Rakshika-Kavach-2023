@@ -117,3 +117,46 @@ class User(AbstractBaseUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+
+GENDER = (
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+)
+
+class DummyAadharInfo(models.Model):
+    uid             = models.DecimalField(max_digits = 12, decimal_places = 0,unique=True)
+    first_name      = models.CharField(max_length=100)
+    last_name       = models.CharField(max_length=100)
+    dob             = models.DateField()
+    gender          = models.CharField(max_length = 100,choices = GENDER, default = 'Female')
+    phone           = models.DecimalField(max_digits = 10, decimal_places = 0)
+    email           = models.EmailField(verbose_name='email address',max_length=255)
+    house_number    = models.CharField(max_length=100)
+    locality        = models.CharField(max_length=100)
+    landmark        = models.CharField(max_length=100)
+    street          = models.CharField(max_length=100)
+    district        = models.CharField(max_length=100)
+    state           = models.CharField(max_length=100)
+    pincode         = models.DecimalField(max_digits = 6, decimal_places = 0)
+
+    def __str__(self):
+        return str(self.uid)
+
+# example
+# uid=999971658847
+# first name=Kumar 
+# last name = Agarwal
+# dob=04-05-1978
+# dobt=A
+# gender=M
+# phone=2314475929
+# email=kma@mailserver.com
+# building=IPP, IAP
+# landmark=Opp RSEB Window
+# street=5A Madhuban
+# locality=Veera Desai Road
+# vtc=Udaipur
+# district=Udaipur
+# state=Rajasthan
+# pincode=313001
