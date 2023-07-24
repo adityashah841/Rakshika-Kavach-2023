@@ -33,13 +33,13 @@ class _AppBarConstantState extends State<AppBarConstant> {
             GestureDetector(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SettingScreen()));
+                    builder: (context) => const NotificationScreen()));
               },
               child: Container(
                 margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
                 child: const Icon(
                   size: 29,
-                  Icons.settings_outlined,
+                  Icons.notifications_active_outlined,
                   weight: BorderSide.strokeAlignOutside,
                 ),
               ),
