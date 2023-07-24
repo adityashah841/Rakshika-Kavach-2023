@@ -63,7 +63,7 @@ class _BottomPageState extends State<BottomPage> {
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Chat Bot",
+            label: "Chat",
             icon: Icon(Icons.chat_outlined),
             backgroundColor: rBottomBar,
           ),
