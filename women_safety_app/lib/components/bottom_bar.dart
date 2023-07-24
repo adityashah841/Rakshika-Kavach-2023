@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/chat_bot_screen.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
+import 'package:women_safety_app/screens/general_chat_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/screens/safe_nav_screen.dart';
 import 'package:women_safety_app/screens/home_screen.dart';
@@ -20,7 +20,7 @@ class _BottomPageState extends State<BottomPage> {
     const SafeNavScreen(),
     const StartScreen(),
     const FakeCallScreen(),
-    const ChatBotScreen(),
+    const GeneralChatScreen(),
   ];
   onTapped(int index) {
     setState(() {
