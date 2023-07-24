@@ -8,6 +8,7 @@ class GeneralChatScreen extends StatefulWidget {
   const GeneralChatScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _GeneralChatScreenState createState() => _GeneralChatScreenState();
 }
 

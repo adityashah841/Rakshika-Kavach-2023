@@ -67,7 +67,7 @@ class FakeCallScreen extends StatelessWidget {
   Widget _buildFakeCallCard(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () async {
-        CallKitParams params = CallKitParams(
+        CallKitParams params = const CallKitParams(
           id: "123abc456def",
           nameCaller: "Krish Shah",
           appName: "Rakshika",
@@ -76,15 +76,11 @@ class FakeCallScreen extends StatelessWidget {
           type: 0,
           textAccept: "Accept",
           textDecline: "Decline",
-          textMissedCall: "Missed call",
-          textCallback: "call back",
           duration: 300000,
           extra: {'userId': "098xyz765uvw"},
-          android: const AndroidParams(
+          android:  AndroidParams(
             isCustomNotification: true,
             isShowLogo: false,
-            isShowCallback: false,
-            isShowMissedCallNotification: true,
             ringtonePath: "system_ringtone_default",
             backgroundColor: "#0955fa",
             backgroundUrl: "https://i.pravatar.cc/500",

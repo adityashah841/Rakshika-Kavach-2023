@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 
 class ChatBotScreen extends StatelessWidget {
   const ChatBotScreen({super.key});
@@ -15,7 +16,20 @@ class ChatBotScreen extends StatelessWidget {
         ),
       ),
       backgroundColor: rBackground,
-      body: Container(),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        dynamic conversationObject = {
+          'appId':
+              '249f24603c1ce717303b5a03b076f84f0', // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
+        };
+
+        KommunicateFlutterPlugin.buildConversation(conversationObject)
+            .then((clientConversationId) {
+          print("Conversation builder success : " +
+              clientConversationId.toString());
+        }).catchError((error) {
+          print("Conversation builder error : " + error.toString());
+        });
+      }),
     );
   }
 }
