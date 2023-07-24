@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/screens/chat_bot_screen.dart';
+// import 'package:women_safety_app/screens/chat_bot_screen.dart';
 import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 
 class GeneralChatScreen extends StatefulWidget {
   const GeneralChatScreen({super.key});
@@ -94,8 +95,22 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ChatBotScreen()));
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => const ChatBotScreen()));
+                  dynamic conversationObject = {
+                    'appId':
+                        '249f24603c1ce717303b5a03b076f84f0', // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
+                  };
+
+                  KommunicateFlutterPlugin.buildConversation(conversationObject)
+                      .then((clientConversationId) {
+                    print("Conversation builder success : " +
+                        clientConversationId.toString());
+                  }).catchError(
+                    (error) {
+                      print("Conversation builder error : " + error.toString());
+                    },
+                  );
                 },
                 child: SlideTransition(
                   position: _slideAnimation2,
