@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer)
+from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer, SetPasswordSerializer)
 
 #phone verification
 from . import verifyPhone
@@ -33,23 +33,27 @@ class SignUp(generics.GenericAPIView):
             except DummyAadharInfo.DoesNotExist:
                 content = {'detail': 'Aadhar Number Invalid'}
                 return JsonResponse(content, status = status.HTTP_404_NOT_FOUND) 
-            
-            User.objects.get_or_create(
-                email = user.email,
-                username = user.first_name + user.last_name,
-                firstname = user.first_name,
-                lastname = user.last_name,
-                aadhar_number = user.uid,
-                phone_number = user.phone,
-                DOB = user.dob
-            )
-
-            number = '+91' + str(user.phone)
             try:
-                verifyPhone.send(number)
-            except:
-                return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_404_NOT_FOUND)
-            content = {'detail': 'OTP sent'}
+                user = User.objects.get(aadhar_number = user.uid)
+            except User.DoesNotExist:
+                User.objects.create(
+                    email = user.email,
+                    username = user.first_name + user.last_name,
+                    firstname = user.first_name,
+                    lastname = user.last_name,
+                    aadhar_number = user.uid,
+                    phone_number = user.phone,
+                    DOB = user.dob
+                )
+
+                number = '+91' + str(user.phone)
+                # try:
+                #     verifyPhone.send(number)
+                # except:
+                #     return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_404_NOT_FOUND)
+                content = {'detail': 'OTP sent'}
+                return JsonResponse(content, status = status.HTTP_200_OK) 
+            content = {'detail': 'User already exists try login'}
             return JsonResponse(content, status = status.HTTP_200_OK) 
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
 
@@ -65,8 +69,38 @@ class VerifyPhoneView(generics.GenericAPIView):
                 user = User.objects.get(aadhar_number=serializer.data['aadhar_number'])
                 code = serializer.data['code']
                 number = '+91' + str(user.phone_number)
-                if verifyPhone.check(number, code):
-                    user.is_active = True
-                    user.save()
-                    return JsonResponse({'status': 'Phone Successfully Verified'}, status=status.HTTP_200_OK)
-        return JsonResponse({'error':"Code Expired"}, status=status.HTTP_400_BAD_REQUEST)
+                # if verifyPhone.check(number, code):
+                user.is_active = True
+                user.save()
+                if user.is_active:
+                    tokens = RefreshToken.for_user(user=user)
+                    content = {
+                        'message' : "Phone successfully verified",
+                        'username': (user.username),
+                        'refresh': str(tokens),
+                        'access': str(tokens.access_token)
+                    }
+                    return JsonResponse(content, status=status.HTTP_200_OK)
+                return JsonResponse({'error':"Code Expired"}, status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'error':"User with this aadhar number does not exist"}, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
+
+
+class SetUsernamePasswordView(generics.GenericAPIView):
+    serializer_class = SetPasswordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def patch(self,request):
+        print(request.user)
+        try:
+            user = User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(): 
+            user.username = serializer.validated_data['username'] 
+            user.set_password(serializer.validated_data['password'])
+            user.save()
+            return JsonResponse({'message':'password successfully set'}, status = status.HTTP_202_ACCEPTED)
+        return JsonResponse(serializer.errors, status = status.HTTP_404_NOT_FOUND)
