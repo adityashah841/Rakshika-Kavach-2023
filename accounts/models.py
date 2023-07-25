@@ -169,7 +169,7 @@ LOCATION_TYPE = (
 )
 
 class Address(models.Model):
-    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_address')
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_address', null = True, blank=True)
     house_number    = models.CharField(max_length=100)
     locality        = models.CharField(max_length=100)
     landmark        = models.CharField(max_length=100)
@@ -184,7 +184,7 @@ class Address(models.Model):
     
 
 class EmergencyContact(models.Model):
-    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_emergency_contact')
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_emergency_contact', null = True, blank=True)
     name            = models.CharField(max_length=100)
     phone           = models.DecimalField(max_digits = 10, decimal_places = 0)
     relation        = models.CharField(max_length=100)

@@ -15,7 +15,9 @@ from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer, SetPasswordSerializer, LoginSerializer, UserSerializer)
+from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer, 
+                          SetPasswordSerializer, LoginSerializer, UserSerializer, 
+                          AddressSerializer, EmergencyContactSerializer)
 
 #phone verification
 from . import verifyPhone
@@ -166,3 +168,73 @@ class UserView(generics.GenericAPIView):
         user.delete()
         content = {'detail': 'User Deleted'}
         return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
+
+
+class AddressView(generics.GenericAPIView):
+    serializer_class = AddressSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def get(self,request, pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        if pk == 'All':
+            address = Address.objects.filter(user = user)
+            userAddress = AddressSerializer(address, many=True, context={'request': request})
+            return JsonResponse(userAddress.data,safe=False,status = status.HTTP_200_OK)
+        else:
+            if Address.objects.filter(user = user, type = pk).exists():
+                address = Address.objects.filter(user = user, type = pk)
+                userAddress = AddressSerializer(address, many=True, context={'request': request})
+                return JsonResponse(userAddress.data,safe=False,status = status.HTTP_200_OK)
+            else:
+                content = {'Message' : 'Available types of Address are (All, Primary, Secondary, Work, Home, Other) enter one'}
+                return JsonResponse(content, safe = False, status = status.HTTP_404_NOT_FOUND)
+        
+    def post(self, request, pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        address = Address(user = request.user)
+        serializer = AddressSerializer(address, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,safe=False, status = status.HTTP_202_ACCEPTED)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
+
+    def patch(self, request, pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            address=Address.objects.get(id = pk, user = user)
+        except address.DoesNotExist:
+            content = {'detail': 'No such address belongs to the user'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        serializer = AddressSerializer(instance = address, data=request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,safe=False,status = status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self,request,pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            address=Address.objects.get(id = pk, user = user)
+        except address.DoesNotExist:
+            content = {'detail': 'No such address belongs to the user'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        address.delete()
+        content = {'detail': 'Address Deleted'}
+        return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
+        
