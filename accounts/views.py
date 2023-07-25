@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer, SetPasswordSerializer, LoginSerializer)
+from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer, SetPasswordSerializer, LoginSerializer, UserSerializer)
 
 #phone verification
 from . import verifyPhone
@@ -114,3 +114,43 @@ class Login(generics.GenericAPIView):
         serializer = self.serializer_class(data=request.data, context={'request':request})
         serializer.is_valid(raise_exception=True)
         return JsonResponse(serializer.validated_data, status=status.HTTP_200_OK)
+    
+
+
+
+class UserView(generics.GenericAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def get(self,request):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        userProfile = UserSerializer(user, many=False, context={'request': request})
+        return JsonResponse(userProfile.data,safe=False,status = status.HTTP_200_OK)
+
+
+    def patch(self,request):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        serializer = UserSerializer(instance = user, data=request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,safe=False,status = status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+
+    def delete(self,request):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        user.delete()
+        content = {'detail': 'User Deleted'}
+        return JsonResponse(content, status = status.HTTP_202_ACCEPTED)

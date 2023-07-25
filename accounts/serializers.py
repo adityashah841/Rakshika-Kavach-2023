@@ -59,3 +59,12 @@ class LoginSerializer(serializers.ModelSerializer):
             'refresh': str(tokens),
             'access': str(tokens.access_token)
         }
+    
+class UserSerializer(serializers.ModelSerializer):
+    aadhar_number = serializers.CharField(max_length=68, min_length=8, read_only=True)
+    phone_number = serializers.CharField(max_length=10, min_length=8, read_only=True)
+    DOB = serializers.CharField(max_length=10, min_length=8, read_only=True)
+    
+    class Meta:
+        model = User
+        fields = ['aadhar_number','phone_number','email','username', 'firstname', 'lastname','image','DOB']
