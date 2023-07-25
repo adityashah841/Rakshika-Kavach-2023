@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import (mixins, generics, status, permissions)
 from rest_framework.permissions import IsAuthenticated
-from .models import DummyAadharInfo, Address
+from .models import DummyAadharInfo, Address, EmergencyContact
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http.response import HttpResponse, JsonResponse
 import jwt
@@ -214,7 +214,7 @@ class AddressView(generics.GenericAPIView):
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         try:
             address=Address.objects.get(id = pk, user = user)
-        except address.DoesNotExist:
+        except Address.DoesNotExist:
             content = {'detail': 'No such address belongs to the user'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         serializer = AddressSerializer(instance = address, data=request.data, partial = True)
@@ -238,3 +238,63 @@ class AddressView(generics.GenericAPIView):
         content = {'detail': 'Address Deleted'}
         return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
         
+
+class EmergencyContactView(generics.GenericAPIView):
+    serializer_class = EmergencyContactSerializer
+    permission_classes = [IsAuthenticated,]
+
+    def get(self,request,pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        emergency = EmergencyContact.objects.filter(user = user)
+        userEmergencyContact = EmergencyContactSerializer(emergency, many=True, context={'request': request})
+        return JsonResponse(userEmergencyContact.data,safe=False,status = status.HTTP_200_OK)
+
+        
+    def post(self, request,pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        emergency = EmergencyContact(user = request.user)
+        serializer = EmergencyContactSerializer(emergency, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,safe=False, status = status.HTTP_202_ACCEPTED)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
+
+    def patch(self, request, pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            emergency=EmergencyContact.objects.get(id = pk, user = user)
+        except EmergencyContact.DoesNotExist:
+            content = {'detail': 'No such emergency contact belongs to the user'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        serializer = EmergencyContactSerializer(instance = emergency, data=request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data,safe=False,status = status.HTTP_200_OK)
+        return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self,request,pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        try:
+            emergency=EmergencyContact.objects.get(id = pk, user = user)
+        except EmergencyContact.DoesNotExist:
+            content = {'detail': 'No such emergency contact belongs to the user'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        emergency.delete()
+        content = {'detail': 'Emergency Deleted'}
+        return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
