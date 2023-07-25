@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework import (mixins, generics, status, permissions)
 from rest_framework.permissions import IsAuthenticated
-from .models import DummyAadharInfo
+from .models import DummyAadharInfo, Address
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http.response import HttpResponse, JsonResponse
 import jwt
@@ -36,7 +36,7 @@ class SignUp(generics.GenericAPIView):
             try:
                 user = User.objects.get(aadhar_number = user.uid)
             except User.DoesNotExist:
-                User.objects.create(
+                new_user = User.objects.create(
                     email = user.email,
                     username = user.first_name + user.last_name,
                     firstname = user.first_name,
@@ -44,6 +44,18 @@ class SignUp(generics.GenericAPIView):
                     aadhar_number = user.uid,
                     phone_number = user.phone,
                     DOB = user.dob
+                )
+
+                Address.objects.create(
+                    user = new_user,
+                    house_number = user.house_number,
+                    locality = user.locality,
+                    landmark = user.landmark,
+                    street = user.street,
+                    district = user.district,
+                    state = user.state,
+                    pincode = user.pincode,
+                    type = 'Home'
                 )
 
                 number = '+91' + str(user.phone)

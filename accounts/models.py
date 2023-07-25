@@ -160,3 +160,34 @@ class DummyAadharInfo(models.Model):
 # district=Udaipur
 # state=Rajasthan
 # pincode=313001
+LOCATION_TYPE = (
+    ('Primary', 'Primary'),
+    ('Secondary', 'Secondary'),
+    ('Work', 'Work'),
+    ('Home', 'Home'),
+    ('Other', 'Other'),
+)
+
+class Address(models.Model):
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_address')
+    house_number    = models.CharField(max_length=100)
+    locality        = models.CharField(max_length=100)
+    landmark        = models.CharField(max_length=100)
+    street          = models.CharField(max_length=100)
+    district        = models.CharField(max_length=100)
+    state           = models.CharField(max_length=100)
+    pincode         = models.DecimalField(max_digits = 6, decimal_places = 0)
+    type            = models.CharField(max_length = 100,choices = LOCATION_TYPE, default = 'Other')
+
+    def __str__(self):
+        return str(self.user.username) + '-' + str(self.id)
+    
+
+class EmergencyContact(models.Model):
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete = models.CASCADE, related_name='user_emergency_contact')
+    name            = models.CharField(max_length=100)
+    phone           = models.DecimalField(max_digits = 10, decimal_places = 0)
+    relation        = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.user.username) + '-' + self.relation
