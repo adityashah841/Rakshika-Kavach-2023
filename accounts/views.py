@@ -15,7 +15,7 @@ from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer, SetPasswordSerializer)
+from .serializers import (AadharInfoSerializer, PhoneVerificationSerializer, SetPasswordSerializer, LoginSerializer)
 
 #phone verification
 from . import verifyPhone
@@ -104,3 +104,13 @@ class SetUsernamePasswordView(generics.GenericAPIView):
             user.save()
             return JsonResponse({'message':'password successfully set'}, status = status.HTTP_202_ACCEPTED)
         return JsonResponse(serializer.errors, status = status.HTTP_404_NOT_FOUND)
+    
+
+class Login(generics.GenericAPIView):
+
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request':request})
+        serializer.is_valid(raise_exception=True)
+        return JsonResponse(serializer.validated_data, status=status.HTTP_200_OK)
