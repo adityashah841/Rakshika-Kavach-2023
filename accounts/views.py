@@ -90,7 +90,7 @@ class SetUsernamePasswordView(generics.GenericAPIView):
     serializer_class = SetPasswordSerializer
     permission_classes = [IsAuthenticated]
 
-    def patch(self,request):
+    def post(self,request):
         print(request.user)
         try:
             user = User.objects.get(aadhar_number = request.user.aadhar_number)
