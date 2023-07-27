@@ -104,11 +104,11 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
 
                   KommunicateFlutterPlugin.buildConversation(conversationObject)
                       .then((clientConversationId) {
-                    print("Conversation builder success : " +
-                        clientConversationId.toString());
+                    // print("Conversation builder success : " +
+                    //     clientConversationId.toString());
                   }).catchError(
                     (error) {
-                      print("Conversation builder error : " + error.toString());
+                      // print("Conversation builder error : " + error.toString());
                     },
                   );
                 },

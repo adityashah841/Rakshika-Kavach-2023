@@ -4,9 +4,48 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class FakeCallScreen extends StatelessWidget {
   const FakeCallScreen({super.key});
+
+  Future<List<String>?> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      Fluttertoast.showToast(
+          msg: 'Please enable location services on your device.');
+      return null;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        Fluttertoast.showToast(
+            msg:
+                'Location permissions are permanently denied, we cannot request permission');
+        return null;
+      }
+    }
+
+    Position position;
+    try {
+      position = await Geolocator.getCurrentPosition();
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: 'Error getting current location. Please try again later.');
+      return null;
+    }
+
+    String latitude = position.latitude.toString();
+    String longitude = position.longitude.toString();
+
+    return [latitude, longitude];
+  }
 
   _callNumber(String number) async {
     await FlutterPhoneDirectCaller.callNumber(number);
@@ -32,26 +71,26 @@ class FakeCallScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 children: [
                   _buildServiceCard(
+                    context,
                     name: "Police",
-                    description: "Description of the Police service",
                     image: 'assets/images/policeImage.png',
-                    number: "909",
+                    number: "100",
                   ),
                   _buildServiceCard(
+                    context,
                     name: "Ambulance",
-                    description: "Description of the Ambulance service",
                     image: 'assets/images/ambulanceImage.png',
                     number: "808",
                   ),
                   _buildServiceCard(
+                    context,
                     name: "Nirbhaya",
-                    description: "Description of the Nirbhaya service",
                     image: 'assets/images/femalePolice.png',
                     number: "707",
                   ),
-                  _buildServiceCard(
-                    name: "Help Services",
-                    description: "Description of the Help Services",
+                  _buildServiceAPICard(
+                    context,
+                    name: "State Help",
                     image: 'assets/images/helpImage.png',
                     number: "606",
                   ),
@@ -78,7 +117,7 @@ class FakeCallScreen extends StatelessWidget {
           textDecline: "Decline",
           duration: 300000,
           extra: {'userId': "098xyz765uvw"},
-          android:  AndroidParams(
+          android: AndroidParams(
             isCustomNotification: true,
             isShowLogo: false,
             ringtonePath: "system_ringtone_default",
@@ -107,6 +146,8 @@ class FakeCallScreen extends StatelessWidget {
         await FlutterCallkitIncoming.showCallkitIncoming(params);
       },
       child: Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.25,
         margin: const EdgeInsets.all(16.0),
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -154,18 +195,22 @@ class FakeCallScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildServiceCard({
+  Widget _buildServiceCard(
+    BuildContext context, {
     required String name,
-    required String description,
     required String image,
     required String number,
   }) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: () {
         _callNumber(number);
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
+        width: screenWidth * 0.4,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.0),
@@ -183,11 +228,11 @@ class FakeCallScreen extends StatelessWidget {
           children: [
             Image.asset(
               image,
-              width: 64.0,
-              height: 64.0,
+              width: screenWidth * 0.2,
+              height: screenWidth * 0.2,
             ),
             const SizedBox(
-              height: 10.0,
+              height: 7.0,
             ),
             Text(
               name,
@@ -198,15 +243,72 @@ class FakeCallScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(
-              height: 10.0,
+              height: 7.0,
             ),
-            // Text(
-            //   description,
-            //   style: const TextStyle(
-            //     fontSize: 14.0,
-            //   ),
-            //   textAlign: TextAlign.center,
-            // ),
+            Text(
+              "Call: $number",
+              style: const TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildServiceAPICard(
+    BuildContext context, {
+    required String name,
+    required String image,
+    required String number,
+  }) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.height;
+
+    return GestureDetector(
+      onTap: () {
+        _callNumber(number);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        width: screenWidth * 0.4,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              image,
+              width: screenWidth * 0.2,
+              height: screenWidth * 0.2,
+            ),
+            const SizedBox(
+              height: 7.0,
+            ),
+            Text(
+              name,
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(
+              height: 7.0,
+            ),
             Text(
               "Call: $number",
               style: const TextStyle(
