@@ -80,19 +80,43 @@ class FakeCallScreen extends StatelessWidget {
                     context,
                     name: "Ambulance",
                     image: 'assets/images/ambulanceImage.png',
-                    number: "808",
+                    number: "102",
                   ),
                   _buildServiceCard(
                     context,
-                    name: "Nirbhaya",
-                    image: 'assets/images/femalePolice.png',
-                    number: "707",
+                    name: "Helpline",
+                    image: 'assets/images/helpline.png',
+                    number: "1091",
                   ),
                   _buildServiceAPICard(
                     context,
                     name: "State Help",
                     image: 'assets/images/helpImage.png',
                     number: "606",
+                  ),
+                  _buildServiceCard(
+                    context,
+                    name: "Fire",
+                    image: 'assets/images/fireImage.png',
+                    number: "101",
+                  ),
+                  _buildServiceCard(
+                    context,
+                    name: "Abuse Helpline",
+                    image: 'assets/images/domesticAbuse.png',
+                    number: "181",
+                  ),
+                  _buildServiceCard(
+                    context,
+                    name: "DCP",
+                    image: 'assets/images/dcpImage.png',
+                    number: "1094",
+                  ),
+                  _buildServiceCard(
+                    context,
+                    name: "Air Ambulance",
+                    image: 'assets/images/airAmbulance.png',
+                    number: "9540161344",
                   ),
                 ],
               ),
@@ -208,52 +232,54 @@ class FakeCallScreen extends StatelessWidget {
       onTap: () {
         _callNumber(number);
       },
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        width: screenWidth * 0.4,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              image,
-              width: screenWidth * 0.2,
-              height: screenWidth * 0.2,
-            ),
-            const SizedBox(
-              height: 7.0,
-            ),
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+      child: Expanded(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          width: screenWidth * 0.4,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 7.0,
-            ),
-            Text(
-              "Call: $number",
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold,
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                image,
+                width: screenWidth * 0.2,
+                height: screenWidth * 0.2,
               ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+              const SizedBox(
+                height: 7.0,
+              ),
+              Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 7.0,
+              ),
+              Text(
+                "Call: $number",
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
