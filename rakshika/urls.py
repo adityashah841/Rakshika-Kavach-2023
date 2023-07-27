@@ -38,6 +38,8 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('accounts.urls')),
+    path('blogs/', include('blogs.urls')),
+    path('evidences/', include('evidences.urls')),
 
     #Swagger API Docs
 

@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
 
     #third party apps
-    'accounts'
+    'accounts',
+    'blogs',
+    'evidences',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -189,3 +191,12 @@ EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
 FRONT_END_HOST="http://localhost:3000"
 DEFAULT_FROM_EMAIL =config('DEFAULT_FROM_EMAIL')
 SERVER_EMAIL = config('SERVER_EMAIL')
+
+# SSL/TLS settings
+# SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SECURE_HSTS_SECONDS = 3600
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
