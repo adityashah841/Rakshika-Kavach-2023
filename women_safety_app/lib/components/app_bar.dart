@@ -12,7 +12,7 @@ class AppBarConstant extends StatefulWidget implements PreferredSizeWidget {
       MediaQueryData.fromView(PlatformDispatcher.instance.views.first)
               .size
               .height *
-          0.0737);
+          0.071);
   @override
   State<AppBarConstant> createState() => _AppBarConstantState();
 }
@@ -20,44 +20,40 @@ class AppBarConstant extends StatefulWidget implements PreferredSizeWidget {
 class _AppBarConstantState extends State<AppBarConstant> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(
-          title: const Text('Rakshika'),
-          titleTextStyle: const TextStyle(
-            fontSize: 38,
-            fontWeight: FontWeight.bold,
+    return AppBar(
+      title: const Text('Rakshika'),
+      titleTextStyle: const TextStyle(
+        fontSize: 38,
+        fontWeight: FontWeight.bold,
+      ),
+      backgroundColor: rDarkBlue,
+      actions: [
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const NotificationScreen()));
+          },
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
+            child: const Icon(
+              size: 29,
+              Icons.notifications_active_outlined,
+              weight: BorderSide.strokeAlignOutside,
+            ),
           ),
-          backgroundColor: rDarkBlue,
-          actions: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const NotificationScreen()));
-              },
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
-                child: const Icon(
-                  size: 29,
-                  Icons.notifications_active_outlined,
-                  weight: BorderSide.strokeAlignOutside,
-                ),
-              ),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ProfilePage()));
+          },
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: const Icon(
+              Icons.person_rounded,
+              size: 29,
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const ProfilePage()));
-              },
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
-                child: const Icon(
-                  Icons.person_rounded,
-                  size: 29,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ],
     );

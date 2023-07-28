@@ -169,51 +169,55 @@ class FakeCallScreen extends StatelessWidget {
         );
         await FlutterCallkitIncoming.showCallkitIncoming(params);
       },
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height * 0.25,
-        margin: const EdgeInsets.all(16.0),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/callImage.png'),
-            const SizedBox(height: 16.0),
-            const Text(
-              "Fake Call",
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+      child: FractionallySizedBox(
+        widthFactor: 0.9,
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
               ),
-            ),
-            const SizedBox(height: 8.0),
-            const Text(
-              "Double Tap here to generate a Fake Call.",
-              style: TextStyle(
-                fontSize: 16.0,
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/callImage.png',
+                width: 100.0,
+                height: 100.0,
               ),
-            ),
-            const SizedBox(height: 8.0),
-            const Text(
-              "Call Your Number",
-              style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 16.0),
+              const Text(
+                "Fake Call",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8.0),
+              const Text(
+                "Double Tap here to generate a Fake Call.",
+                style: TextStyle(
+                  fontSize: 16.0,
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              const Text(
+                "Call Your Number",
+                style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -232,10 +236,10 @@ class FakeCallScreen extends StatelessWidget {
       onTap: () {
         _callNumber(number);
       },
-      child: Expanded(
+      child: FractionallySizedBox(
+        widthFactor: 1,
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          width: screenWidth * 0.4,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.0),
@@ -253,27 +257,23 @@ class FakeCallScreen extends StatelessWidget {
             children: [
               Image.asset(
                 image,
-                width: screenWidth * 0.2,
-                height: screenWidth * 0.2,
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
               ),
-              const SizedBox(
-                height: 7.0,
-              ),
+              const SizedBox(height: 7.0),
               Text(
                 name,
-                style: const TextStyle(
-                  fontSize: 18.0,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.04,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(
-                height: 7.0,
-              ),
+              const SizedBox(height: 7.0),
               Text(
                 "Call: $number",
-                style: const TextStyle(
-                  fontSize: 14.0,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.03, // Adjust the font size
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
@@ -298,52 +298,50 @@ class FakeCallScreen extends StatelessWidget {
       onTap: () {
         _callNumber(number);
       },
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        width: screenWidth * 0.4,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 3,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              image,
-              width: screenWidth * 0.2,
-              height: screenWidth * 0.2,
-            ),
-            const SizedBox(
-              height: 7.0,
-            ),
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+      child: FractionallySizedBox(
+        widthFactor: 1,
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 7.0,
-            ),
-            Text(
-              "Call: $number",
-              style: const TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.bold,
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                image,
+                width: screenWidth * 0.15,
+                height: screenWidth * 0.15,
               ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+              const SizedBox(height: 7.0),
+              Text(
+                name,
+                style: TextStyle(
+                  fontSize: screenWidth * 0.04,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 7.0),
+              Text(
+                "Call: $number",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.03, // Adjust the font size
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
