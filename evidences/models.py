@@ -38,22 +38,26 @@ class Evidence(models.Model):
         super().save(*args, **kwargs)
         if self.video:
             filename = os.path.split(self.video.name)
-            self.video.name = f'{filename[0]}/{self.id}_{filename[1]}'
+            self.video.name = f'{filename[0]}/{filename[1]}'
         if self.audio:
             filename = os.path.split(self.audio.name)
-            self.audio.name = f'{filename[0]}/{self.id}_{filename[1]}'
+            self.audio.name = f'{filename[0]}/{filename[1]}'
         super().save(update_fields=['video', 'audio'])
 
     def __str__ (self):
         return self.id
 
 def get_image_upload_to(instance, filename):
-    return f'suspects/{instance.id}/{filename}'    
+        # Get the evidence_id from the instance
+    evidence_id = instance.evidence.first().id
+    # Return the desired upload path
+    return f'suspects/{evidence_id}/{filename}'  
 
 class Suspect(models.Model):
+    # Note: This model DOES NOT store unique suspects, rather it records unique faces found.
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default='Unknown')
-    image = models.ImageField(upload_to=get_image_upload_to, blank = True)
+    image = models.ImageField(upload_to='suspects/', blank = True)
     evidence = models.ManyToManyField(Evidence, through='EvidenceSuspect')
 
 class EvidenceSuspect(models.Model):

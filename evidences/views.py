@@ -12,76 +12,20 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.conf import settings
 from .ml import extract_faces
+import base64
+from django.core.files.base import ContentFile
+import cv2
 
 class EvidenceView(generics.GenericAPIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = EvidenceSerializer
     parser_classes = (MultiPartParser, FormParser)
 
-    # @swagger_auto_schema(
-    #     operation_description="Create a new evidence",
-    #     request_body=openapi.Schema(
-    #         type=openapi.TYPE_OBJECT,
-    #         properties={
-    #             'user_id': openapi.Schema(type=openapi.TYPE_INTEGER),
-    #             'location': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'source': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'destination': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'planned_route': openapi.Schema(type=openapi.TYPE_OBJECT),
-    #             'isolated_zone_flag': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #             'authority_contacted': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #             'action_taken': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #             'action': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'action_taken_by': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'video': openapi.Schema(type=openapi.TYPE_FILE),
-    #             'audio': openapi.Schema(type=openapi.TYPE_FILE),
-    #         },
-    #     ),
-    #     responses={
-    #         201: openapi.Response(
-    #             description="Evidence created successfully",
-    #             schema=openapi.Schema(
-    #                 type=openapi.TYPE_OBJECT,
-    #                 properties={
-    #                     'id': openapi.Schema(type=openapi.TYPE_INTEGER),
-    #                     'user_id': openapi.Schema(type=openapi.TYPE_INTEGER),
-    #                     'timestamp': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     'location': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     'source': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     'destination': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     'planned_route': openapi.Schema(type=openapi.TYPE_OBJECT),
-    #                     'isolated_zone_flag': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #                     'authority_contacted': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #                     'action_taken': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #                     'action': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     'action_taken_by': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     'action_taken_timestamp': openapi.Schema(type=openapi.TYPE_STRING),
-    #                 },
-    #             ),
-    #         ),
-    #         400: openapi.Response(
-    #             description="Bad request",
-    #             schema=openapi.Schema(
-    #                 type=openapi.TYPE_OBJECT,
-    #                 properties={
-    #                     'error': openapi.Schema(type=openapi.TYPE_STRING),
-    #                 },
-    #             ),
-    #         ),
-    #     },
-    # )
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            evidence, created = Evidence.objects.get_or_create(**serializer.validated_data)
-            if created:
-                # Extract faces from the video received
-                faces = extract_faces(evidence.video.path)
-                # Create suspects for each extracted face 
-                for face_image in faces:
-                    suspect = Suspect.objects.create(evidence=evidence, image=face_image)
-                    evidence.suspect_set.add(suspect)
-            # serializer.save()
+            # print(serializer.validated_data['video'])
+            Evidence.objects.get_or_create(**serializer.validated_data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
             
@@ -89,95 +33,86 @@ class EvidenceListView(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = EvidenceSerializer
 
-    # @swagger_auto_schema(
-    #     operation_description="Get evidences by user id",
-    #     responses={
-    #         200: openapi.Response(
-    #             description="Evidences retrieved successfully",
-    #             schema=openapi.Schema(
-    #                 type=openapi.TYPE_ARRAY,
-    #                 items=openapi.Schema(
-    #                     type=openapi.TYPE_OBJECT,
-    #                     properties={
-    #                         'id': openapi.Schema(type=openapi.TYPE_INTEGER),
-    #                         'user_id': openapi.Schema(type=openapi.TYPE_INTEGER),
-    #                         'timestamp': openapi.Schema(type=openapi.TYPE_STRING),
-    #                         'location': openapi.Schema(type=openapi.TYPE_STRING),
-    #                         'source': openapi.Schema(type=openapi.TYPE_STRING),
-    #                         'destination': openapi.Schema(type=openapi.TYPE_STRING),
-    #                         'planned_route': openapi.Schema(type=openapi.TYPE_OBJECT),
-    #                         'isolated_zone_flag': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #                         'authority_contacted': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #                         'action_taken': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    #                         'action': openapi.Schema(type=openapi.TYPE_STRING),
-    #                         'action_taken_by': openapi.Schema(type=openapi.TYPE_STRING),
-    #                         'action_taken_timestamp': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     },
-    #                 ),
-    #             ),
-    #         ),
-    #         400: openapi.Response(
-    #             description="Bad request",
-    #             schema=openapi.Schema(
-    #                 type=openapi.TYPE_OBJECT,
-    #                 properties={
-    #                     'error': openapi.Schema(type=openapi.TYPE_STRING),
-    #                 },
-    #             ),
-    #         ),
-    #     },
-    # )
-    def get(self, request, user_id):
-        evidences = Evidence.objects.filter(user_id=user_id)
-        if evidences.count() == 0:
-            return JsonResponse({'error': 'No evidences found for this user'}, status=status.HTTP_400_BAD_REQUEST)
-        serializer = self.serializer_class(evidences, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    user_id_param = openapi.Parameter(
+        'user_id',
+        openapi.IN_QUERY,
+        description="User ID",
+        type=openapi.TYPE_INTEGER,
+    )
 
-    def get(self, request, location):
-        evidences = Evidence.objects.filter(location = location)
-        if evidences.count() == 0:
-            return JsonResponse({'error': 'No evidences found for this location'}, status=status.HTTP_400_BAD_REQUEST)
+    location_param = openapi.Parameter(
+        'location',
+        openapi.IN_QUERY,
+        description="Location",
+        type=openapi.TYPE_STRING,
+    )
+
+    @swagger_auto_schema(manual_parameters=[user_id_param, location_param])
+    def get(self, request):
+        user_id = request.query_params.get('user_id', None)
+        location = request.query_params.get('location', None)
+
+        if user_id and location:
+            evidences = Evidence.objects.filter(user_id=user_id, location=location)
+            if evidences.count() == 0:
+                return JsonResponse({'error': 'No evidences found for this user and location'}, status=status.HTTP_400_BAD_REQUEST)
+        elif user_id:
+            evidences = Evidence.objects.filter(user_id=user_id)
+            if evidences.count() == 0:
+                return JsonResponse({'error': 'No evidences found for this user'}, status=status.HTTP_400_BAD_REQUEST)
+        elif location:
+            evidences = Evidence.objects.filter(location=location)
+            if evidences.count() == 0:
+                return JsonResponse({'error': 'No evidences found for this location'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return JsonResponse({'error': 'Invalid query parameters'}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.serializer_class(evidences, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-class Suspects(generics.GenericAPIView):
+class SuspectsView(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = SuspectSerializer
 
-    # Create view to get all suspects related to an evidence
-    # @swagger_auto_schema(
-    #     operation_description="Get all suspects related to an evidence",
-    #     responses={
-    #         200: openapi.Response(
-    #             description="Suspects retrieved successfully",
-    #             schema=openapi.Schema(
-    #                 type=openapi.TYPE_ARRAY,
-    #                 items=openapi.Schema(
-    #                     type=openapi.TYPE_OBJECT,
-    #                     properties={
-    #                         'id': openapi.Schema(type=openapi.TYPE_INTEGER),
-    #                         'name': openapi.Schema(type=openapi.TYPE_STRING),
-    #                         'image': openapi.Schema(type=openapi.TYPE_STRING),
-    #                     },
-    #                 ),
-    #             ),
-    #         ),
-    #         400: openapi.Response(
-    #             description="Bad request",
-    #             schema=openapi.Schema(
-    #                 type=openapi.TYPE_OBJECT,
-    #                 properties={
-    #                     'error': openapi.Schema(type=openapi.TYPE_STRING),
-    #                 },
-    #             ),
-    #         ),
-    #     },
-    # )
-    def get(self, request, evidence_id):
+    def post(self, request, evidence_id):
         evidence = Evidence.objects.get(id=evidence_id)
+        if not evidence:
+            return JsonResponse({'error': 'No evidence found with this id'}, status=status.HTTP_400_BAD_REQUEST)
         suspects = evidence.suspect_set.all()
-        if suspects.count() == 0:
-            return JsonResponse({'error': 'No suspects found for this evidence'}, status=status.HTTP_400_BAD_REQUEST)
-        serializer = self.serializer_class(suspects, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if suspects.count() != 0:
+            suspect_faces = []
+            for suspect in suspects:
+                with open(suspect.image.path, 'rb') as f:
+                    image_data = f.read()
+                    image_data_b64 = base64.b64encode(image_data).decode('utf-8')
+                    suspect_faces.append({
+                        'url': suspect.image.url,
+                        'data': image_data_b64
+                    })
+            suspect_names = [suspect.name for suspect in suspects]
+            return JsonResponse({'suspect_faces': suspect_faces, 'suspect_names': suspect_names}, status=status.HTTP_200_OK)
+        faces = extract_faces(evidence.video.path, evidence_id)
+        for item in faces:
+            # Encode the face image as a JPEG and save it to a ContentFile
+            retval, buffer = cv2.imencode('.jpg', item[1])
+            image_file = ContentFile(buffer.tobytes(), item[0])
+            serializer = self.serializer_class(data={'image': image_file})
+            if serializer.is_valid():
+                print("Serializer valid")
+                serializer.save()
+                suspect = Suspect.objects.create(**serializer.validated_data)
+                evidence.suspect_set.add(suspect)
+            else:
+                print(serializer.errors)
+        suspects = evidence.suspect_set.all()
+        suspect_faces = []
+        for suspect in suspects:
+            with open(suspect.image.path, 'rb') as f:
+                image_data = f.read()
+                image_data_b64 = base64.b64encode(image_data).decode('utf-8')
+                suspect_faces.append({
+                    'url': suspect.image.url,
+                    'data': image_data_b64
+                })
+        suspect_names = [suspect.name for suspect in suspects]
+        return JsonResponse({'suspect_faces': suspect_faces, 'suspect_names': suspect_names}, status=status.HTTP_200_OK)

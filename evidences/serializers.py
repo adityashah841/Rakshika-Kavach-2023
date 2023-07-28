@@ -33,11 +33,13 @@ class EvidenceSerializer(serializers.Serializer):
         fields = ['id', 'user_id', 'timestamp', 'location', 'source', 'destination', 'planned_route', 'isolated_zone_flag', 'authority_contacted', 'action_taken', 'action', 'action_taken_by', 'action_taken_timestamp', 'video', 'audio']
 
 class SuspectSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(max_length=100, default='Unknown')
+    image = serializers.ImageField(required=True)
     class Meta:
         model = Suspect
-        fields = ['id', 'name', 'image']
+        fields = ['name', 'image']
 
-class EvidenceSuspectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EvidenceSuspect
-        fields = ['evidence', 'suspect']
+# class EvidenceSuspectSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = EvidenceSuspect
+#         fields = ['evidence', 'suspect']

@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.EvidenceView.as_view(), name="Evidences"),
-    path('<int:user_id>/', views.EvidenceListView.as_view(), name="Evidences"),
-    path('<str:location>/', views.EvidenceListView.as_view(), name="Evidences"),
+    path('get_evidence/', views.EvidenceListView.as_view(), name="Evidences"),
+    path('suspects/<int:evidence_id>/', views.SuspectsView.as_view(), name="Suspects"),
 ]
