@@ -9,6 +9,7 @@ attrs
 cachetools
 certifi
 charset-normalizer
+cmake
 dj-database-url
 Django
 django-cors-headers
