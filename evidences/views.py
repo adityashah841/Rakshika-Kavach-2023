@@ -47,15 +47,35 @@ class EvidenceListView(generics.GenericAPIView):
         type=openapi.TYPE_STRING,
     )
 
-    @swagger_auto_schema(manual_parameters=[user_id_param, location_param])
+    crime_param = openapi.Parameter(
+        'crime_type',
+        openapi.IN_QUERY,
+        description="Crime Type",
+        type=openapi.TYPE_STRING,
+    )
+
+    @swagger_auto_schema(operation_description="Search for evidences by user, by location, by crime type, or by any combination of these three", manual_parameters=[user_id_param, location_param, crime_param])
     def get(self, request):
         user_id = request.query_params.get('user_id', None)
         location = request.query_params.get('location', None)
+        crime_type = request.query_params.get('crime_type', None)
 
-        if user_id and location:
+        if user_id and location and crime_type:
+            evidences = Evidence.objects.filter(user_id=user_id, location=location, crime_type=crime_type)
+            if evidences.count() == 0:
+                return JsonResponse({'error': 'No evidences found for this user, location and crime type'}, status=status.HTTP_400_BAD_REQUEST)
+        elif user_id and location:
             evidences = Evidence.objects.filter(user_id=user_id, location=location)
             if evidences.count() == 0:
                 return JsonResponse({'error': 'No evidences found for this user and location'}, status=status.HTTP_400_BAD_REQUEST)
+        elif user_id and crime_type:
+            evidences = Evidence.objects.filter(user_id=user_id, crime_type=crime_type)
+            if evidences.count() == 0:
+                return JsonResponse({'error': 'No evidences found for this user and crime type'}, status=status.HTTP_400_BAD_REQUEST)
+        elif location and crime_type:
+            evidences = Evidence.objects.filter(location=location, crime_type=crime_type)
+            if evidences.count() == 0:
+                return JsonResponse({'error': 'No evidences found for this location and crime type'}, status=status.HTTP_400_BAD_REQUEST)
         elif user_id:
             evidences = Evidence.objects.filter(user_id=user_id)
             if evidences.count() == 0:
@@ -64,6 +84,10 @@ class EvidenceListView(generics.GenericAPIView):
             evidences = Evidence.objects.filter(location=location)
             if evidences.count() == 0:
                 return JsonResponse({'error': 'No evidences found for this location'}, status=status.HTTP_400_BAD_REQUEST)
+        elif crime_type:
+            evidences = Evidence.objects.filter(crime_type=crime_type)
+            if evidences.count() == 0:
+                return JsonResponse({'error': 'No evidences found for this crime type'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return JsonResponse({'error': 'Invalid query parameters'}, status=status.HTTP_400_BAD_REQUEST)
 

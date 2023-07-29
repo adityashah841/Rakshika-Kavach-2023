@@ -12,6 +12,7 @@ class EvidenceSerializer(serializers.Serializer):
     planned_route = serializers.JSONField()
     isolated_zone_flag = serializers.BooleanField()
     authority_contacted = serializers.BooleanField()
+    crime_type = serializers.CharField(max_length=100)
     action_taken = serializers.BooleanField()
     action = serializers.CharField(max_length=100)
     action_taken_by = serializers.CharField(max_length=100)

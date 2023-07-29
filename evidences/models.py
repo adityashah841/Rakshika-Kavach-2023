@@ -21,6 +21,7 @@ class Evidence(models.Model):
     # planned_route = models.CharField(max_length=100),
     isolated_zone_flag = models.BooleanField() # Whether the assault happened in an isolated zone
     authority_contacted = models.BooleanField() # Whether the authorities were contacted
+    crime_type = models.CharField(max_length=100, default="Unknown") # The type of crime that happened
     action_taken = models.BooleanField() # Whether action was taken by the authorities
     action = models.CharField(max_length=100) # What action was taken by the authorities 
     action_taken_by = models.CharField(max_length=100) # Who took the action
