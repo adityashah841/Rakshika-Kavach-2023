@@ -41,6 +41,9 @@ dependencies:
   flutter_callkit_incoming: any
   flutter_ringtone_player: ^3.0.0
   kommunicate_flutter: ^1.6.4
+  carousel_slider: ^4.0.0
+  flutter_bloc: ^7.0.0
+  cached_network_image: ^3.0.0
 
 dev_dependencies:
   flutter_test:
