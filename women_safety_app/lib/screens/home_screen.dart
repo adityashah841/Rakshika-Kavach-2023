@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/components/blog_slider.dart';
+import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/utils/color.dart';
 
 class StartScreen extends StatefulWidget {
@@ -12,9 +13,10 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   final List<String> imageList = [
-    'assets/images/busStation.png',
-    'assets/images/temples.png',
-    'assets/images/helpline.png',
+    'assets/blogs/1.jpg',
+    'assets/blogs/2.jpg',
+    'assets/blogs/3.jpg',
+    'assets/blogs/4.jpg',
   ];
   final List<String> sloganList = [
     'Women safety first!',
@@ -35,12 +37,19 @@ class _StartScreenState extends State<StartScreen> {
     'Safety is not negotiable!',
   ];
 
+  final List<String> contacts = ['+919322009937'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarConstant(),
       backgroundColor: rBackground,
-      body: BlogSlider(imageList: imageList, sloganList: sloganList),
+      body: Column(
+        children: [
+          BlogSlider(imageList: imageList, sloganList: sloganList),
+          EmergencyButton(contacts: contacts),
+        ],
+      ),
     );
   }
 }

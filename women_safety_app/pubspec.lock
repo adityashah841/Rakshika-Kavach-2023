@@ -252,10 +252,10 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "0.13.6"
   http_parser:
     dependency: transitive
     description:
@@ -589,6 +589,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  whatsapp:
+    dependency: "direct main"
+    description:
+      name: whatsapp
+      sha256: e9b1dfbdf7b453f10d69bf115849294e4d44e1d06a22bd2dec061637eb9a4f9b
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   win32:
     dependency: transitive
     description:

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 class BlogSlider extends StatelessWidget {
   final List<String> imageList;
@@ -17,7 +18,7 @@ class BlogSlider extends StatelessWidget {
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.25,
-          width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery.of(context).size.width * 1,
           child: CarouselSlider.builder(
             options: CarouselOptions(
               autoPlay: true,
@@ -31,8 +32,8 @@ class BlogSlider extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
+                    color: rBackground,
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: Image.asset(imageList[index]),
                 ),
