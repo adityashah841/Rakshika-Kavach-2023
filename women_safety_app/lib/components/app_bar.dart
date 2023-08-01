@@ -38,7 +38,7 @@ class _AppBarConstantState extends State<AppBarConstant> {
             margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
             child: const Icon(
               size: 29,
-              Icons.notifications_active_outlined,
+              Icons.login,
               weight: BorderSide.strokeAlignOutside,
             ),
           ),
