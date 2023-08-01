@@ -174,22 +174,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  flutter_ringtone_player:
-    dependency: "direct main"
-    description:
-      name: flutter_ringtone_player
-      sha256: "0b036416fda0654da52221989bd1a8ccd2876cea57f61ecc3a4fc272bd738c67"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
-  flutter_sms:
-    dependency: "direct main"
-    description:
-      name: flutter_sms
-      sha256: "2fe5f584f02596343557eeca56348f9b82413fefe83a423fab880cdbdf54d8d8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -597,14 +581,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
-  whatsapp:
-    dependency: "direct main"
-    description:
-      name: whatsapp
-      sha256: e9b1dfbdf7b453f10d69bf115849294e4d44e1d06a22bd2dec061637eb9a4f9b
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   win32:
     dependency: transitive
     description:
