@@ -37,7 +37,7 @@ class _StartScreenState extends State<StartScreen> {
     'Safety is not negotiable!',
   ];
 
-  final List<String> contacts = ['+919322009937'];
+  final List<String> contacts = ['9322001568', '7303404504'];
 
   @override
   Widget build(BuildContext context) {
