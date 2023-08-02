@@ -35,6 +35,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
                 'Alert Contacts',
                 style: TextStyle(
                   fontSize: 14.0,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
