@@ -38,7 +38,7 @@ class _StartScreenState extends State<StartScreen> {
     'Safety is not negotiable!',
   ];
 
-  // final List<String> contacts = ['9322001568', '9322009937','7303169687'];
+  final List<String> contacts = ['7303404504'];
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _StartScreenState extends State<StartScreen> {
         children: [
           BlogSlider(imageList: imageList, sloganList: sloganList),
           const SOSButton(),
-          const EmergencyButton(),
+          EmergencyButton(contacts: contacts),
         ],
       ),
     );

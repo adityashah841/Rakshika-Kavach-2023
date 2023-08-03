@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
 
 class EmergencyButton extends StatefulWidget {
-  const EmergencyButton({Key? key}) : super(key: key);
+  final List<String> contacts;
+
+  const EmergencyButton({Key? key, required this.contacts}) : super(key: key);
 
   @override
   State<EmergencyButton> createState() => _EmergencyButtonState();
@@ -20,7 +23,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
       children: [
         GestureDetector(
           onTap: () async {
-            await _getCurrentLocationAndTrigger();
+            await _getCurrentLocationAndTrigger(widget.contacts);
           },
           child: Container(
             padding: const EdgeInsets.symmetric(vertical: 7),
@@ -77,7 +80,6 @@ class _EmergencyButtonState extends State<EmergencyButton> {
                 }
               },
             ),
-            // const Text('Night Trigger')
           ],
         ),
       ],
@@ -104,10 +106,43 @@ class _EmergencyButtonState extends State<EmergencyButton> {
     }
   }
 
-  Future<void> _getCurrentLocationAndTrigger() async {
+  Future<void> _getCurrentLocationAndTrigger(List<String> contacts) async {
     Position position;
     try {
       position = await _getCurrentLocation();
+      String message = 'Krish Shah\n\n';
+      message += 'Project practice Che Ignore !!\n\n';
+      message += 'My current location is:\n';
+      message += 'Latitude: ${position.latitude}\n';
+      message += 'Longitude: ${position.longitude}\n';
+      message += 'Click the following link to see my live location:\n';
+      message +=
+          'https://www.google.com/maps?q=${position.latitude},${position.longitude}';
+
+      TwilioFlutter twilioFlutter = TwilioFlutter(
+          accountSid: 'YOUR_TWILIO_ACCOUNT_SID',
+          authToken: 'YOUR_TWILIO_AUTH_TOKEN',
+          twilioNumber: '');
+      for (String contact in contacts) {
+        try {
+          await twilioFlutter.sendSMS(
+            toNumber: contact,
+            messageBody: message,
+          );
+          print('SMS sent to $contact');
+        } catch (e) {
+          print('Failed to send SMS to $contact: $e');
+          Fluttertoast.showToast(
+            msg: 'Failed to send SMS to $contact',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
+      }
     } catch (e) {
       Fluttertoast.showToast(
         msg: 'Error getting location. Please try again.',
@@ -178,7 +213,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
     const Duration interval = Duration(minutes: 30);
     Timer.periodic(interval, (Timer timer) async {
       if (isTriggeringEnabled) {
-        await _getCurrentLocationAndTrigger();
+        await _getCurrentLocationAndTrigger(widget.contacts);
       } else {
         timer.cancel();
       }
@@ -188,7 +223,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
   void triggerAfterInterval(Duration duration) {
     Timer(duration, () async {
       if (isTriggeringEnabled) {
-        await _getCurrentLocationAndTrigger();
+        await _getCurrentLocationAndTrigger(widget.contacts);
         _scheduleNextTrigger();
       }
     });
