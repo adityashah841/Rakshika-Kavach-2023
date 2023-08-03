@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EmergencyButton extends StatefulWidget {
   final List<String> contacts;
@@ -87,23 +88,26 @@ class _EmergencyButtonState extends State<EmergencyButton> {
   }
 
   Future<Position> _getCurrentLocation() async {
-    try {
-      return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        forceAndroidLocationManager: true,
-      );
-    } catch (e) {
-      Fluttertoast.showToast(
-        msg: 'Failed to get the user\'s location.',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-      rethrow;
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          Fluttertoast.showToast(
+              msg:
+                  'Location permissions are permanently denied, we cannot request permission');
+          return Future.error('Location permissions are permanently denied.');
+        }
+      }
     }
+
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
   }
 
   Future<void> _getCurrentLocationAndTrigger(List<String> contacts) async {
@@ -120,18 +124,29 @@ class _EmergencyButtonState extends State<EmergencyButton> {
           'https://www.google.com/maps?q=${position.latitude},${position.longitude}';
 
       TwilioFlutter twilioFlutter = TwilioFlutter(
-          accountSid: 'YOUR_TWILIO_ACCOUNT_SID',
-          authToken: 'YOUR_TWILIO_AUTH_TOKEN',
-          twilioNumber: '');
+        accountSid: dotenv.env['TWILIO_ACCOUNT_SID']!,
+        authToken: dotenv.env['TWILIO_AUTH_TOKEN']!,
+        twilioNumber: dotenv.env['TWILIO_PHONE_NUMBER']!,
+      );
+
       for (String contact in contacts) {
         try {
           await twilioFlutter.sendSMS(
             toNumber: contact,
             messageBody: message,
           );
-          print('SMS sent to $contact');
+          Fluttertoast.showToast(
+            msg: 'Alert Sent',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          // print('SMS sent to $contact');
         } catch (e) {
-          print('Failed to send SMS to $contact: $e');
+          // print('Failed to send SMS to $contact: $e');
           Fluttertoast.showToast(
             msg: 'Failed to send SMS to $contact',
             toastLength: Toast.LENGTH_SHORT,
