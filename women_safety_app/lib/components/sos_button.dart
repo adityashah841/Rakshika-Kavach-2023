@@ -4,6 +4,7 @@ class SOSButton extends StatefulWidget {
   const SOSButton({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SOSButtonState createState() => _SOSButtonState();
 }
 
@@ -72,7 +73,7 @@ class _SOSButtonState extends State<SOSButton> {
 
   void handleSOS() {
     // Implement the action to be performed when SOS is triggered
-    print('SOS triggered');
+    // print('SOS triggered');
     // You can call any function or show an alert or perform any other action here.
   }
 }

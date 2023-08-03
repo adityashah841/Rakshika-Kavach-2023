@@ -6,6 +6,7 @@ class BlogSlider extends StatelessWidget {
   final List<String> imageList;
   final List<String> sloganList; // List of text slogans
 
+  // ignore: use_key_in_widget_constructors
   const BlogSlider({
     Key? key,
     required this.imageList,

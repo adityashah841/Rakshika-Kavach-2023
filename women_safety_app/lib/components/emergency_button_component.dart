@@ -187,7 +187,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
       // Fluttertoast.showToast(msg: 'User reached home. Triggering is OFF');
     }
     // Do something with the coordinates or send the location to the backend
-    print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
+    // print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
   }
 
   bool isUserAtHome(Position position) {
