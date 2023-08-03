@@ -152,87 +152,40 @@ class _LoginScreenState extends State<LoginScreen> {
                             onSaved: (newValue) => password = newValue,
                             obscureText: true,
                             onChanged: (value) {
-                              if (value.length == 8) {
-                                removeError(
-                                    error:
-                                        "Password must be exactly 8 characters long");
+                              if (value.length >= 8) {
+                                removeError(error: "Password is too short");
                               } else {
-                                addError(
-                                    error:
-                                        "Password must be exactly 8 characters long");
+                                addError(error: "Password is too short");
                               }
-
                               if (value.isNotEmpty) {
                                 removeError(
                                     error: "Please enter your password");
                               } else {
                                 addError(error: "Please enter your password");
                               }
-
-                              if (containsUpperCase(value)) {
-                                removeError(
-                                    error:
-                                        "Password must contain at least one uppercase letter");
+                              if (containsUpperCase(value) &&
+                                  containsLowerCase(value) &&
+                                  containsDigit(value)) {
+                                removeError(error: "Invalid format");
                               } else {
-                                addError(
-                                    error:
-                                        "Password must contain at least one uppercase letter");
+                                addError(error: "Invalid format");
                               }
-
-                              if (containsLowerCase(value)) {
-                                removeError(
-                                    error:
-                                        "Password must contain at least one lowercase letter");
-                              } else {
-                                addError(
-                                    error:
-                                        "Password must contain at least one lowercase letter");
-                              }
-
-                              if (containsDigit(value)) {
-                                removeError(
-                                    error:
-                                        "Password must contain at least one digit");
-                              } else {
-                                addError(
-                                    error:
-                                        "Password must contain at least one digit");
-                              }
-
                               password = value;
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 addError(error: "Please enter your password");
                                 return "";
-                              } else if (value.length != 8) {
-                                addError(
-                                    error:
-                                        "Password must be exactly 8 characters long");
+                              } else if (value.length < 8) {
+                                addError(error: "Password is too short");
                                 return "";
                               }
-
-                              if (!containsUpperCase(value)) {
-                                addError(
-                                    error:
-                                        "Password must contain at least one uppercase letter");
+                              if (!containsUpperCase(value) ||
+                                  !containsLowerCase(value) ||
+                                  !containsDigit(value)) {
+                                addError(error: "Invalid format");
                                 return "";
                               }
-
-                              if (!containsLowerCase(value)) {
-                                addError(
-                                    error:
-                                        "Password must contain at least one lowercase letter");
-                                return "";
-                              }
-
-                              if (!containsDigit(value)) {
-                                addError(
-                                    error:
-                                        "Password must contain at least one digit");
-                                return "";
-                              }
-
                               return null;
                             },
                             keyboardType: TextInputType.text,
@@ -264,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
-                                  // Perform the login logic here...
+                                  // backend
                                 }
                               });
 
@@ -274,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Fluttertoast.showToast(
                                   msg: errorText,
                                   toastLength: Toast.LENGTH_LONG,
-                                  gravity: ToastGravity.CENTER,
+                                  gravity: ToastGravity.BOTTOM,
                                   backgroundColor: Colors.blue,
                                   textColor: Colors.white,
                                 );

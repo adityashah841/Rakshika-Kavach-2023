@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/sign_up.dart';
 
@@ -13,7 +14,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? aadharnumber;
   String? otp;
   bool remember = false;
-  final RegExp aadharNumberRegExp = RegExp(r'^[0-9]{12}$');
+  final RegExp aadharNumberRegExp = RegExp(r'^\d{4} \d{4} \d{4}$');
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
@@ -87,26 +88,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFormField(
                             keyboardType: TextInputType.number,
                             onSaved: (newValue) => aadharnumber = newValue,
+                            // maxLength: 12,
+                            maxLength:
+                                14, // Set a maximum of 19 characters (including spaces)
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              _AadharNumberFormatter(), // Add your custom formatter
+                            ],
                             onChanged: (value) {
-                              if (value.isNotEmpty && value.length == 12) {
+                              if (value.isNotEmpty) {
                                 removeError(
-                                    error:
-                                        'Please enter 12 digits Aadhar number');
+                                    error: 'Please enter Aadhar number');
                               } else {
-                                addError(
-                                    error:
-                                        'Please enter 12 digits Aadhar number');
+                                addError(error: 'Please enter Aadhar number');
                               }
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
                                 addError(
                                     error: 'Please enter your Aadhar number');
-                                return "";
-                              } else if (value.length != 12) {
-                                addError(
-                                    error:
-                                        'Please enter 12 digits Aadhar number');
                                 return "";
                               } else if (!aadharNumberRegExp.hasMatch(value)) {
                                 addError(
@@ -142,6 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextFormField(
                             // obscureText: true,
                             keyboardType: TextInputType.number,
+                            maxLength: 8,
                             onChanged: (value) {
                               if (value.isNotEmpty) {
                                 removeError(error: "Please enter the OTP");
@@ -207,7 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Fluttertoast.showToast(
                                     msg: errorText,
                                     toastLength: Toast.LENGTH_LONG,
-                                    gravity: ToastGravity.CENTER,
+                                    gravity: ToastGravity.BOTTOM,
                                     backgroundColor: Colors.blue,
                                     textColor: Colors.white,
                                   );
@@ -231,6 +232,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AadharNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text;
+    var newText = '';
+
+    // Remove all spaces from the new value
+    final sanitizedValue = text.replaceAll(' ', '');
+
+    // Add a space after every 4 digits
+    for (var i = 0; i < sanitizedValue.length; i += 4) {
+      final end = i + 4;
+      if (end <= sanitizedValue.length) {
+        newText += '${sanitizedValue.substring(i, end)} ';
+      } else {
+        newText += sanitizedValue.substring(i);
+      }
+    }
+
+    return newValue.copyWith(
+      text: newText.trim(),
+      selection: TextSelection.collapsed(offset: newText.length),
     );
   }
 }

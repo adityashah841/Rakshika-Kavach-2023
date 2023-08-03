@@ -162,6 +162,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 ),
                                 const SizedBox(
+                                  height: 3,
+                                ),
+                                const Text(
+                                    'Username should have be greater then 3 characters'),
+                                const SizedBox(
                                   height: 15,
                                 ),
                                 //Password
@@ -169,16 +174,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                   // obscureText: true,
                                   keyboardType: TextInputType.text,
                                   onChanged: (value) {
-                                    if (value.length == 8) {
+                                    if (value.length >= 8) {
                                       removeError(
-                                          error:
-                                              "Password must be exactly 8 characters long");
+                                          error: "Password is too short");
                                     } else {
-                                      addError(
-                                          error:
-                                              "Password must be exactly 8 characters long");
+                                      addError(error: "Password is too short");
                                     }
-
                                     if (value.isNotEmpty) {
                                       removeError(
                                           error: "Please enter your password");
@@ -187,34 +188,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                           error: "Please enter your password");
                                     }
 
-                                    if (containsUpperCase(value)) {
-                                      removeError(
-                                          error:
-                                              "Password must contain at least one uppercase letter");
+                                    if (containsUpperCase(value) &&
+                                        containsLowerCase(value) &&
+                                        containsDigit(value)) {
+                                      removeError(error: "Invalid format");
                                     } else {
-                                      addError(
-                                          error:
-                                              "Password must contain at least one uppercase letter");
-                                    }
-
-                                    if (containsLowerCase(value)) {
-                                      removeError(
-                                          error:
-                                              "Password must contain at least one lowercase letter");
-                                    } else {
-                                      addError(
-                                          error:
-                                              "Password must contain at least one lowercase letter");
-                                    }
-
-                                    if (containsDigit(value)) {
-                                      removeError(
-                                          error:
-                                              "Password must contain at least one digit");
-                                    } else {
-                                      addError(
-                                          error:
-                                              "Password must contain at least one digit");
+                                      addError(error: "Invalid format");
                                     }
 
                                     password = value;
@@ -224,31 +203,16 @@ class _SignupScreenState extends State<SignupScreen> {
                                       addError(
                                           error: "Please enter your password");
                                       return "";
-                                    } else if (value.length != 8) {
+                                    } else if (value.length < 8) {
                                       addError(
                                           error:
-                                              "Password must be exactly 8 characters long");
+                                              "Password is too short"); // Update the error message
                                       return "";
                                     }
-
-                                    if (!containsUpperCase(value)) {
-                                      addError(
-                                          error:
-                                              "Password must contain at least one uppercase letter");
-                                      return "";
-                                    }
-
-                                    if (!containsLowerCase(value)) {
-                                      addError(
-                                          error:
-                                              "Password must contain at least one lowercase letter");
-                                      return "";
-                                    }
-
-                                    if (!containsDigit(value)) {
-                                      addError(
-                                          error:
-                                              "Password must contain at least one digit");
+                                    if (!containsUpperCase(value) ||
+                                        !containsLowerCase(value) ||
+                                        !containsDigit(value)) {
+                                      addError(error: "Invalid format");
                                       return "";
                                     }
 
@@ -275,7 +239,15 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 ),
                                 const SizedBox(
+                                  height: 3,
+                                ),
+                                const Text(
+                                    'Minimum length 8 characters, must contain atleast one capital and one small alphabet and one number'),
+                                const SizedBox(
                                   height: 15,
+                                ),
+                                const SizedBox(
+                                  height: 10,
                                 ),
                                 //Re-enter Password
                                 TextFormField(
@@ -329,6 +301,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         gapPadding: 10),
                                   ),
                                 ),
+
                                 const SizedBox(
                                   height: 15,
                                 ),
@@ -383,7 +356,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         if (_formkey.currentState?.validate() ??
                                             false) {
                                           _formkey.currentState!.save();
-                                          // Perform the login logic here...
+                                          //  logic (backend)
                                         }
                                       });
 
@@ -393,7 +366,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         Fluttertoast.showToast(
                                           msg: errorText,
                                           toastLength: Toast.LENGTH_LONG,
-                                          gravity: ToastGravity.CENTER,
+                                          gravity: ToastGravity.BOTTOM,
                                           backgroundColor: Colors.blue,
                                           textColor: Colors.white,
                                         );
