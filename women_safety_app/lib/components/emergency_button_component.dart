@@ -15,7 +15,7 @@ class EmergencyButton extends StatefulWidget {
 }
 
 class _EmergencyButtonState extends State<EmergencyButton> {
-  bool isTriggeringEnabled = true;
+  bool isTriggeringEnabled = false;
 
   @override
   Widget build(BuildContext context) {
