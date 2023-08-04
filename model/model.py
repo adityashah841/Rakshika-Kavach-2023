@@ -1,14 +1,11 @@
 import cv2
 import numpy as np
 import dlib
-import sys
-import os
 import imageio
 from mtcnn.mtcnn import MTCNN
 import cloudinary.uploader
-import requests
-from PIL import Image
 from decouple import config
+from secrets import token_hex
 
 cloudinary.config(
     cloud_name = config('CLOUDINARY_CLOUD_NAME'),
@@ -16,26 +13,11 @@ cloudinary.config(
     api_secret=config('CLOUDINARY_API_SECRET'),
 )
 # This takes around 320 ms per frame
-def extract_faces(video_filename, evidence_id, aadhar):
-    # if os.path.exists("media/faces") == False:
-    #     print("Creating faces directory")
-    #     os.mkdir("media/faces")
-    # else:
-    #     print("Faces directory already exists")
-
-    # Load the video
-    
-    # video_capture = cv2.VideoCapture(video_filename)
-    # print(video_filename)
-    # imgReq = requests.get(video_filename)
-    # video_capture = cv2.VideoCapture(video_filename, cv2.CAP_FFMPEG)
-    # success, img = video_capture.read()
+def extract_faces(video_filename, evidence_id):
     video_capture = imageio.get_reader(video_filename, 'ffmpeg')    
     print(video_capture)
 
     # Initialize the dlib face detector
-    # detector = dlib.get_frontal_face_detector()
-    # detector = dlib.cnn_face_detection_model_v1('mmod_human_face_detector.dat')
     detector = MTCNN()
 
     # Initialize the dlib face recognition model
@@ -59,36 +41,14 @@ def extract_faces(video_filename, evidence_id, aadhar):
     for frame in video_capture:
         print(f"Processing frame {frame_number}")
         # Grab a single frame of video
-        # ret, frame = video_capture.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
-
-        # # Quit when the input video file ends
-        # if not ret:
-        #     break
-
-        # # Resize the frame for better performance
-        # small_frame = cv2.resize(frame, (0, 0), fx=1.5, fy=1.5)
-
-        # Convert the image from BGR color (which OpenCV uses) to grayscale (which dlib uses)
-        # gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
         # Find all the faces in the current frame of video
         face_locations = detector.detect_faces(frame)
         # face_locations = detector(gray_frame, 1)
 
         # Loop through each face in this frame of video
-        for i, face_location in enumerate(face_locations):
-            # Get the coordinates of the face location
-            # left = face_location.left()
-            # top = face_location.top()
-            # right = face_location.right()
-            # bottom = face_location.bottom()
-            # # Get the coordinates of the face location
-            # rect = face_location.rect
-            # left = rect.left()
-            # top = rect.top()
-            # right = rect.right()
-            # bottom = rect.bottom()
+        for i, face_location in enumerate(face_locations):            
             # Get the coordinates of the face location
             x, y, width, height = face_location['box']
             left = x
@@ -123,12 +83,8 @@ def extract_faces(video_filename, evidence_id, aadhar):
             if is_new_face:
                 print(distance)
                 print(f"face_{frame_number}_{i}")
-                # cv2.imshow(f"face_{frame_number}_{i}", face_image)
-                face_image_name = f"{aadhar}_{evidence_id}_face_{frame_number}.jpg"
-                # flag = cv2.imwrite(os.path.join('media/faces' , f'face_{frame_number}_{i}_{file_name}.jpg'), face_image)
-                # print(flag)
-                # cloud_url = cloudinary.uploader.upload(face_image,file_name = face_image_name, folder = 'suspects/faces')
-                # Image.fromarrayface_image
+                face_image_name = f"{evidence_id}_face_{frame_number}_{token_hex(10)}.jpg"
+                
                 retval, buffer = cv2.imencode('.jpg', face_image)
                 result = cloudinary.uploader.upload(
                     buffer.tobytes(), 
@@ -141,16 +97,7 @@ def extract_faces(video_filename, evidence_id, aadhar):
 
         # Increment frame number
         frame_number += 1
-        # success, img = video_capture.read()
 
     # # Release handle to the webcam
-    # video_capture.release()
     print(face_images)
     return face_images
-
-# filename = sys.argv[1]
-# extract_faces(filename)
-# print(os.path.split("xcvb.jpg"))
-
-# result = extract_faces('test_face_recog_10fps.mp4',1)
-# print(result)
