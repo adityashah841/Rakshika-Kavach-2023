@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile,File
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from model.model import extract_faces
 from pydantic import BaseModel
