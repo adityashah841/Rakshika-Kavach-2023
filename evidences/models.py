@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import User
-from cloudinary_storage.storage import VideoMediaCloudinaryStorage, RawMediaCloudinaryStorage
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 # from cloudinary_storage.validators import validate_video
 
 from django.conf import settings
@@ -28,7 +28,7 @@ class Evidence(models.Model):
     action = models.CharField(max_length=100) # What action was taken by the authorities 
     action_taken_by = models.CharField(max_length=100) # Who took the action
     action_taken_timestamp = models.DateTimeField() # When the action was taken
-    video = models.FileField(upload_to=get_video_upload_to, storage=VideoMediaCloudinaryStorage())
+    video = models.FileField(upload_to=get_video_upload_to, storage=RawMediaCloudinaryStorage())
     audio = models.FileField(upload_to=get_audio_upload_to, storage=RawMediaCloudinaryStorage())
     # action_taken = models.CharField(max_length=100)
     # action_taken_by = models.CharField(max_length=100)
@@ -49,7 +49,7 @@ def get_image_upload_to(instance, filename):
 class Suspect(models.Model):
     # Note: This model DOES NOT store unique suspects, rather it records unique faces found.
     name = models.CharField(max_length=100, default='Unknown')
-    image = models.ImageField(upload_to='suspects/', blank = True)
+    image = models.URLField()
     evidence = models.ManyToManyField(Evidence, through='EvidenceSuspect')
 
 class EvidenceSuspect(models.Model):

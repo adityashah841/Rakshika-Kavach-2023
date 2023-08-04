@@ -12,10 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from .ml import extract_faces
 import base64
-from django.core.files.base import ContentFile
-import cv2
 
 User = get_user_model()
 
@@ -114,32 +111,19 @@ class SuspectsView(generics.GenericAPIView):
         if not evidence:
             return JsonResponse({'error': 'No evidence found with this id'}, status=status.HTTP_400_BAD_REQUEST)
         suspects = evidence.suspect_set.all()
-        if suspects.count() != 0:
-            suspect_faces = []
-            for suspect in suspects:
-                with open(suspect.image.path, 'rb') as f:
-                    image_data = f.read()
-                    image_data_b64 = base64.b64encode(image_data).decode('utf-8')
-                    suspect_faces.append({
-                        'url': suspect.image.url,
-                        'data': image_data_b64
-                    })
-            suspect_names = [suspect.name for suspect in suspects]
-            return JsonResponse({'suspect_faces': suspect_faces, 'suspect_names': suspect_names}, status=status.HTTP_200_OK)
-        faces = extract_faces(evidence.video.path, evidence_id)
-        for item in faces:
-            # Encode the face image as a JPEG and save it to a ContentFile
-            retval, buffer = cv2.imencode('.jpg', item[1])
-            image_file = ContentFile(buffer.tobytes(), item[0])
-            serializer = self.serializer_class(data={'image': image_file})
-            if serializer.is_valid():
-                print("Serializer valid")
-                serializer.save()
-                suspect = Suspect.objects.create(**serializer.validated_data)
-                evidence.suspect_set.add(suspect)
-            else:
-                print(serializer.errors)
-        suspects = evidence.suspect_set.all()
+        if suspects.count() == 0:
+            # faces = extract_faces(evidence.video, evidence_id)
+            faces = 'request_from_ml_url'
+            for item in faces:
+                serializer = self.serializer_class(data={'image': item})
+                if serializer.is_valid():
+                    print("Serializer valid")
+                    serializer.save()
+                    suspect = Suspect.objects.create(**serializer.validated_data)
+                    evidence.suspect_set.add(suspect)
+                else:
+                    print(serializer.errors)
+        suspects = evidence.suspect_set.all()           
         suspect_faces = []
         for suspect in suspects:
             with open(suspect.image.path, 'rb') as f:
