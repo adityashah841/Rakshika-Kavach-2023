@@ -33,3 +33,5 @@ typing_extensions
 uritemplate
 urllib3
 yarl
+gunicorn
+whitenoise
