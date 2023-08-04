@@ -40,12 +40,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    #REST, CORS & SWAGGER API DOCS
+    #REST,CDN, CORS & SWAGGER API DOCS
     'rest_framework',
     'corsheaders',
     'drf_yasg',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+
+    'cloudinary_storage',
+    'cloudinary',
 
     #third party apps
     'accounts',
@@ -175,6 +178,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
