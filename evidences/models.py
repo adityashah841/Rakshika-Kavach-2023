@@ -1,18 +1,20 @@
 from django.db import models
 from accounts.models import User
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage, RawMediaCloudinaryStorage
+# from cloudinary_storage.validators import validate_video
+
 from django.conf import settings
 import os
 
 def get_video_upload_to(instance, filename):
-    return f'videos/{instance.user_id.id}/{filename}'
+    return f'videos/{instance.user.aadhar_number}/{filename}'
 
 def get_audio_upload_to(instance, filename):
-    return f'audios/{instance.user_id.id}/{filename}'
+    return f'audios/{instance.user.aadhar_number}/{filename}'
 
 # Create your models here.
 class Evidence(models.Model):
-    id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE) # User name and parent's names are also required for filing a complaint
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null = True, blank=True) # User name and parent's names are also required for filing a complaint
     timestamp = models.DateTimeField(auto_now_add=True)
     location = models.CharField(max_length=100) # Where the assault happened
     source = models.CharField(max_length=100) # The starting point of the girl's journey
@@ -26,8 +28,8 @@ class Evidence(models.Model):
     action = models.CharField(max_length=100) # What action was taken by the authorities 
     action_taken_by = models.CharField(max_length=100) # Who took the action
     action_taken_timestamp = models.DateTimeField() # When the action was taken
-    video = models.FileField(upload_to=get_video_upload_to)
-    audio = models.FileField(upload_to=get_audio_upload_to)
+    video = models.FileField(upload_to=get_video_upload_to, storage=VideoMediaCloudinaryStorage())
+    audio = models.FileField(upload_to=get_audio_upload_to, storage=RawMediaCloudinaryStorage())
     # action_taken = models.CharField(max_length=100)
     # action_taken_by = models.CharField(max_length=100)
     # action_taken_timestamp = models.DateTimeField(auto_now_add=True)
@@ -35,18 +37,8 @@ class Evidence(models.Model):
     # video = models.URLField()
     # audio = models.URLField()
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.video:
-            filename = os.path.split(self.video.name)
-            self.video.name = f'{filename[0]}/{filename[1]}'
-        if self.audio:
-            filename = os.path.split(self.audio.name)
-            self.audio.name = f'{filename[0]}/{filename[1]}'
-        super().save(update_fields=['video', 'audio'])
-
     def __str__ (self):
-        return self.id
+        return str(self.user.username) + '-' + str(self.id)
 
 def get_image_upload_to(instance, filename):
         # Get the evidence_id from the instance
@@ -56,7 +48,6 @@ def get_image_upload_to(instance, filename):
 
 class Suspect(models.Model):
     # Note: This model DOES NOT store unique suspects, rather it records unique faces found.
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, default='Unknown')
     image = models.ImageField(upload_to='suspects/', blank = True)
     evidence = models.ManyToManyField(Evidence, through='EvidenceSuspect')

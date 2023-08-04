@@ -4,17 +4,20 @@ import jwt
 from rest_framework.views import APIView
 from rest_framework import (mixins, generics, status, permissions)
 from rest_framework.response import Response
-from .models import *
+from .models import Evidence,EvidenceSuspect
 from .serializers import *
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from .ml import extract_faces
 import base64
 from django.core.files.base import ContentFile
 import cv2
+
+User = get_user_model()
 
 class EvidenceView(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
@@ -22,13 +25,21 @@ class EvidenceView(generics.GenericAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        evidence = Evidence(user = request.user)
+        serializer = self.serializer_class(evidence, data=request.data)
         if serializer.is_valid():
             # print(serializer.validated_data['video'])
-            Evidence.objects.get_or_create(**serializer.validated_data)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-            
+
+
 class EvidenceListView(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = EvidenceSerializer
