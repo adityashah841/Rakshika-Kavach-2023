@@ -61,6 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
           //   color: Colors.transparent,
           // ),
           const Opacity(opacity: 0.1),
+          // ignore: avoid_unnecessary_containers
           Container(
             // decoration: const BoxDecoration(
             //   image: DecorationImage(
