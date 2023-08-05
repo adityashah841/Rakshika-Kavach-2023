@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
-from .models import Address, EmergencyContact
+from .models import Address, EmergencyContact, StateEmergencyContact
 
 User = get_user_model()
 

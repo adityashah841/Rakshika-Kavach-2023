@@ -7,10 +7,6 @@ from django.conf import settings
 
 # Create your models here.
 
-def upload_path_handler(instance, filename):
-    return "images/products/{title}/{file}".format(
-        title=instance.user, file=filename
-    )
 
 class UserManager(BaseUserManager):
 
@@ -191,3 +187,11 @@ class EmergencyContact(models.Model):
 
     def __str__(self):
         return str(self.user.username) + '-' + self.relation
+
+
+class StateEmergencyContact(models.Model):
+    state = models.CharField(max_length=200)
+    numbers = models.TextField(max_length=100)
+
+    def __str__(self):
+        return self.state

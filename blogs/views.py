@@ -17,16 +17,6 @@ class BlogsView(generics.GenericAPIView):
     serializer_class = BlogSerializer
     @swagger_auto_schema(
         operation_description="Get all blogs",
-    #     responses={200: openapi.Response('OK', openapi.Schema(
-    #         type=openapi.TYPE_OBJECT,
-    #         properties={
-    #             'title': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'content': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'author': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'created_at': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'updated_at': openapi.Schema(type=openapi.TYPE_STRING),
-    #         }
-    #     ))},
     )
     def get(self, request):
         blogs = Blog.objects.all()
