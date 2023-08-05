@@ -18,7 +18,7 @@ class BlogsView(generics.GenericAPIView):
     @swagger_auto_schema(
         operation_description="Get all blogs",
     )
-    def get(self, request):
+    def get(self, request,pk):
         blogs = Blog.objects.all()
         serializer = self.serializer_class(blogs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -44,20 +44,12 @@ class BlogsView(generics.GenericAPIView):
     #         }
     #     ))},
     )
-    def post(self, request):
+    def post(self, request,pk):
         serializer = self.serializer_class(data=request.data)
         # print(serializer.initial_data)
         if serializer.is_valid():
-            Blog.objects.get_or_create(
-                title = serializer.data['title'],
-                content = serializer.data['content'],
-                author = serializer.data['author'],
-            )
-            # print(serializer.data)
-            content = serializer.data
-            content['created_at'] = Blog.objects.get(title = serializer.data['title'], author = serializer.data['author']).created_at.astimezone(pytz.timezone(settings.TIME_ZONE))
-            content['updated_at'] = Blog.objects.get(title = serializer.data['title'], author = serializer.data['author']).updated_at.astimezone(pytz.timezone(settings.TIME_ZONE))
-            return Response(content, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     # Add a method to update an existing blog, where blog can be identified by its title and author, and also add the updated_at date at this time (ignore the last part if it is already being handled in models)
@@ -83,20 +75,16 @@ class BlogsView(generics.GenericAPIView):
     #         }
     #     ))},
     )
-    def put(self, request):
-        serializer = self.serializer_class(data=request.data)
+    def patch(self, request,pk):
+        try:
+            blog = Blog.objects.get(id = pk)
+        except Blog.DoesNotExist:
+            content = {'detail': 'No such blog exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        serializer = BlogSerializer(instance=blog, data=request.data, partial = True)
         if serializer.is_valid():
-            try: 
-                blog = Blog.objects.get(title = serializer.data['title'], author = serializer.data['author'])
-            except Blog.DoesNotExist:
-                content = {'detail': 'Blog does not exist'}
-                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND) 
-            blog.content = serializer.data['content']
-            blog.save()
-            content = serializer.data
-            content['created_at'] = Blog.objects.get(title = serializer.data['title'], author = serializer.data['author']).created_at.astimezone(pytz.timezone(settings.TIME_ZONE))
-            content['updated_at'] = Blog.objects.get(title = serializer.data['title'], author = serializer.data['author']).updated_at.astimezone(pytz.timezone(settings.TIME_ZONE))
-            return Response(content, status=status.HTTP_200_OK)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     # Add a method to delete an existing blog, where blog can be identified by its title and author
@@ -106,14 +94,7 @@ class BlogsView(generics.GenericAPIView):
 
     @swagger_auto_schema(
         operation_description="Delete a blog",
-        request_body=openapi.Schema(
-            
-            type=openapi.TYPE_OBJECT,
-            properties={
-                'title': openapi.Schema(type=openapi.TYPE_STRING),
-            },
-            required=['title']
-        ),
+        
     #     responses={200: openapi.Response('OK', openapi.Schema(
     #         type=openapi.TYPE_OBJECT,
     #         properties={
@@ -126,14 +107,12 @@ class BlogsView(generics.GenericAPIView):
     #     ))},
     )
 
-    def delete(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid():
-            try: 
-                blog = Blog.objects.get(title = serializer.data['title'])   
-            except Blog.DoesNotExist:
-                content = {'detail': 'Blog does not exist'}
-                return JsonResponse(content, status = status.HTTP_404_NOT_FOUND) 
-            blog.delete()
-            return Response({'title': request.data['title'], 'status': 'deleted'}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request,pk):
+        try:
+            blog = Blog.objects.get(id = pk)
+        except Blog.DoesNotExist:
+            content = {'detail': 'No such blog exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        blog.delete()
+        content = {'detail': 'Blog Deleted'}
+        return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
