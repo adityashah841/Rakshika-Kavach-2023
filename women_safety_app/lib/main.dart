@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:women_safety_app/components/bottom_bar.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() async{
+void main() async {
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }

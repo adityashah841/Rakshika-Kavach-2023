@@ -131,7 +131,7 @@ class NearMeScreen extends StatelessWidget {
       },
       child: FractionallySizedBox(
         widthFactor: 1,
-        // heightFactor: 0.4,
+        heightFactor: 1,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
@@ -141,7 +141,7 @@ class NearMeScreen extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
           ),
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -153,7 +153,7 @@ class NearMeScreen extends StatelessWidget {
                 text,
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                 ),
                 textAlign: TextAlign.center,
               ),
