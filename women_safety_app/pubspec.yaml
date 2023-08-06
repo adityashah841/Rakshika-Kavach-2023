@@ -46,7 +46,9 @@ dependencies:
   twilio_flutter: ^0.0.9
   flutter_dotenv: ^5.1.0
   permission_handler: ^10.4.3
-  flutter_sound: ^9.2.13
+  record: ^4.4.4
+  audioplayers: ^5.0.0
+  path_provider: ^2.0.5
 
 dev_dependencies:
   flutter_test:
