@@ -51,6 +51,7 @@ dependencies:
   path_provider: ^2.0.5
   cloudinary: ^1.0.0
   http: ^0.13.3
+  shake: ^2.2.0
 
 dev_dependencies:
   flutter_test:

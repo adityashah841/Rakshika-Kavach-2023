@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shake/shake.dart';
 
 class EmergencyButton extends StatefulWidget {
   final List<String> contacts;
@@ -16,6 +17,31 @@ class EmergencyButton extends StatefulWidget {
 
 class _EmergencyButtonState extends State<EmergencyButton> {
   bool isTriggeringEnabled = false;
+  ShakeDetector? shakeDetector;
+  int shakeCount = 0;
+  @override
+  void initState() {
+    super.initState();
+
+    shakeDetector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        setState(() {
+          shakeCount++;
+          print('Shake count : $shakeCount');
+          if (shakeCount >= 3) {
+            _getCurrentLocationAndTrigger(widget.contacts);
+            shakeCount = 0;
+          }
+        });
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    shakeDetector?.stopListening();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +170,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
             textColor: Colors.white,
             fontSize: 16.0,
           );
-          // print('SMS sent to $contact');
+          print('SMS sent to $contact');
         } catch (e) {
           // print('Failed to send SMS to $contact: $e');
           Fluttertoast.showToast(
