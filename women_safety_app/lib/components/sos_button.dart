@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 class SOSButton extends StatefulWidget {
   const SOSButton({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _SOSButtonState extends State<SOSButton> {
       child: LayoutBuilder(
         builder: (context, constraints) {
           return FractionallySizedBox(
-            widthFactor: 0.9,
+            widthFactor: 0.7,
             child: GestureDetector(
               onDoubleTap: () {
                 handleSOS();
@@ -43,7 +44,7 @@ class _SOSButtonState extends State<SOSButton> {
                 margin: const EdgeInsets.only(bottom: 30, top: 30),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isClicked ? Colors.red.withOpacity(0.8) : Colors.red,
+                  color: isClicked ? rSOS.withOpacity(0.8) : rSOS,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5),
@@ -55,9 +56,9 @@ class _SOSButtonState extends State<SOSButton> {
                 ),
                 child: const Center(
                   child: Text(
-                    '       SOS \n Double Tap \n to activate! ',
+                    'SOS',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 60,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),

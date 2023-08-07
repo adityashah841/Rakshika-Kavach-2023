@@ -25,10 +25,10 @@ class _AppBarConstantState extends State<AppBarConstant> {
     return AppBar(
       title: const Text('Rakshika'),
       titleTextStyle: const TextStyle(
-        fontSize: 38,
-        fontWeight: FontWeight.bold,
-      ),
-      backgroundColor: rDarkBlue,
+          fontSize: 38,
+          fontWeight: FontWeight.bold,
+          color: rBottomNavigationBarItem),
+      backgroundColor: rBottomBar,
       actions: [
         GestureDetector(
           onTap: () {

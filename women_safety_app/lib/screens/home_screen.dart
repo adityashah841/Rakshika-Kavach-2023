@@ -44,13 +44,21 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarConstant(),
-      backgroundColor: rBackground,
-      body: Column(
-        children: [
-          BlogSlider(imageList: imageList, sloganList: sloganList),
-          const SOSButton(),
-          EmergencyButton(contacts: contacts),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(
+          // color: rBackground,
+          image: DecorationImage(
+            image: AssetImage('assets/images/bgImage.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          children: [
+            BlogSlider(imageList: imageList, sloganList: sloganList),
+            const SOSButton(),
+            EmergencyButton(contacts: contacts),
+          ],
+        ),
       ),
     );
   }
