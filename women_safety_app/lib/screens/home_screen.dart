@@ -3,7 +3,7 @@ import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/components/blog_slider.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/components/sos_button.dart';
-import 'package:women_safety_app/utils/color.dart';
+// import 'package:women_safety_app/utils/color.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});

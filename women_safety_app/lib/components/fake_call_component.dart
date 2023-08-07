@@ -12,6 +12,8 @@ import 'dart:convert';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 // import 'package:path_provider/path_provider.dart';
+import 'package:cloudinary/cloudinary.dart';
+// import 'package:cloudinary_public/cloudinary_public.dart' as cloudinary_public;
 
 class FakeCallComponent extends StatefulWidget {
   const FakeCallComponent({super.key});
@@ -26,6 +28,11 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
   late AudioPlayer audioPlayer;
   bool isRecording = false;
   String audioPath = '';
+  final cloudinary = Cloudinary.signedConfig(
+    apiKey: dotenv.env['API_KEY']!,
+    apiSecret: dotenv.env['API_SECRET']!,
+    cloudName: dotenv.env['CLOUD_NAME']!,
+  );
 
   @override
   void initState() {
@@ -46,13 +53,14 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
       PermissionStatus permissionStatus = await Permission.microphone.request();
 
       if (permissionStatus.isGranted) {
+        Future.delayed(const Duration(seconds: 2), () {});
         await audioRecord.start();
         setState(() {
           isRecording = true;
         });
 
         // Start a timer to automatically stop recording after 15 seconds
-        Future.delayed(const Duration(seconds: 5), () {
+        Future.delayed(const Duration(seconds: 10), () {
           if (isRecording) {
             _stopRecording();
           }
@@ -102,7 +110,20 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
         audioPath = path!;
       });
       print('Recorded audio path: $audioPath');
-      await sendAudioViaTwilio(audioPath);
+
+      // Upload to Cloudinary
+      CloudinaryResponse response = await cloudinary.upload(
+        file: audioPath,
+        resourceType: CloudinaryResourceType.raw,
+      );
+
+      if (response.isSuccessful) {
+        String? cloudinaryUrl = response.secureUrl;
+        print('Cloudinary URL: $cloudinaryUrl');
+        await sendAudioViaTwilio(cloudinaryUrl!);
+      } else {
+        print('Cloudinary upload failed: ${response.error}');
+      }
     } catch (e) {
       print('Error Stop Recording : $e ');
     }
@@ -115,7 +136,7 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
 
     final List<String> emergencyContacts = [
       '+917303404504',
-      '+919322009937',
+      // '+919322009937',
     ];
 
     for (final contact in emergencyContacts) {
@@ -132,8 +153,8 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
         body: {
           'From': twilioPhoneNumber,
           'To': contact,
-          'MediaUrl':
-              'file://$audioFilePath', // Use the audio file path as the MediaUrl
+          'body': "The User Fake Call details",
+          'MediaUrl': audioFilePath,
         },
       );
 
@@ -163,59 +184,6 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
       }
     }
   }
-
-  // Future<void> sendAudioViaTwilio() async {
-  //   TwilioFlutter twilioFlutter = TwilioFlutter(
-  //     accountSid: dotenv.env['TWILIO_ACCOUNT_SID']!,
-  //     authToken: dotenv.env['TWILIO_AUTH_TOKEN']!,
-  //     twilioNumber: dotenv.env['TWILIO_PHONE_NUMBER']!,
-  //   );
-
-  //   String message = 'Krish Shah\n\n Fake Call Details : \n\n';
-
-  //   List<String> emergencyContacts = [
-  //     '+917303404504',
-  //     '+919322009937',
-  //   ];
-
-  //   for (String contact in emergencyContacts) {
-  //     try {
-  //       // Create a Twilio MMS message with media content (audio)
-  //     var response = await http.post(
-  //       Uri.parse('https://api.twilio.com/2010-04-01/Accounts/$accountSid/Messages.json'),
-  //       headers: {
-  //         'Authorization': 'Basic ' + base64Encode(utf8.encode('$accountSid:$authToken')),
-  //       },
-  //       body: {
-  //         'From': twilioPhoneNumber,
-  //         'To': contact,
-  //         'Body': message,
-  //         'MediaUrl': 'https://your-audio-url.com/path-to-your-audio-file.mp3', // Replace with your audio URL
-  //       },
-  //     );
-  //       Fluttertoast.showToast(
-  //         msg: 'Audio Sent',
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.BOTTOM,
-  //         timeInSecForIosWeb: 1,
-  //         backgroundColor: Colors.green,
-  //         textColor: Colors.white,
-  //         fontSize: 16.0,
-  //       );
-  //     } catch (e) {
-  //       // print('Failed to send SMS to $contact: $e');
-  //       Fluttertoast.showToast(
-  //         msg: 'Failed to send Audio to $contact',
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.BOTTOM,
-  //         timeInSecForIosWeb: 1,
-  //         backgroundColor: Colors.red,
-  //         textColor: Colors.white,
-  //         fontSize: 16.0,
-  //       );
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
