@@ -2,6 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/sign_up.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<void> postAadharGetOtp(String aadharNumber) async {
+  final url = Uri.parse('https://rakshika.onrender.com/account/signup/');
+  final headers = {'Content-Type': 'application/json'};
+  final body = jsonEncode({'aadhar_number': aadharNumber});
+
+  final response = await http.post(url, headers: headers, body: body);
+
+  if (response.statusCode != 200) {
+    throw Exception(response.body);
+  }
+}
+
+Future<Map<String, dynamic>> validateOtp(String code, String aadharNumber) async {
+  final url = Uri.parse('https://rakshika.onrender.com/account/phone-verify/');
+  final headers = {'Content-Type': 'application/json'};
+  final body = jsonEncode({'code': code, 'aadhar_number': aadharNumber});
+
+  final response = await http.post(url, headers: headers, body: body);
+
+  if (response.statusCode == 200) {
+    // Handle successful response
+    final data = jsonDecode(response.body);
+    // print(data);
+    return data;
+  } else {
+    // Handle error response
+    // print(response.body);
+    throw Exception(response.body);
+  }
+}
+
+void saveObject(dynamic myObject) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String jsonString = jsonEncode(myObject);
+  await prefs.setString('user', jsonString);
+}
+
+Future<dynamic> getObject(String objectName) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? jsonString = prefs.getString(objectName);
+  Map<String, dynamic> jsonMap = jsonDecode(jsonString!);
+  return jsonMap;
+}
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -139,6 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               if (_formkey.currentState?.validate() ?? false) {
                                 _formkey.currentState!.save();
                                 // Perform the logic to get OTP here...
+                                postAadharGetOtp(aadharnumber!);
                                 setState(() {
                                   showOtpField = true;
                                 });
@@ -225,6 +273,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     false) {
                                   _formkey.currentState!.save();
                                   // Perform the login logic here...
+                                  final data = validateOtp(otp!, aadharnumber!);
+                                  data.then((value) => saveObject(value));
+                                  print(getObject('user'));
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
