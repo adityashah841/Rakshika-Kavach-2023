@@ -13,7 +13,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   String? aadharnumber;
   String? otp;
-  bool remember = false;
+  bool showOtpField = false;
   final RegExp aadharNumberRegExp = RegExp(r'^\d{4} \d{4} \d{4}$');
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
@@ -133,78 +133,113 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   borderSide:
                                       const BorderSide(color: Colors.black),
                                   gapPadding: 10),
+                              counterText: '',
                             ),
                           ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formkey.currentState?.validate() ?? false) {
+                                _formkey.currentState!.save();
+                                // Perform the logic to get OTP here...
+                                setState(() {
+                                  showOtpField = true;
+                                });
+                              } else {
+                                // If the form is not valid, display Aadhar-related errors
+                                String errorText = errors
+                                    .where((error) => error.contains('Aadhar'))
+                                    .join(
+                                        "\n"); // Concatenate Aadhar-related error messages with a newline separator
+                                Fluttertoast.showToast(
+                                  msg: errorText,
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  backgroundColor: Colors.blue,
+                                  textColor: Colors.white,
+                                );
+                                setState(() {
+                                  showOtpField = false;
+                                });
+                              }
+                            },
+                            child: const Text('Get OTP'),
+                          ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                           //OTP
-                          TextFormField(
-                            // obscureText: true,
-                            keyboardType: TextInputType.number,
-                            maxLength: 8,
-                            onChanged: (value) {
-                              if (value.isNotEmpty) {
-                                removeError(error: "Please enter the OTP");
-                              }
-                              if (value.length == 8) {
-                                removeError(
-                                    error:
-                                        "OTP must be exactly 8 characters long");
-                              }
-                              // Storing the OTP value in a variable
-                              otp = value;
-                            },
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                addError(error: "Please enter the OTP");
-                                return "";
-                              } else if (value.length != 8) {
-                                addError(
-                                    error:
-                                        "OTP must be exactly 8 characters long");
-                                return "";
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              label: const Text("OTP"),
-                              hintText: "Enter OTP",
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 42, vertical: 20),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(28),
-                                  borderSide:
-                                      const BorderSide(color: Colors.black),
-                                  gapPadding: 10),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(28),
-                                  borderSide:
-                                      const BorderSide(color: Colors.black),
-                                  gapPadding: 10),
+                          if (showOtpField)
+                            TextFormField(
+                              // obscureText: true,
+                              keyboardType: TextInputType.number,
+                              maxLength: 8,
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  removeError(error: "Please enter the OTP");
+                                }
+                                if (value.length == 8) {
+                                  removeError(
+                                      error:
+                                          "OTP must be exactly 8 characters long");
+                                }
+                                // Storing the OTP value in a variable
+                                otp = value;
+                              },
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  addError(error: "Please enter the OTP");
+                                  return "";
+                                } else if (value.length != 8) {
+                                  addError(
+                                      error:
+                                          "OTP must be exactly 8 characters long");
+                                  return "";
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                label: const Text("OTP"),
+                                hintText: "Enter OTP",
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 42, vertical: 20),
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(28),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black),
+                                    gapPadding: 10),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(28),
+                                    borderSide:
+                                        const BorderSide(color: Colors.black),
+                                    gapPadding: 10),
+                              ),
                             ),
-                          ),
                           const SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
-                          const SizedBox(
-                            height: 25,
-                          ),
-                          ElevatedButton(
+                          // Login button
+                          if (showOtpField)
+                            ElevatedButton(
                               onPressed: () {
-                                setState(() {
-                                  if (_formkey.currentState?.validate() ??
-                                      false) {
-                                    _formkey.currentState!.save();
-                                    // Perform the login logic here...
-                                  }
-                                });
-
-                                if (errors.isNotEmpty) {
-                                  String errorText = errors.join(
-                                      "\n"); // Concatenate error messages with a newline separator
+                                if (_formkey.currentState?.validate() ??
+                                    false) {
+                                  _formkey.currentState!.save();
+                                  // Perform the login logic here...
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignupScreen(),
+                                    ),
+                                  );
+                                } else {
+                                  // If the form is not valid, display OTP-related errors
+                                  String errorText = errors
+                                      .where((error) => error.contains('OTP'))
+                                      .join(
+                                          "\n"); // Concatenate OTP-related error messages with a newline separator
                                   Fluttertoast.showToast(
                                     msg: errorText,
                                     toastLength: Toast.LENGTH_LONG,
@@ -212,16 +247,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     backgroundColor: Colors.blue,
                                     textColor: Colors.white,
                                   );
-                                } else {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignupScreen(),
-                                    ),
-                                  );
                                 }
                               },
-                              child: const Text('Login')),
+                              child: const Text('Login'),
+                            ),
                         ],
                       ),
                     ),
