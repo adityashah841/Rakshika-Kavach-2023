@@ -6,44 +6,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> postAadharGetOtp(String aadharNumber) async {
-  final url = Uri.parse('https://rakshika.onrender.com/account/signup/');
-  final headers = {'Content-Type': 'application/json'};
-  final body = jsonEncode({'aadhar_number': aadharNumber});
-
-  final response = await http.post(url, headers: headers, body: body);
-
-  if (response.statusCode != 200) {
-    throw Exception(response.body);
-  }
-}
-
-Future<Map<String, dynamic>> validateOtp(String code, String aadharNumber) async {
-  final url = Uri.parse('https://rakshika.onrender.com/account/phone-verify/');
-  final headers = {'Content-Type': 'application/json'};
-  final body = jsonEncode({'code': code, 'aadhar_number': aadharNumber});
-
-  final response = await http.post(url, headers: headers, body: body);
-
-  if (response.statusCode == 200) {
-    // Handle successful response
-    final data = jsonDecode(response.body);
-    // print(data);
-    return data;
-  } else {
-    // Handle error response
-    // print(response.body);
-    throw Exception(response.body);
-  }
-}
-
-void saveObject(dynamic myObject) async {
+void saveObject(dynamic myObject, String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(myObject);
-  await prefs.setString('user', jsonString);
+  await prefs.setString(objectName, jsonString);
 }
 
-Future<dynamic> getObject(String objectName) async {
+dynamic getObject(String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? jsonString = prefs.getString(objectName);
   Map<String, dynamic> jsonMap = jsonDecode(jsonString!);
@@ -61,9 +30,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? aadharnumber;
   String? otp;
   bool showOtpField = false;
-  final RegExp aadharNumberRegExp = RegExp(r'^\d{4}\d{4}\d{4}$');
+  final RegExp aadharNumberRegExp = RegExp(r'^\d{12}$');
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
+
+  Future<void> postAadharGetOtp(String aadharNumber) async {
+    final url = Uri.parse('https://rakshika.onrender.com/account/signup/');
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({'aadhar_number': aadharNumber});
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode != 200) {
+      throw Exception(response.body);
+      // addError(error: 'Aadhar number');
+    }
+  }
+
+  Future<Map<String, dynamic>> validateOtp(String code, String aadharNumber) async {
+    final url = Uri.parse('https://rakshika.onrender.com/account/phone-verify/');
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({'code': code, 'aadhar_number': aadharNumber});
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      // Handle successful response
+      final data = jsonDecode(response.body);
+      // print(data);
+      return data;
+    } else {
+      // Handle error response
+      // print(response.body);
+      throw Exception(response.body);
+      // addError(error: 'Invalid OTP');
+      // return {};
+    }
+  }
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -274,8 +277,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   _formkey.currentState!.save();
                                   // Perform the login logic here...
                                   final data = validateOtp(otp!, aadharnumber!);
-                                  data.then((value) => saveObject(value));
-                                  print(getObject('user'));
+                                  data.then((value) => saveObject(value, 'user'));
+                                  print("Hello!");
+                                  final x = getObject('user');
+                                  x.then((value) => print(value));
+                                  print("\n\n");
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
