@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:women_safety_app/screens/analysis_precaution.dart';
-import 'package:women_safety_app/screens/blog.dart';
-import 'package:women_safety_app/screens/log_in.dart';
 import 'package:women_safety_app/screens/prevention.dart';
 import 'package:women_safety_app/screens/profile_screen.dart';
 import 'package:women_safety_app/screens/setting_screen.dart';
@@ -32,34 +31,6 @@ class _AppBarConstantState extends State<AppBarConstant> {
           color: rBottomNavigationBarItem),
       backgroundColor: rBottomBar,
       actions: [
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AnalysisScreenPre()));
-          },
-          child: Container(
-            margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
-            child: const Icon(
-              size: 29,
-              Icons.article,
-              weight: BorderSide.strokeAlignOutside,
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>  AnalysisScreenPrevention()));
-          },
-          child: Container(
-            margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),
-            child: const Icon(
-              size: 29,
-              Icons.article,
-              weight: BorderSide.strokeAlignOutside,
-            ),
-          ),
-        ),
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
