@@ -20,12 +20,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
-  Future<Map<String, dynamic>> loginUser(String phone, String password, String authToken) async {
+  Future<Map<String, dynamic>> loginUser(String phone, String password) async {
     final url = Uri.parse('https://rakshika.onrender.com/account/login/');
     final headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $authToken'
     };
     final body = jsonEncode({
       'phone': phone,
@@ -246,8 +245,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     false) {
                                   _formkey.currentState!.save();
                                   // backend
-                                  final u = getObject('user');
-                                  u.then((value) => loginUser(username!, password!, value['access']));
+                                  final u = loginUser(username!, password!);
+                                  // u.then((value) => loginUser(username!, password!, value['access']));
+                                  u.then((value) => saveObject(value, 'user_login'));
+                                  // print(access);
+                                  // print("\n\n");
                                 }
                               });
 

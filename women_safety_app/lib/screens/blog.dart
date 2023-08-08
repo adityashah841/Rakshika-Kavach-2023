@@ -16,7 +16,7 @@ class Blog {
       required this.imageURL});
 }
 
-Future<List<Blog>> getBlogs(String authToken) async {
+Future<List<Blog>> getBlogs(String? authToken) async {
   final response = await http.get(
     // Uri.parse('http://localhost:8000/blogs/1/'),
     Uri.parse('https://rakshika.onrender.com/blogs/1/'),
@@ -57,7 +57,7 @@ class _BlogScreenState extends State<BlogScreen> {
   @override
   void initState() {
     super.initState();
-    final u = getObject('user');
+    final u = getObject('user_login');
     u.then((value) =>
     getBlogs(value['access']).then((blogs) {
       setState(() {

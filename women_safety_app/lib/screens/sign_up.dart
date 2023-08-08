@@ -376,7 +376,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                             false) {
                                           _formkey.currentState!.save();
                                           //  logic (backend)
-                                          final u = getObject('user');
+                                          final u = getObject('user_register');
                                           u.then((value) => {
                                                 setLoginCreds(
                                                     username!,

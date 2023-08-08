@@ -277,9 +277,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   _formkey.currentState!.save();
                                   // Perform the login logic here...
                                   final data = validateOtp(otp!, aadharnumber!);
-                                  data.then((value) => saveObject(value, 'user'));
+                                  data.then((value) => saveObject(value, 'user_register'));
                                   print("Hello!");
-                                  final x = getObject('user');
+                                  final x = getObject('user_register');
                                   x.then((value) => print(value));
                                   print("\n\n");
                                   Navigator.of(context).push(
