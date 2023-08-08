@@ -11,7 +11,6 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
@@ -30,7 +29,7 @@ class _ProfilePageState extends State<ProfilePage> {
     'Other Address 1',
     'Other Address 2',
   ];
-  Map<String, bool> subtitleVisibility = {}; // New property
+  Map<String, bool> subtitleVisibility = {};
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +56,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 CupertinoIcons.person,
               ),
               const SizedBox(height: 10),
-
               itemProfile(
                 'Age',
                 '15',
@@ -92,8 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 10),
-              const SizedBox(height: 5), // Add spacing
-              // Heading for Permissions
+              const SizedBox(height: 5),
               Container(
                 alignment: Alignment.centerLeft,
                 child: const Text(
@@ -105,7 +102,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 10),
-
               itemProfileToggle(
                 'Allow for Location',
                 CupertinoIcons.location,
@@ -140,16 +136,25 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 10),
               itemProfileToggle(
-                'Allow Contacts Access', // Added
-                CupertinoIcons.person_crop_circle, // Correct icon
-                contactsToggle, // Added
+                'Allow for Notification',
+                CupertinoIcons.bell_circle,
+                cameraToggle,
                 (value) {
-                  // Added
                   setState(() {
-                    // Added
-                    contactsToggle = value; // Added
-                  }); // Added
-                }, // Added
+                    // cameraToggle = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              itemProfileToggle(
+                'Allow Contacts Access',
+                CupertinoIcons.person_crop_circle,
+                contactsToggle,
+                (value) {
+                  setState(() {
+                    contactsToggle = value;
+                  });
+                },
               ),
               const SizedBox(height: 10),
               itemProfileToggle(
@@ -314,7 +319,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-        leading: Icon(iconData),
+        leading: Icon(iconData, color: Colors.black),
         tileColor: Colors.white,
       ),
     );
@@ -363,19 +368,36 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-        leading: Icon(iconData),
+        leading: Icon(iconData, color: Colors.black),
         trailing: GestureDetector(
           onTap: () {
             setState(() {
               subtitleVisibility[title] = !subtitleVisibility[title]!;
             });
           },
-          child: Icon(
-            subtitleVisibility[title]!
-                ? CupertinoIcons.up_arrow
-                : CupertinoIcons.down_arrow,
-            size: 30,
-            color: Colors.grey.shade400,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  // Handle the "Add" action here
+                  _showAddressModal(context);
+                },
+                child: Icon(
+                  CupertinoIcons.add,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(width: 10),
+              Icon(
+                subtitleVisibility[title]!
+                    ? CupertinoIcons.up_arrow
+                    : CupertinoIcons.down_arrow,
+                size: 28,
+                color: Colors.black,
+              ),
+            ],
           ),
         ),
         tileColor: Colors.white,
@@ -400,7 +422,10 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       child: ListTile(
         title: Text(title),
-        leading: Icon(iconData),
+        leading: Icon(
+          iconData,
+          color: Colors.black,
+        ),
         trailing: CupertinoSwitch(
           value: value,
           onChanged: onChanged,

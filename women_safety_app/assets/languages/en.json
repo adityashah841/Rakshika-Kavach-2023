@@ -1,0 +1,13 @@
+{
+  "name": "Name",
+  "age": "Age",
+  "residential_address": "Residential Address",
+  "other_address": "Other Address",
+  "emergency_contacts": "Emergency Contacts",
+  "allow_for_location": "Allow for Location",
+  "allow_for_audio_and_mic": "Allow for Audio & Mic",
+  "allow_for_camera": "Allow for Camera",
+  "allow_for_notification": "Allow for Notification",
+  "allow_contact_access": "Allow Contact Access",
+  "night_mode": "Night Mode"
+}

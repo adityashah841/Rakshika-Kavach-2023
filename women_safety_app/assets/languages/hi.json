@@ -1,0 +1,13 @@
+{
+  "name": "नाम",
+  "age": "आयु",
+  "residential_address": "निवास पता",
+  "other_address": "अन्य पता",
+  "emergency_contacts": "आपातकालीन संपर्क",
+  "allow_for_location": "स्थान की अनुमति दें",
+  "allow_for_audio_and_mic": "ऑडियो और माइक की अनुमति दें",
+  "allow_for_camera": "कैमरा की अनुमति दें",
+  "allow_for_notification": "सूचनाओं की अनुमति दें",
+  "allow_contact_access": "संपर्क पहुँच की अनुमति दें",
+  "night_mode": "रात का मोड"
+}
