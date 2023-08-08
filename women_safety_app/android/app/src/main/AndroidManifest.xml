@@ -11,6 +11,9 @@ xmlns:tools="http://schemas.android.com/tools">
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         tools:replace="android:label">
+        <meta-data 
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBfSV-a_DEtaEWNYjiIeEXMRJBoMhElr8I"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
