@@ -57,73 +57,82 @@ class FakeCallScreen extends StatelessWidget {
     return Scaffold(
       appBar: const AppBarConstant(),
       backgroundColor: rBackground,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 10.0),
-            // _buildFakeCallCard(context),
-            const FakeCallComponent(),
-            const SizedBox(height: 5.0),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16.0,
-                mainAxisSpacing: 16.0,
-                padding: const EdgeInsets.all(16.0),
-                children: [
-                  _buildServiceCard(
-                    context,
-                    name: "Police",
-                    image: 'assets/images/policeImage.png',
-                    number: "100",
-                  ),
-                  _buildServiceCard(
-                    context,
-                    name: "Ambulance",
-                    image: 'assets/images/ambulanceImage.png',
-                    number: "102",
-                  ),
-                  _buildServiceCard(
-                    context,
-                    name: "Helpline",
-                    image: 'assets/images/helpline.png',
-                    number: "1091",
-                  ),
-                  _buildServiceAPICard(
-                    context,
-                    name: "State Help",
-                    image: 'assets/images/helpImage.png',
-                    number: "606",
-                  ),
-                  _buildServiceCard(
-                    context,
-                    name: "Fire",
-                    image: 'assets/images/fireImage.png',
-                    number: "101",
-                  ),
-                  _buildServiceCard(
-                    context,
-                    name: "Abuse Helpline",
-                    image: 'assets/images/domesticAbuse.png',
-                    number: "181",
-                  ),
-                  _buildServiceCard(
-                    context,
-                    name: "DCP",
-                    image: 'assets/images/dcpImage.png',
-                    number: "1094",
-                  ),
-                  _buildServiceCard(
-                    context,
-                    name: "Air Ambulance",
-                    image: 'assets/images/airAmbulance.png',
-                    number: "9540161344",
-                  ),
-                ],
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                "assets/images/bgImage.png"), // Replace with your image path
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 10.0),
+              // _buildFakeCallCard(context),
+              const FakeCallComponent(),
+              const SizedBox(height: 5.0),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  padding: const EdgeInsets.all(16.0),
+                  children: [
+                    _buildServiceCard(
+                      context,
+                      name: "Police",
+                      image: 'assets/images/policeImage.png',
+                      number: "100",
+                    ),
+                    _buildServiceCard(
+                      context,
+                      name: "Ambulance",
+                      image: 'assets/images/ambulanceImage.png',
+                      number: "102",
+                    ),
+                    _buildServiceCard(
+                      context,
+                      name: "Helpline",
+                      image: 'assets/images/helpline.png',
+                      number: "1091",
+                    ),
+                    _buildServiceAPICard(
+                      context,
+                      name: "State Help",
+                      image: 'assets/images/helpImage.png',
+                      number: "606",
+                    ),
+                    _buildServiceCard(
+                      context,
+                      name: "Fire",
+                      image: 'assets/images/fireImage.png',
+                      number: "101",
+                    ),
+                    _buildServiceCard(
+                      context,
+                      name: "Abuse Helpline",
+                      image: 'assets/images/domesticAbuse.png',
+                      number: "181",
+                    ),
+                    _buildServiceCard(
+                      context,
+                      name: "DCP",
+                      image: 'assets/images/dcpImage.png',
+                      number: "1094",
+                    ),
+                    _buildServiceCard(
+                      context,
+                      name: "Air Ambulance",
+                      image: 'assets/images/airAmbulance.png',
+                      number: "9540161344",
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

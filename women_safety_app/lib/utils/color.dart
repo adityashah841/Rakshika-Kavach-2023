@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const Color rPurple = Color(0xFFCDB4DB);
+const Color rPurple = Color.fromARGB(255, 255, 108, 191);
 const Color rLightPink = Color.fromARGB(255, 42, 215, 207);
 const Color rDarkPink = Color(0xFFFFAFCC);
 const Color rLightBlue = Color(0xFFBDE0FE);
