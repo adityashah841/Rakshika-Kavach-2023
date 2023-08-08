@@ -119,38 +119,39 @@ class _LoginScreenState extends State<LoginScreen> {
                             onChanged: (value) {
                               if (value.isNotEmpty) {
                                 removeError(
-                                    error: "Please enter your username");
+                                    error: "Please enter your phone number");
                               }
-                              if (value.length >= 3 && value.length <= 30) {
+                              if (value.length == 10) {
                                 removeError(
                                     error:
-                                        "Username must be between 3 and 30 characters long");
+                                        "Phone number must be 10 digits long");
                               }
-                              if (usernameRegExp.hasMatch(value)) {
-                                removeError(error: "Invalid username format");
+                              if (containsDigit(value)) {
+                                removeError(error: "Invalid phone number format");
                               }
                               // Store the username value in a variable (if required)
                               username = value;
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
-                                addError(error: "Please enter your username");
+                                addError(error: "Please enter your phone number");
                                 return "";
-                              } else if (value.length < 3 ||
-                                  value.length > 30) {
+                              } else if (value.length != 10) {
                                 addError(
                                     error:
-                                        "Username must be between 3 and 30 characters long");
+                                        "Phone number must be 10 digits long");
                                 return "";
-                              } else if (!usernameRegExp.hasMatch(value)) {
-                                addError(error: "Invalid username format");
+                              } else if (!containsDigit(value)) {
+                                addError(error: "Invalid phone number format");
                                 return "";
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              label: const Text("Username"),
-                              hintText: "Enter Username",
+                              // label: const Text("Username"),
+                              label: const Text("Phone Number"),
+                              // hintText: "Enter Username",
+                              hintText: "Enter Phone Number",
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               contentPadding: const EdgeInsets.symmetric(
