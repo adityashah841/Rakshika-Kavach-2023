@@ -5,6 +5,7 @@ import 'package:women_safety_app/screens/sign_up.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void saveObject(dynamic myObject, String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,8 +48,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  Future<Map<String, dynamic>> validateOtp(String code, String aadharNumber) async {
-    final url = Uri.parse('https://rakshika.onrender.com/account/phone-verify/');
+  Future<Map<String, dynamic>> validateOtp(
+      String code, String aadharNumber) async {
+    final url =
+        Uri.parse('https://rakshika.onrender.com/account/phone-verify/');
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({'code': code, 'aadhar_number': aadharNumber});
 
@@ -107,10 +110,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 150,
-                  width: 150,
+                const SizedBox(
+                  height: 75,
+                ),
+                SvgPicture.asset(
+                  'assets/illustrations/register.svg',
+                  height: 250,
+                  width: 250,
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 const Text(
                   'Verify Yourself',
@@ -277,7 +286,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   _formkey.currentState!.save();
                                   // Perform the login logic here...
                                   final data = validateOtp(otp!, aadharnumber!);
-                                  data.then((value) => saveObject(value, 'user'));
+                                  data.then(
+                                      (value) => saveObject(value, 'user'));
                                   print("Hello!");
                                   final x = getObject('user');
                                   x.then((value) => print(value));

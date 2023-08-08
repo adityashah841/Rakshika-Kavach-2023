@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/log_in.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -72,10 +73,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        height: 150,
-                        width: 150,
+                      const SizedBox(
+                        height: 60,
+                      ),
+                      SvgPicture.asset(
+                        'assets/illustrations/create.svg',
+                        height: 185,
+                        width: 185,
                       ),
                       const Text(
                         'Create your Account',

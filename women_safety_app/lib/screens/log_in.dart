@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/register.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -57,10 +58,16 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 125,
-                  width: 125,
+                const SizedBox(
+                  height: 75,
+                ),
+                SvgPicture.asset(
+                  'assets/illustrations/login.svg',
+                  height: 250,
+                  width: 250,
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 const Text(
                   'Log-in',
@@ -244,17 +251,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             children: [
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const RegisterScreen()));
-                                  },
-                                  child: const Text(
-                                    'Not a member? Register',
-                                    style: TextStyle(
-                                        color: Colors.blue, fontSize: 14),
-                                  ))
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterScreen()));
+                                },
+                                child: const Text(
+                                  'Not a member? Register',
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 14),
+                                ),
+                              )
                             ],
                           ),
                         ],
