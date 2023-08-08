@@ -57,6 +57,7 @@ dependencies:
   geocoding: ^2.0.1
   google_maps_webservice: ^0.0.20-nullsafety.4
   shared_preferences: ^2.0.12
+  camera: ^0.10.5+2
 
 dev_dependencies:
   flutter_test:

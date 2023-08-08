@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:camera/camera.dart';
+import 'dart:async';
 
 class SOSButton extends StatefulWidget {
   const SOSButton({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _SOSButtonState createState() => _SOSButtonState();
 }
 
@@ -44,7 +45,7 @@ class _SOSButtonState extends State<SOSButton> {
                 margin: const EdgeInsets.only(bottom: 30, top: 30),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isClicked ? rSOS.withOpacity(0.8) : rSOS,
+                  color: isClicked ? Colors.green.withOpacity(0.8) : rSOS,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5),
@@ -72,9 +73,37 @@ class _SOSButtonState extends State<SOSButton> {
     );
   }
 
-  void handleSOS() {
-    // Implement the action to be performed when SOS is triggered
-    // print('SOS triggered');
-    // You can call any function or show an alert or perform any other action here.
+  Future<void> handleSOS() async {
+    // Initialize the cameras.
+    final cameras = await availableCameras();
+    final camera = cameras.first;
+
+    // Create a video recording controller.
+    final controller = CameraController(camera, ResolutionPreset.high);
+
+    // Initialize the camera controller.
+    await controller.initialize();
+
+    // Start the video recording.
+    controller.startVideoRecording();
+
+    // Set isClicked to true to change the color to green.
+    setState(() {
+      isClicked = true;
+    });
+
+    // Create a timer to stop the video recording after 3 minutes.
+    Timer(Duration(minutes: 1), () {
+      // Stop the video recording.
+      controller.stopVideoRecording();
+
+      // Set isClicked back to false to revert the color.
+      setState(() {
+        isClicked = false;
+      });
+
+      // Display a message to the user.
+      print("Recording stopped");
+    });
   }
 }

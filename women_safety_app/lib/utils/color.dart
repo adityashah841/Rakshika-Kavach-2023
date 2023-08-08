@@ -9,6 +9,6 @@ const Color rBackground = Color.fromARGB(255, 255, 255, 255);
 const Color rBoxes = Color(0xFFA7FFF6);
 const Color rDarkBlue = Color.fromARGB(255, 66, 161, 250);
 const Color rBottomBar = Color(0xFF7A7AB6);
-const Color rSOS = Color.fromARGB(255, 252, 114, 114);
+const Color rSOS = Color.fromARGB(255, 184, 23, 23);
 const Color rBottomNavigationBarItem = Color.fromARGB(255, 255, 255, 255);
 const Color rUnselectedItemColor = Color.fromARGB(255, 0, 0, 0);
