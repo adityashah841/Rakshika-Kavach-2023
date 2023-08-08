@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:women_safety_app/screens/register.dart';
 
 class Blog {
   String title;
@@ -15,13 +16,14 @@ class Blog {
       required this.imageURL});
 }
 
-Future<List<Blog>> getBlogs() async {
+Future<List<Blog>> getBlogs(String authToken) async {
   final response = await http.get(
     // Uri.parse('http://localhost:8000/blogs/1/'),
     Uri.parse('https://rakshika.onrender.com/blogs/1/'),
     headers: {
       'accept': 'application/json',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNzI4NDU0LCJpYXQiOjE2OTE0NjkyNTQsImp0aSI6ImY3MzYyMzc5Y2I5MTQ1MTM4OWM0MDU2M2ZlMjY3ODE4IiwidXNlcl9pZCI6NX0.LmamNhJ_rMYSSeygaB677gxVCjSBpsxUSjJU0XaHO9U',
+      // 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNzI4NDU0LCJpYXQiOjE2OTE0NjkyNTQsImp0aSI6ImY3MzYyMzc5Y2I5MTQ1MTM4OWM0MDU2M2ZlMjY3ODE4IiwidXNlcl9pZCI6NX0.LmamNhJ_rMYSSeygaB677gxVCjSBpsxUSjJU0XaHO9U',
+      'Authorization': 'Bearer $authToken',
     },
   );
 
@@ -55,12 +57,15 @@ class _BlogScreenState extends State<BlogScreen> {
   @override
   void initState() {
     super.initState();
-    getBlogs().then((blogs) {
+    final u = getObject('user');
+    u.then((value) =>
+    getBlogs(value['access']).then((blogs) {
       setState(() {
         // print(100);
         blogDisplay = blogs;
       });
-    });
+    })
+    );
   }
 
   @override
