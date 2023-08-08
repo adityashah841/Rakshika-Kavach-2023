@@ -50,9 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Log-in'),
-      ),
       body: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
@@ -73,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.black),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 SingleChildScrollView(
                   child: Container(
@@ -141,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 30,
                           ),
                           //Password
                           // 8 characters long
@@ -209,7 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 25,
+                            height: 30,
                           ),
                           ElevatedButton(
                             onPressed: () {
@@ -242,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: const Text('Login'),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 20,
                           ),
                           Row(
                             children: [
@@ -254,9 +251,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 const RegisterScreen()));
                                   },
                                   child: const Text(
-                                    'Not a member?Register',
+                                    'Not a member? Register',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 18),
+                                        color: Colors.blue, fontSize: 14),
                                   ))
                             ],
                           ),
