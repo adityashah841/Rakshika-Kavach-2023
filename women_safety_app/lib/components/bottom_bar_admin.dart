@@ -18,7 +18,7 @@ class _BottomPageAdminState extends State<BottomPageAdmin> {
   List<Widget> pages = [
     const BlogScreen(),
     const AnalysisScreenPre(),
-    const AnalysisScreenPrevention(),
+     AnalysisScreenPrevention(),
     const AnalysisScreenProsecution(),
     const FakeCallScreen(),
   ];
