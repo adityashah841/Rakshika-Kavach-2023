@@ -53,6 +53,13 @@ class NearMeScreen extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(16.0),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+                "assets/images/bgImage.png"), // Replace with your image path
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -76,37 +83,37 @@ class NearMeScreen extends StatelessWidget {
                     _buildServiceBox(
                       image: 'assets/images/policeStation.png',
                       text: "Police Stations",
-                      gradientColors: [Colors.lightBlue, Colors.white],
+                      gradientColors: [rPurple, Colors.white],
                       searchLocation: "Police stations",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/railwayStation.png',
                       text: "Railway Stations",
-                      gradientColors: [Colors.teal, Colors.white],
+                      gradientColors: [rPurple, Colors.white],
                       searchLocation: "Railway stations",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/hospital.png',
                       text: "Hospitals",
-                      gradientColors: [Colors.orange, Colors.white],
+                      gradientColors: [rPurple, Colors.white],
                       searchLocation: "Hospitals",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/busStation.png',
                       text: "Bus Stations",
-                      gradientColors: [Colors.yellow, Colors.white],
+                      gradientColors: [rPurple, Colors.white],
                       searchLocation: "Bus stations",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/pharmacies.png',
                       text: "Pharmacies",
-                      gradientColors: [Colors.deepPurple, Colors.white],
+                      gradientColors: [rPurple, Colors.white],
                       searchLocation: "Pharmacies",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/temples.png',
                       text: "Religious Centers",
-                      gradientColors: [Colors.pinkAccent, Colors.white],
+                      gradientColors: [rPurple, Colors.white],
                       searchLocation: "Temples",
                     ),
                   ],
@@ -131,7 +138,7 @@ class NearMeScreen extends StatelessWidget {
       },
       child: FractionallySizedBox(
         widthFactor: 1,
-        // heightFactor: 0.4,
+        heightFactor: 1,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
@@ -141,7 +148,7 @@ class NearMeScreen extends StatelessWidget {
               end: Alignment.bottomRight,
             ),
           ),
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -153,7 +160,7 @@ class NearMeScreen extends StatelessWidget {
                 text,
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                 ),
                 textAlign: TextAlign.center,
               ),

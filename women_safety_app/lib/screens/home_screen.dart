@@ -3,7 +3,7 @@ import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/components/blog_slider.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/components/sos_button.dart';
-import 'package:women_safety_app/utils/color.dart';
+// import 'package:women_safety_app/utils/color.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -38,19 +38,27 @@ class _StartScreenState extends State<StartScreen> {
     'Safety is not negotiable!',
   ];
 
-  final List<String> contacts = ['+917303404504', '+919322009937'];
+  final List<String> contacts = ['+917303404504'];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AppBarConstant(),
-      backgroundColor: rBackground,
-      body: Column(
-        children: [
-          BlogSlider(imageList: imageList, sloganList: sloganList),
-          const SOSButton(),
-          EmergencyButton(contacts: contacts),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(
+          // color: rBackground,
+          image: DecorationImage(
+            image: AssetImage('assets/images/bgImage.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          children: [
+            BlogSlider(imageList: imageList, sloganList: sloganList),
+            SOSButton(contacts: contacts),
+            EmergencyButton(contacts: contacts),
+          ],
+        ),
       ),
     );
   }

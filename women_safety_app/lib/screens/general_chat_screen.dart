@@ -1,37 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/components/app_bar.dart';
-// import 'package:women_safety_app/screens/chat_bot_screen.dart';
+import 'package:women_safety_app/screens/blog.dart';
+import 'package:women_safety_app/screens/chat_bot_screen.dart';
 import 'package:women_safety_app/screens/community_chat.dart';
+import 'package:women_safety_app/screens/video_call_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
-import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 
 class GeneralChatScreen extends StatefulWidget {
-  const GeneralChatScreen({super.key});
+  const GeneralChatScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _GeneralChatScreenState createState() => _GeneralChatScreenState();
 }
 
 class _GeneralChatScreenState extends State<GeneralChatScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  late Animation<Offset> _slideAnimation1;
-  late Animation<Offset> _slideAnimation2;
+  late Animation<Offset> _slideAnimationRight;
+  late Animation<Offset> _slideAnimationLeft;
 
   @override
   void initState() {
     super.initState();
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1000));
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
 
-    _slideAnimation1 =
-        Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero).animate(
-            CurvedAnimation(parent: _animationController, curve: Curves.ease));
+    _slideAnimationRight = Tween<Offset>(
+      begin: const Offset(1, 0), // Slide from right
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.ease,
+      ),
+    );
 
-    _slideAnimation2 =
-        Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).animate(
-            CurvedAnimation(parent: _animationController, curve: Curves.ease));
+    _slideAnimationLeft = Tween<Offset>(
+      begin: const Offset(-1, 0), // Slide from left
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.ease,
+      ),
+    );
 
     _animationController.forward();
   }
@@ -44,106 +58,105 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: const AppBarConstant(),
-      backgroundColor: rBackground,
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/bgImage.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const CommunityChatScreen()));
-                },
-                child: SlideTransition(
-                  position: _slideAnimation1,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    height: screenHeight * 0.35,
-                    margin: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: rLightPink, // Replace with your desired color
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 65,
-                            backgroundColor: Colors.black,
-                            backgroundImage: AssetImage(
-                                'assets/images/commuityChat.png'), // Replace with your image asset
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Community Chat', // Replace with your title
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SlideTransition(
+                    position: _slideAnimationLeft,
+                    child: _buildBox(
+                      'Community Warriors',
+                      'assets/images/commuityChat.png',
+                      CommunityChatScreen(),
+                      rLightPink,
                     ),
                   ),
-                ),
+                  SlideTransition(
+                    position: _slideAnimationRight,
+                    child: _buildBox(
+                      'Chat Bot',
+                      'assets/images/chatBot.png',
+                      ChatBotScreen(),
+                      rPurple,
+                    ),
+                  ),
+                ],
               ),
-              GestureDetector(
-                onTap: () {
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //     builder: (context) => const ChatBotScreen()));
-                  dynamic conversationObject = {
-                    'appId':
-                        '249f24603c1ce717303b5a03b076f84f0', // The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
-                  };
-
-                  KommunicateFlutterPlugin.buildConversation(conversationObject)
-                      .then((clientConversationId) {
-                    // print("Conversation builder success : " +
-                    //     clientConversationId.toString());
-                  }).catchError(
-                    (error) {
-                      // print("Conversation builder error : " + error.toString());
-                    },
-                  );
-                },
-                child: SlideTransition(
-                  position: _slideAnimation2,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    height: screenHeight * 0.35,
-                    margin: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: rPurple,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 65,
-                            backgroundColor: Colors.black,
-                            backgroundImage:
-                                AssetImage('assets/images/chatBot.png'),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Chat Bot',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+              SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SlideTransition(
+                    position: _slideAnimationLeft,
+                    child: _buildBox(
+                      'Blogs',
+                      'assets/images/commuityChat.png',
+                      BlogScreen(),
+                      rLightPink,
                     ),
                   ),
+                  SlideTransition(
+                    position: _slideAnimationRight,
+                    child: _buildBox(
+                      'Video Call',
+                      'assets/images/chatBot.png',
+                      VideoCallScreen(),
+                      rPurple,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBox(String name, String imageAsset, Widget page, Color color) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => page),
+        );
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        width: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.height * 0.25,
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 35,
+                backgroundColor: Colors.black,
+                backgroundImage: AssetImage(imageAsset),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],

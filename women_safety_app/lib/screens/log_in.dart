@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/register.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +20,32 @@ class _LoginScreenState extends State<LoginScreen> {
       RegExp(r'^(?![_\-])(?!.*[_\-]{2})[a-zA-Z0-9_\-]{3,30}(?<![_\-])$');
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
+
+  Future<Map<String, dynamic>> loginUser(
+      String phone, String password, String authToken) async {
+    final url = Uri.parse('https://rakshika.onrender.com/account/login/');
+    final headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken'
+    };
+    final body = jsonEncode({'phone': phone, 'password': password});
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      // Handle successful response
+      final data = jsonDecode(response.body);
+      // print(data);
+      return data;
+    } else {
+      // Handle error response
+      // print(response.body);
+      throw Exception(response.body);
+      // addError(error: 'Invalid OTP');
+      // return {};
+    }
+  }
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -50,9 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Log-in'),
-      ),
       body: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
@@ -60,10 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 125,
-                  width: 125,
+                const SizedBox(
+                  height: 75,
+                ),
+                SvgPicture.asset(
+                  'assets/illustrations/login.svg',
+                  height: 250,
+                  width: 250,
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 const Text(
                   'Log-in',
@@ -73,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.black),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 SingleChildScrollView(
                   child: Container(
@@ -92,38 +124,41 @@ class _LoginScreenState extends State<LoginScreen> {
                             onChanged: (value) {
                               if (value.isNotEmpty) {
                                 removeError(
-                                    error: "Please enter your username");
+                                    error: "Please enter your phone number");
                               }
-                              if (value.length >= 3 && value.length <= 30) {
+                              if (value.length == 10) {
                                 removeError(
                                     error:
-                                        "Username must be between 3 and 30 characters long");
+                                        "Phone number must be 10 digits long");
                               }
-                              if (usernameRegExp.hasMatch(value)) {
-                                removeError(error: "Invalid username format");
+                              if (containsDigit(value)) {
+                                removeError(
+                                    error: "Invalid phone number format");
                               }
                               // Store the username value in a variable (if required)
                               username = value;
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
-                                addError(error: "Please enter your username");
+                                addError(
+                                    error: "Please enter your phone number");
                                 return "";
-                              } else if (value.length < 3 ||
-                                  value.length > 30) {
+                              } else if (value.length != 10) {
                                 addError(
                                     error:
-                                        "Username must be between 3 and 30 characters long");
+                                        "Phone number must be 10 digits long");
                                 return "";
-                              } else if (!usernameRegExp.hasMatch(value)) {
-                                addError(error: "Invalid username format");
+                              } else if (!containsDigit(value)) {
+                                addError(error: "Invalid phone number format");
                                 return "";
                               }
                               return null;
                             },
                             decoration: InputDecoration(
-                              label: const Text("Username"),
-                              hintText: "Enter Username",
+                              // label: const Text("Username"),
+                              label: const Text("Phone Number"),
+                              // hintText: "Enter Username",
+                              hintText: "Enter Phone Number",
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
                               contentPadding: const EdgeInsets.symmetric(
@@ -141,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 20,
+                            height: 30,
                           ),
                           //Password
                           // 8 characters long
@@ -209,7 +244,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 25,
+                            height: 30,
                           ),
                           ElevatedButton(
                             onPressed: () {
@@ -218,6 +253,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     false) {
                                   _formkey.currentState!.save();
                                   // backend
+                                  final u = getObject('user');
+                                  u.then((value) => loginUser(
+                                      username!, password!, value['access']));
                                 }
                               });
 
@@ -242,22 +280,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: const Text('Login'),
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 20,
                           ),
                           Row(
                             children: [
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const RegisterScreen()));
-                                  },
-                                  child: const Text(
-                                    'Not a member?Register',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 18),
-                                  ))
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterScreen()));
+                                },
+                                child: const Text(
+                                  'Not a member? Register',
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 14),
+                                ),
+                              )
                             ],
                           ),
                         ],
