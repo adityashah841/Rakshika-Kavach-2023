@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/log_in.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:women_safety_app/screens/register.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -19,6 +22,25 @@ class _SignupScreenState extends State<SignupScreen> {
 
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
+
+  Future<void> setLoginCreds(String username, String password, String authToken) async {
+    final url = Uri.parse('https://rakshika.onrender.com/account/set-login-creds/');
+    final headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken'
+    };
+    final body = jsonEncode({
+      'username': username,
+      'password': password
+    });
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode != 200) {
+      throw Exception(response.body);
+    }
+  }
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -354,6 +376,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                             false) {
                                           _formkey.currentState!.save();
                                           //  logic (backend)
+                                          final u = getObject('user');
+                                          u.then((value) => {
+                                                setLoginCreds(
+                                                    username!,
+                                                    password!,
+                                                    value['access']),
+                                              });
                                         }
                                       });
 
