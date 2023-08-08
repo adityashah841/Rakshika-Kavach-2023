@@ -52,16 +52,12 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('SignUp'),
-      ),
       body: Stack(
         children: [
           // Container(
           //   color: Colors.transparent,
           // ),
           const Opacity(opacity: 0.1),
-          // ignore: avoid_unnecessary_containers
           Container(
             // decoration: const BoxDecoration(
             //   image: DecorationImage(

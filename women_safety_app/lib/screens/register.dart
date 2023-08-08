@@ -14,7 +14,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? aadharnumber;
   String? otp;
   bool showOtpField = false;
-  final RegExp aadharNumberRegExp = RegExp(r'^\d{4} \d{4} \d{4}$');
+  final RegExp aadharNumberRegExp = RegExp(r'^\d{4}\d{4}\d{4}$');
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
@@ -50,9 +50,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text('Register-Verify'),
-      ),
       body: SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
@@ -90,11 +87,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             onSaved: (newValue) => aadharnumber = newValue,
                             // maxLength: 12,
                             maxLength:
-                                14, // Set a maximum of 19 characters (including spaces)
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                              _AadharNumberFormatter(), // Add your custom formatter
-                            ],
+                                12, // Set a maximum of 19 characters (including spaces)
+                            // inputFormatters: [
+                            //   FilteringTextInputFormatter.digitsOnly,
+                            //   _AadharNumberFormatter(), // Add your custom formatter
+                            // ],
                             onChanged: (value) {
                               if (value.isNotEmpty) {
                                 removeError(
@@ -265,31 +262,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-class _AadharNumberFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    final text = newValue.text;
-    var newText = '';
-
-    // Remove all spaces from the new value
-    final sanitizedValue = text.replaceAll(' ', '');
-
-    // Add a space after every 4 digits
-    for (var i = 0; i < sanitizedValue.length; i += 4) {
-      final end = i + 4;
-      if (end <= sanitizedValue.length) {
-        newText += '${sanitizedValue.substring(i, end)} ';
-      } else {
-        newText += sanitizedValue.substring(i);
-      }
-    }
-
-    return newValue.copyWith(
-      text: newText.trim(),
-      selection: TextSelection.collapsed(offset: newText.length),
-    );
-  }
-}
+// class _AadharNumberFormatter extends TextInputFormatter {
+//   @override
+//   TextEditingValue formatEditUpdate(
+//     TextEditingValue oldValue,
+//     TextEditingValue newValue,
+//   ) {
+//     final text = newValue.text;
+//     var newText = '';
+//
+//     // Remove all non-digit characters from the new value
+//     final sanitizedValue = text.replaceAll(RegExp(r'\D'), '');
+//
+//     // Add a space after every 4 digits
+//     for (var i = 0; i < sanitizedValue.length; i += 4) {
+//       final end = i + 4;
+//       if (end <= sanitizedValue.length) {
+//         newText += '${sanitizedValue.substring(i, end)} ';
+//       } else {
+//         newText += sanitizedValue.substring(i);
+//       }
+//     }
+//
+//     // Maintain the selection after formatting
+//     final newSelection = newValue.selection.copyWith(
+//       baseOffset: newText.length,
+//       extentOffset: newText.length,
+//     );
+//
+//     return TextEditingValue(
+//       text: newText.trim(),
+//       selection: newSelection,
+//     );
+//   }
+// }
