@@ -254,9 +254,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 const RegisterScreen()));
                                   },
                                   child: const Text(
-                                    'Not a member?Register',
+                                    'Not a member? Register',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 18),
+                                        color: Colors.blue, fontSize: 14),
                                   ))
                             ],
                           ),
