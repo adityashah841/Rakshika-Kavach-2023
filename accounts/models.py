@@ -71,11 +71,18 @@ def upload_path_handler(instance, filename):
         label=instance.firstname + '_' + instance.lastname, file=filename
     )
 
+GENDER = (
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+    ('Admin','Admin')
+)
+
 class User(AbstractBaseUser):
     email             = models.EmailField(verbose_name='email address',max_length=255)
     username          = models.CharField(max_length=200,blank=True, null=True)
     firstname         = models.CharField(max_length=60)
     lastname          = models.CharField(max_length=60)
+    gender            = models.CharField(max_length = 100,choices = GENDER, default = 'Female')
     aadhar_number     = models.DecimalField(max_digits = 12, decimal_places = 0,unique=True)
     phone_number      = models.DecimalField(max_digits = 10, decimal_places = 0,unique=True)
     image             = models.ImageField(upload_to = upload_path_handler,null = True, blank = True)

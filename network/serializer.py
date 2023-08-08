@@ -14,7 +14,7 @@ class UserWarriorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserWarrior
-        fields = ['user_name', 'warrior_name','accept']
+        fields = ['id','user_name', 'warrior_name','accept']
 
     def get_user_name(self,obj):
         return obj.user.phone_number

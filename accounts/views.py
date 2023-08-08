@@ -45,7 +45,8 @@ class SignUp(generics.GenericAPIView):
                     lastname = user.last_name,
                     aadhar_number = user.uid,
                     phone_number = user.phone,
-                    DOB = user.dob
+                    DOB = user.dob,
+                    gender = user.gender
                 )
 
                 Address.objects.create(

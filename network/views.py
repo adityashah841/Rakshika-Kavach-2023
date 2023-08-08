@@ -71,3 +71,13 @@ class SendRequestView(generics.GenericAPIView):
             return JsonResponse(content, status = status.HTTP_200_OK)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
         
+
+class AcceptWarriorRequestView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated,]
+
+    def post(self, request,pk):
+        try:
+            uw = UserWarrior.objects.get(warrior=request.user, id = pk)
+        except UserWarrior.DoesNotExist:
+            content = {'detail': 'No such'}
+            return JsonResponse(content, status = status.HTTP_200_OK)
