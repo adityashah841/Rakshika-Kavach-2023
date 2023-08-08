@@ -153,6 +153,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
               const SizedBox(height: 8),
               Text(
                 name,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:camera/camera.dart';
+import 'package:record/record.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:async';
+import 'package:geolocator/geolocator.dart';
+import 'package:twilio_flutter/twilio_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'package:cloudinary/cloudinary.dart';
 
 class SOSButton extends StatefulWidget {
-  const SOSButton({Key? key}) : super(key: key);
+  const SOSButton({Key? key, required this.contacts}) : super(key: key);
+  final List<String> contacts;
 
   @override
-  // ignore: library_private_types_in_public_api
   _SOSButtonState createState() => _SOSButtonState();
 }
 
 class _SOSButtonState extends State<SOSButton> {
   bool isClicked = false;
+  late String videoPath;
+  late Record audioRecord;
+  late AudioPlayer audioPlayer;
+  String audioPath = '';
+  final cloudinary = Cloudinary.signedConfig(
+    apiKey: dotenv.env['API_KEY']!,
+    apiSecret: dotenv.env['API_SECRET']!,
+    cloudName: dotenv.env['CLOUD_NAME']!,
+  );
+  bool isRecording = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +65,7 @@ class _SOSButtonState extends State<SOSButton> {
                 margin: const EdgeInsets.only(bottom: 30, top: 30),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isClicked ? rSOS.withOpacity(0.8) : rSOS,
+                  color: isClicked ? Colors.green.withOpacity(0.8) : rSOS,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5),
@@ -72,9 +93,177 @@ class _SOSButtonState extends State<SOSButton> {
     );
   }
 
-  void handleSOS() {
-    // Implement the action to be performed when SOS is triggered
-    // print('SOS triggered');
-    // You can call any function or show an alert or perform any other action here.
+  Future<void> handleSOS() async {
+    _getCurrentLocationAndTrigger(widget.contacts);
+    // Initialize the cameras.
+    final cameras = await availableCameras();
+    final camera = cameras.first;
+
+    // Create a video recording controller.
+    final controller = CameraController(camera, ResolutionPreset.high);
+
+    // Initialize the camera controller.
+    await controller.initialize();
+    await audioRecord.start();
+    setState(() {
+      isRecording = true;
+    });
+
+    // Start the video recording.
+    controller.startVideoRecording();
+
+    // Set isClicked to true to change the color to green.
+    setState(() {
+      isClicked = true;
+    });
+
+    // Create a timer to stop the video recording after 3 minutes.
+    Timer(Duration(minutes: 1), () async {
+      // Stop the video recording.
+      XFile videoFile = await controller.stopVideoRecording();
+      if (isRecording) {
+        _stopRecording();
+      }
+
+      // Set isClicked back to false to revert the color.
+      setState(() {
+        isClicked = false;
+      });
+
+      // Display a message to the user.
+      print("Recording stopped");
+
+      // Save the video to a local file
+      final appDir = await getTemporaryDirectory();
+      final videoFileName = DateTime.now().toIso8601String();
+      final videoPath = '${appDir.path}/$videoFileName.mp4';
+      await videoFile.saveTo(videoPath);
+
+      setState(() {
+        this.videoPath = videoPath;
+      });
+      CloudinaryResponse response = await cloudinary.upload(
+        file: audioPath,
+        resourceType: CloudinaryResourceType.raw,
+      );
+
+      if (response.isSuccessful) {
+        String? cloudinaryUrlAudio = response.secureUrl;
+        print('Cloudinary URL: $cloudinaryUrlAudio');
+      } else {
+        print('Cloudinary audio upload failed: ${response.error}');
+      }
+
+      CloudinaryResponse responseVid = await cloudinary.upload(
+        file: videoPath,
+        resourceType: CloudinaryResourceType.raw,
+      );
+
+      if (responseVid.isSuccessful) {
+        String? cloudinaryUrlVideo = responseVid.secureUrl;
+        print('Cloudinary URL: $cloudinaryUrlVideo');
+      } else {
+        print('Cloudinary video upload failed: ${responseVid.error}');
+      }
+
+      // Display the saved video
+      print(videoPath);
+    });
+  }
+
+  Future<void> _stopRecording() async {
+    String? path = await audioRecord.stop();
+    setState(() {
+      isRecording = false;
+      audioPath = path!;
+    });
+    print('Recorded audio path: $audioPath');
+  }
+
+  Future<Position> _getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          Fluttertoast.showToast(
+              msg:
+                  'Location permissions are permanently denied, we cannot request permission');
+          return Future.error('Location permissions are permanently denied.');
+        }
+      }
+    }
+
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+  }
+
+  Future<void> _getCurrentLocationAndTrigger(List<String> contacts) async {
+    Position position;
+    try {
+      position = await _getCurrentLocation();
+      String message = 'Krish Shah\n\n';
+      message += 'Project practice Che Ignore !!\n\n';
+      message += 'My current location is:\n';
+      message += 'Latitude: ${position.latitude}\n';
+      message += 'Longitude: ${position.longitude}\n';
+      message += 'Click the following link to see my live location:\n';
+      message +=
+          'https://www.google.com/maps?q=${position.latitude},${position.longitude}';
+
+      TwilioFlutter twilioFlutter = TwilioFlutter(
+        accountSid: dotenv.env['TWILIO_ACCOUNT_SID']!,
+        authToken: dotenv.env['TWILIO_AUTH_TOKEN']!,
+        twilioNumber: dotenv.env['TWILIO_PHONE_NUMBER']!,
+      );
+
+      for (String contact in contacts) {
+        try {
+          await twilioFlutter.sendSMS(
+            toNumber: contact,
+            messageBody: message,
+          );
+          Fluttertoast.showToast(
+            msg: 'Alert Sent',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          print('SMS sent to $contact');
+        } catch (e) {
+          // print('Failed to send SMS to $contact: $e');
+          Fluttertoast.showToast(
+            msg: 'Failed to send SMS to $contact',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        }
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Error getting location. Please try again.',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      return;
+    }
+    // Do something with the coordinates or send the location to the backend
+    // print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
   }
 }

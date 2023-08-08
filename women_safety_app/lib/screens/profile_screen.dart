@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/utils/color.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ProfilePage(),
   ));
 }
@@ -13,6 +11,7 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
@@ -21,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool audioToggle = false;
   bool cameraToggle = false;
   bool nightModeToggle = false;
+  bool contactsToggle = false;
 
   List<String> otherAddresses = [
     'Work Address 1',
@@ -30,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
     'Other Address 1',
     'Other Address 2',
   ];
+  Map<String, bool> subtitleVisibility = {}; // New property
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               const SizedBox(height: 5),
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage('assets/images/user.JPG'),
               ),
@@ -87,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: itemProfile1(
                   'Emergency Contacts',
                   CupertinoIcons.bell,
-                  [],
+                  ['hello', 'new'],
                 ),
               ),
               const SizedBox(height: 10),
@@ -95,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Heading for Permissions
               Container(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Permissions',
                   style: TextStyle(
                     fontSize: 25,
@@ -139,6 +140,19 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 10),
               itemProfileToggle(
+                'Allow Contacts Access', // Added
+                CupertinoIcons.person_crop_circle, // Correct icon
+                contactsToggle, // Added
+                (value) {
+                  // Added
+                  setState(() {
+                    // Added
+                    contactsToggle = value; // Added
+                  }); // Added
+                }, // Added
+              ),
+              const SizedBox(height: 10),
+              itemProfileToggle(
                 'Night Mode',
                 CupertinoIcons.moon,
                 nightModeToggle,
@@ -163,13 +177,13 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Enter Work/Office Address'),
+          title: const Text('Enter Work/Office Address'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
-                  Text('Type:'),
+                  const Text('Type:'),
                   SizedBox(width: 10),
                   DropdownButton<String>(
                     value: selectedAddressType,
@@ -193,10 +207,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextField(
                 controller: _addressController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter your address',
                 ),
               ),
@@ -204,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Submit'),
+              child: const Text('Submit'),
               onPressed: () {
                 String enteredAddress = _addressController.text;
                 Navigator.of(context).pop();
@@ -231,19 +245,19 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               TextField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Name',
                 ),
               ),
               TextField(
                 controller: _phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Phone',
                 ),
               ),
               TextField(
                 controller: _relationController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Relation',
                 ),
               ),
@@ -251,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Submit'),
+              child: const Text('Submit'),
               onPressed: () {
                 String name = _nameController.text;
                 String phone = _phoneController.text;
@@ -261,7 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Phone number must be 10 characters long.'),
                     ),
                   );
@@ -295,7 +309,7 @@ class _ProfilePageState extends State<ProfilePage> {
             subtitle,
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
@@ -307,13 +321,17 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   itemProfile1(String title, IconData iconData, List<String> addresses) {
+    if (!subtitleVisibility.containsKey(title)) {
+      subtitleVisibility[title] = false; // Initialize visibility for this item
+    }
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 10,
@@ -322,24 +340,43 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       child: ListTile(
         title: Text(title),
-        subtitle: Flexible(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: addresses.map((address) {
-              return Text(
-                address,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              );
-            }).toList(),
+        subtitle: GestureDetector(
+          onTap: () {
+            setState(() {
+              subtitleVisibility[title] = !subtitleVisibility[title]!;
+            });
+          },
+          child: Visibility(
+            visible: subtitleVisibility[title]!,
+            child: Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: addresses.map((address) {
+                  return Text(
+                    address,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
           ),
         ),
         leading: Icon(iconData),
-        trailing: Icon(
-          CupertinoIcons.plus_square,
-          size: 30,
-          color: Colors.grey.shade400,
+        trailing: GestureDetector(
+          onTap: () {
+            setState(() {
+              subtitleVisibility[title] = !subtitleVisibility[title]!;
+            });
+          },
+          child: Icon(
+            subtitleVisibility[title]!
+                ? CupertinoIcons.up_arrow
+                : CupertinoIcons.down_arrow,
+            size: 30,
+            color: Colors.grey.shade400,
+          ),
         ),
         tileColor: Colors.white,
       ),
