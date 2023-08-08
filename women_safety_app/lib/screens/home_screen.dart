@@ -55,7 +55,7 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           children: [
             BlogSlider(imageList: imageList, sloganList: sloganList),
-            const SOSButton(),
+            SOSButton(contacts: contacts),
             EmergencyButton(contacts: contacts),
           ],
         ),

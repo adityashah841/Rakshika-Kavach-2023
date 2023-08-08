@@ -7,16 +7,15 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: rBottomBar,
-        title: const Text('Rakshika'),
-        titleTextStyle: const TextStyle(
-          fontSize: 38,
-          fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: rBottomBar,
+          title: const Text('Rakshika'),
+          titleTextStyle: const TextStyle(
+            fontSize: 38,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-      backgroundColor: rBackground,
-      body: const Center(child: Text("Setting page")),
-    );
+        backgroundColor: rBackground,
+        body: const Text('Settings/Notifications'));
   }
 }

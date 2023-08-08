@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,17 +8,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:women_safety_app/screens/log_in.dart';
 
-void saveObject(dynamic myObject, String objectName) async {
+Future<bool> saveObject(dynamic myObject, String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(myObject);
-  await prefs.setString(objectName, jsonString);
+  bool x = await prefs.setString(objectName, jsonString);
+  return x;
 }
 
 dynamic getObject(String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? jsonString = prefs.getString(objectName);
-  Map<String, dynamic> jsonMap = jsonDecode(jsonString!);
+  if (jsonString == null) {
+    return null;
+  }
+  Map<String, dynamic> jsonMap = jsonDecode(jsonString);
   return jsonMap;
 }
 
@@ -286,12 +293,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   _formkey.currentState!.save();
                                   // Perform the login logic here...
                                   final data = validateOtp(otp!, aadharnumber!);
+                                  // final then = data.then((value) =>
+                                  // saveObject(value, 'user_register'));
+                                  data.then((value) =>
+                                      ACCESS_REGISTER = value["access"]);
                                   data.then(
-                                      (value) => saveObject(value, 'user'));
-                                  print("Hello!");
-                                  final x = getObject('user');
-                                  x.then((value) => print(value));
-                                  print("\n\n");
+                                      (value) => USERNAME = value["username"]);
+                                  // then.then((value) => print(value));
+                                  // print("Hello!");
+                                  // final x = getObject('user_register');
+                                  // x.then((value) => print(value));
+                                  // print("\n\n");
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
