@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/log_in.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:women_safety_app/screens/register.dart';
@@ -23,17 +24,16 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
-  Future<void> setLoginCreds(String username, String password, String authToken) async {
-    final url = Uri.parse('https://rakshika.onrender.com/account/set-login-creds/');
+  Future<void> setLoginCreds(
+      String username, String password, String authToken) async {
+    final url =
+        Uri.parse('https://rakshika.onrender.com/account/set-login-creds/');
     final headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $authToken'
     };
-    final body = jsonEncode({
-      'username': username,
-      'password': password
-    });
+    final body = jsonEncode({'username': username, 'password': password});
 
     final response = await http.post(url, headers: headers, body: body);
 
@@ -94,10 +94,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        height: 150,
-                        width: 150,
+                      const SizedBox(
+                        height: 60,
+                      ),
+                      SvgPicture.asset(
+                        'assets/illustrations/create.svg',
+                        height: 185,
+                        width: 185,
                       ),
                       const Text(
                         'Create your Account',
@@ -378,10 +381,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                           //  logic (backend)
                                           final u = getObject('user');
                                           u.then((value) => {
-                                                setLoginCreds(
-                                                    username!,
-                                                    password!,
-                                                    value['access']),
+                                                setLoginCreds(username!,
+                                                    password!, value['access']),
                                               });
                                         }
                                       });

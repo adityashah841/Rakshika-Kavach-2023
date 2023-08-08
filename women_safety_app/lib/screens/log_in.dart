@@ -4,6 +4,7 @@ import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,17 +21,15 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
-  Future<Map<String, dynamic>> loginUser(String phone, String password, String authToken) async {
+  Future<Map<String, dynamic>> loginUser(
+      String phone, String password, String authToken) async {
     final url = Uri.parse('https://rakshika.onrender.com/account/login/');
     final headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $authToken'
     };
-    final body = jsonEncode({
-      'phone': phone,
-      'password': password
-    });
+    final body = jsonEncode({'phone': phone, 'password': password});
 
     final response = await http.post(url, headers: headers, body: body);
 
@@ -87,10 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 125,
-                  width: 125,
+                const SizedBox(
+                  height: 75,
+                ),
+                SvgPicture.asset(
+                  'assets/illustrations/login.svg',
+                  height: 250,
+                  width: 250,
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 const Text(
                   'Log-in',
@@ -127,14 +132,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         "Phone number must be 10 digits long");
                               }
                               if (containsDigit(value)) {
-                                removeError(error: "Invalid phone number format");
+                                removeError(
+                                    error: "Invalid phone number format");
                               }
                               // Store the username value in a variable (if required)
                               username = value;
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
-                                addError(error: "Please enter your phone number");
+                                addError(
+                                    error: "Please enter your phone number");
                                 return "";
                               } else if (value.length != 10) {
                                 addError(
@@ -247,7 +254,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _formkey.currentState!.save();
                                   // backend
                                   final u = getObject('user');
-                                  u.then((value) => loginUser(username!, password!, value['access']));
+                                  u.then((value) => loginUser(
+                                      username!, password!, value['access']));
                                 }
                               });
 
@@ -277,17 +285,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             children: [
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const RegisterScreen()));
-                                  },
-                                  child: const Text(
-                                    'Not a member? Register',
-                                    style: TextStyle(
-                                        color: Colors.blue, fontSize: 14),
-                                  ))
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterScreen()));
+                                },
+                                child: const Text(
+                                  'Not a member? Register',
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 14),
+                                ),
+                              )
                             ],
                           ),
                         ],
