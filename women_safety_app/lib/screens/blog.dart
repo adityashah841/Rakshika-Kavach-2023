@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Blog {
   String title;
   String content;
   String author;
+  String imageURL;
 
-  Blog({required this.title, required this.author, required this.content});
+  Blog({required this.title, required this.author, required this.content, required this.imageURL});
 }
 
 // class Blogdisplay {
@@ -27,18 +28,48 @@ class Blog {
 //   }
 // }
 
-final List<Blog> blogDisplay = [
-  Blog(
-    title: 'First Blog ',
-    content: 'This is the content of the first blog ...',
-    author: 'Vidhi K',
-  ),
-  Blog(
-    title: 'Second Blog ',
-    content: 'This is the content of the second blog ...',
-    author: 'Vidhi K',
-  ),
-];
+// Future<List<Blog>> getBlogs(String authToken) async {
+  Future<List<Blog>> getBlogs() async {
+  final response = await http.get(
+    // Uri.parse('http://localhost:8000/blogs/1/'),
+    Uri.parse('https://rakshika.onrender.com/blogs/1/'),
+    headers: {
+      'accept': 'application/json',
+      // 'Authorization': 'Token $authToken',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    // print(data);
+    final blogs = data.map<Blog>((blogData) {
+      return Blog(
+        title: blogData['title'],
+        content: blogData['content'],
+        author: blogData['author'],
+        imageURL: blogData['image'] ?? "",
+      );
+    }).toList();
+    // print(blogs);
+    return blogs;
+  } else {
+    throw Exception('Failed to load blogs');
+  }
+}
+
+// final List<Blog> blogDisplay = [
+//   Blog(
+//     title: 'First Blog ',
+//     content: 'This is the content of the first blog ...',
+//     author: 'Vidhi K',
+//   ),
+//   Blog(
+//     title: 'Second Blog ',
+//     content: 'This is the content of the second blog ...',
+//     author: 'Vidhi K',
+//   ),
+// ];
+List<Blog> blogDisplay = [];
 
 class BlogScreen extends StatefulWidget {
   const BlogScreen({super.key});
@@ -48,6 +79,16 @@ class BlogScreen extends StatefulWidget {
 }
 
 class _BlogScreenState extends State<BlogScreen> {
+  @override
+  void initState() {
+    super.initState();
+    getBlogs().then((blogs) {
+      setState(() {
+        // print(100);
+        blogDisplay = blogs;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
