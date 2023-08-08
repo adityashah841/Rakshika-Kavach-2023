@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:women_safety_app/components/bottom_bar.dart';
+import 'package:women_safety_app/components/bottom_bar_admin.dart';
+import 'package:women_safety_app/components/bottom_bar_male.dart';
 import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:women_safety_app/main.dart';
+
+String? GENDER;
+String? ACCESS_REGISTER;
+String? USERNAME;
+String? ACCESS_LOGIN;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,13 +30,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
-  Future<Map<String, dynamic>> loginUser(
-      String phone, String password, String authToken) async {
+  Future<Map<String, dynamic>> loginUser(String phone, String password) async {
     final url = Uri.parse('https://rakshika.onrender.com/account/login/');
     final headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $authToken'
     };
     final body = jsonEncode({'phone': phone, 'password': password});
 
@@ -247,15 +254,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 30,
                           ),
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              // String? gender;
+                              final u = loginUser(username!, password!);
+                              // final then = u.then((value) =>
+                              //     saveObject(value, 'user_login'));
+                              // u.then((value) => GENDER = value['gender']);
+                              var x = await u;
                               setState(() {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
                                   // backend
-                                  final u = getObject('user');
-                                  u.then((value) => loginUser(
-                                      username!, password!, value['access']));
+                                  GENDER = x["gender"];
+                                  print('gendervijay $GENDER');
+                                  // u.then((value) =>
+                                  //     ACCESS_LOGIN = value["access"]);
+                                  ACCESS_LOGIN = x["access"];
+                                  print('accessvijay $ACCESS_LOGIN');
+                                  // then.then((value) => print(value));
                                 }
                               });
 
@@ -270,11 +287,44 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textColor: Colors.white,
                                 );
                               } else {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const StartScreen(),
-                                  ),
-                                );
+                                // String? gender;
+                                // final x = getObject('user_login');
+                                // print(x);
+                                // if (x != null) {
+                                //   final value = await x;
+                                //   print(value);
+                                //   if (value != null) {
+                                //     final value2 =
+                                //         jsonDecode(jsonEncode(value));
+                                //     print(value2);
+                                //     gender = value2["gender"];
+                                //     print(gender);
+                                //     setState(() {});
+                                //   }
+                                // }
+                                print('gender: $GENDER');
+                                // gender ??= 'Female';
+                                if (GENDER == 'Female') {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const BottomPage(),
+                                    ),
+                                  );
+                                } else if (GENDER == 'Male') {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const BottomPageMale(),
+                                    ),
+                                  );
+                                } else if (GENDER == 'Admin') {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const BottomPageAdmin(),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: const Text('Login'),

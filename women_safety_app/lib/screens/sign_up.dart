@@ -37,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     final response = await http.post(url, headers: headers, body: body);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 202) {
       throw Exception(response.body);
     }
   }
@@ -379,11 +379,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                             false) {
                                           _formkey.currentState!.save();
                                           //  logic (backend)
-                                          final u = getObject('user');
-                                          u.then((value) => {
-                                                setLoginCreds(username!,
-                                                    password!, value['access']),
-                                              });
+                                          // final u = getObject('user_register');
+                                          // u.then((value) => {
+                                          //       setLoginCreds(username!,
+                                          //           password!, value['access']),
+                                          //     });
+                                          setLoginCreds(username!, password!,
+                                              ACCESS_REGISTER!);
                                         }
                                       });
 
