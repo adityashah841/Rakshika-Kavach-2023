@@ -3,12 +3,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/components/bottom_bar.dart';
 import 'package:women_safety_app/components/bottom_bar_admin.dart';
 import 'package:women_safety_app/components/bottom_bar_male.dart';
-import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:women_safety_app/main.dart';
 
 String? GENDER;
 String? ACCESS_REGISTER;
@@ -305,20 +303,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                 print('gender: $GENDER');
                                 // gender ??= 'Female';
                                 if (GENDER == 'Female') {
-                                  Navigator.of(context).push(
+                                  Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => const BottomPage(),
                                     ),
                                   );
                                 } else if (GENDER == 'Male') {
-                                  Navigator.of(context).push(
+                                  Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           const BottomPageMale(),
                                     ),
                                   );
                                 } else if (GENDER == 'Admin') {
-                                  Navigator.of(context).push(
+                                  Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           const BottomPageAdmin(),
