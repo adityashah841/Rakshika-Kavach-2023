@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/register.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,6 +19,34 @@ class _LoginScreenState extends State<LoginScreen> {
       RegExp(r'^(?![_\-])(?!.*[_\-]{2})[a-zA-Z0-9_\-]{3,30}(?<![_\-])$');
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
+
+  Future<Map<String, dynamic>> loginUser(String phone, String password, String authToken) async {
+    final url = Uri.parse('https://rakshika.onrender.com/account/login/');
+    final headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken'
+    };
+    final body = jsonEncode({
+      'phone': phone,
+      'password': password
+    });
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      // Handle successful response
+      final data = jsonDecode(response.body);
+      // print(data);
+      return data;
+    } else {
+      // Handle error response
+      // print(response.body);
+      throw Exception(response.body);
+      // addError(error: 'Invalid OTP');
+      // return {};
+    }
+  }
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -215,6 +245,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     false) {
                                   _formkey.currentState!.save();
                                   // backend
+                                  final u = getObject('user');
+                                  u.then((value) => loginUser(username!, password!, value['access']));
                                 }
                               });
 
