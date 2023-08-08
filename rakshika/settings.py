@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'accounts',
     'blogs',
     'evidences',
+    'network'
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

@@ -57,6 +57,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
         return {
             'username': (auth_user.username),
+            'gender': (auth_user.gender),
             'refresh': str(tokens),
             'access': str(tokens.access_token)
         }

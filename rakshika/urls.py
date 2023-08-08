@@ -40,6 +40,7 @@ urlpatterns = [
     path('account/', include('accounts.urls')),
     path('blogs/', include('blogs.urls')),
     path('evidences/', include('evidences.urls')),
+    path('network/', include('network.urls')),
 
     #Swagger API Docs
 
