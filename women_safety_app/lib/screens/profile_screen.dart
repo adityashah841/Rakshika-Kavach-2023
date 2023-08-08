@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: ProfilePage(),
   ));
 }
@@ -11,6 +11,7 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
@@ -43,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             children: [
               const SizedBox(height: 5),
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 50,
                 backgroundImage: AssetImage('assets/images/user.JPG'),
               ),
@@ -95,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
               // Heading for Permissions
               Container(
                 alignment: Alignment.centerLeft,
-                child: Text(
+                child: const Text(
                   'Permissions',
                   style: TextStyle(
                     fontSize: 25,
@@ -176,13 +177,13 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Enter Work/Office Address'),
+          title: const Text('Enter Work/Office Address'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 children: [
-                  Text('Type:'),
+                  const Text('Type:'),
                   SizedBox(width: 10),
                   DropdownButton<String>(
                     value: selectedAddressType,
@@ -206,10 +207,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextField(
                 controller: _addressController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter your address',
                 ),
               ),
@@ -217,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Submit'),
+              child: const Text('Submit'),
               onPressed: () {
                 String enteredAddress = _addressController.text;
                 Navigator.of(context).pop();
@@ -244,19 +245,19 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               TextField(
                 controller: _nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Name',
                 ),
               ),
               TextField(
                 controller: _phoneController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Phone',
                 ),
               ),
               TextField(
                 controller: _relationController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Relation',
                 ),
               ),
@@ -264,7 +265,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Submit'),
+              child: const Text('Submit'),
               onPressed: () {
                 String name = _nameController.text;
                 String phone = _phoneController.text;
@@ -274,7 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Phone number must be 10 characters long.'),
                     ),
                   );
@@ -308,7 +309,7 @@ class _ProfilePageState extends State<ProfilePage> {
             subtitle,
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
             ),
           ),
@@ -330,7 +331,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 10,
