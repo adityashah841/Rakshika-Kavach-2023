@@ -193,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.1"
+  country_pickers:
+    dependency: transitive
+    description:
+      name: country_pickers
+      sha256: a71df4a061b25f07b202a881c43a057edc842a30b3410d511382103c68afebc2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   cross_file:
     dependency: transitive
     description:
@@ -326,6 +334,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_phone_direct_caller:
     dependency: "direct main"
     description:
@@ -593,13 +606,13 @@ packages:
     source: hosted
     version: "4.0.2"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: a3715e3bc90294e971cb7dc063fbf3cd9ee0ebf8604ffeafabd9e6f16abbdbe6
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.18.0"
   js:
     dependency: transitive
     description:
@@ -664,6 +677,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  multi_language_json:
+    dependency: "direct main"
+    description:
+      name: multi_language_json
+      sha256: "7b39b1c476dec5702f30a24567df8dc2577fc5afc30b0e07eef95e692e4c4251"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   nested:
     dependency: transitive
     description:

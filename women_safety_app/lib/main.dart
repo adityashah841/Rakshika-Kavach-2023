@@ -46,7 +46,7 @@ class _AppStartState extends State<AppStart> {
   Future<void> _checkTokenAndGender() async {
     accessToken = await storage.read(key: 'accessToken');
     gender = await storage.read(key: 'gender');
-    
+
     final initialRoute = accessToken == null ? '/login' : '/home';
     final routes = {
       '/login': (context) => const LoginScreen(),
