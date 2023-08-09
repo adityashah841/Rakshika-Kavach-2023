@@ -140,9 +140,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
     Position position;
     try {
       position = await _getCurrentLocation();
-      String message = 'Krish Shah\n\n';
-      message += 'Project practice Che Ignore !!\n\n';
-      message += 'My current location is:\n';
+      String message = 'My current location is:\n';
       message += 'Latitude: ${position.latitude}\n';
       message += 'Longitude: ${position.longitude}\n';
       message += 'Click the following link to see my live location:\n';

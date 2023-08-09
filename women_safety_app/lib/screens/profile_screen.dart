@@ -54,19 +54,19 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               itemProfile(
                 'Name',
-                'Ahad Hashmi',
+                'Vidhi Kansara',
                 CupertinoIcons.person,
               ),
               const SizedBox(height: 10),
               itemProfile(
                 'Age',
-                '15',
+                '20',
                 CupertinoIcons.clock,
               ),
               const SizedBox(height: 10),
               itemProfile(
                 'Residential Address',
-                'abc address, xyz city',
+                'Vasai Vivar',
                 CupertinoIcons.home,
               ),
               const SizedBox(height: 10),
@@ -88,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: itemProfile1(
                   'Emergency Contacts',
                   CupertinoIcons.bell,
-                  ['hello', 'new'],
+                  ['+919689155601', '+919082230267'],
                 ),
               ),
               const SizedBox(height: 10),
@@ -198,11 +198,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       selectedAddressType = newValue!;
                     },
                     items: <String>[
-                      'Primary',
-                      'Secondary',
-                      'Work',
-                      'Home',
-                      'Other',
+                      'Home Virar',
+                      'Office Dahisar',
+                      'D J Sanghvi',
                     ].map<DropdownMenuItem<String>>(
                       (String value) {
                         return DropdownMenuItem<String>(
