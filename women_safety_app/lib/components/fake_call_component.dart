@@ -28,6 +28,7 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
   late AudioPlayer audioPlayer;
   bool isRecording = false;
   String audioPath = '';
+
   final cloudinary = Cloudinary.signedConfig(
     apiKey: dotenv.env['API_KEY']!,
     apiSecret: dotenv.env['API_SECRET']!,

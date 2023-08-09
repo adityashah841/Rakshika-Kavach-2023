@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:camera/camera.dart';
@@ -12,7 +13,9 @@ import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:cloudinary/cloudinary.dart';
 
 class SOSButton extends StatefulWidget {
-  const SOSButton({Key? key, required this.contacts}) : super(key: key);
+  const SOSButton(
+      {Key? key, required this.contacts, required FlutterSecureStorage storage})
+      : super(key: key);
   final List<String> contacts;
 
   @override

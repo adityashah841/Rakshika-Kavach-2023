@@ -48,7 +48,6 @@ class _AppStartState extends State<AppStart> {
     _checkTokenAndGender();
   }
 
-  
   Future<void> _checkTokenAndGender() async {
     // final x = getObject('user_login');
     // if (x != null) {

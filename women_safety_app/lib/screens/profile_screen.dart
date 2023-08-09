@@ -35,6 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // Add this line
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Rakshika'),
@@ -304,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 10,
@@ -355,7 +356,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: ListTile(
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
@@ -373,7 +374,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: addresses.map((address) {
                   return Text(
                     address,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   );
@@ -397,13 +398,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Handle the "Add" action here
                   _showAddressModal(context);
                 },
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.add,
                   size: 30,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Icon(
                 subtitleVisibility[title]!
                     ? CupertinoIcons.up_arrow
@@ -427,7 +428,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 10,
