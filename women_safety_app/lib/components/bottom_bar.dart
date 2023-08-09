@@ -1,27 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
-import 'package:women_safety_app/screens/general_chat_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/screens/safe_nav_screen.dart';
 import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class BottomPage extends StatefulWidget {
-  const BottomPage({super.key});
+  final FlutterSecureStorage storage;
+  const BottomPage({super.key, required this.storage});
 
   @override
   State<BottomPage> createState() => _BottomPageState();
 }
 
 class _BottomPageState extends State<BottomPage> {
+  FlutterSecureStorage get storage => widget.storage;
   int currentIndex = 2;
-  List<Widget> pages = [
-    const NearMeScreen(),
-    const SafeNavScreen(),
-    const StartScreen(),
-    const FakeCallScreen(),
-    const GeneralChatScreen(),
-  ];
+  // List<Widget> pages = [
+  //   const NearMeScreen(),
+  //   const SafeNavScreen(),
+  //   const StartScreen(),
+  //   const FakeCallScreen(),
+  //   const GeneralChatScreen(),
+  // ];
+  late List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      const NearMeScreen(),
+      const SafeNavScreen(),
+      const StartScreen(),
+      const FakeCallScreen(),
+      CommunityChatScreen(storage: storage,),
+    ];
+  }
+
   onTapped(int index) {
     setState(() {
       currentIndex = index;
@@ -63,8 +80,8 @@ class _BottomPageState extends State<BottomPage> {
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Chat",
-            icon: Icon(Icons.chat_outlined),
+            label: "Warrior",
+            icon: Icon(Icons.security),
             backgroundColor: rBottomBar,
           ),
         ],

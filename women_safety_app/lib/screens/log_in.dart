@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/components/bottom_bar.dart';
 import 'package:women_safety_app/components/bottom_bar_admin.dart';
@@ -8,18 +9,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
 
-String? GENDER;
-String? ACCESS_REGISTER;
-String? USERNAME;
-String? ACCESS_LOGIN;
+// String? GENDER;
+// String? ACCESS_REGISTER;
+// String? USERNAME;
+// String? ACCESS_LOGIN;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final FlutterSecureStorage storage;
+  const LoginScreen({super.key, required this.storage});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // final FlutterSecureStorage storage;
+  // _LoginScreenState({required this.storage});
+  FlutterSecureStorage get storage => widget.storage;
   String? username;
   String? password;
   bool remember = false;
@@ -259,20 +264,25 @@ class _LoginScreenState extends State<LoginScreen> {
                               //     saveObject(value, 'user_login'));
                               // u.then((value) => GENDER = value['gender']);
                               var x = await u;
+                              await storage.write(
+                                      key: 'access_login', value: x["access"]);
+                              await storage.write(
+                                      key: 'gender', value: x["gender"]);
                               setState(() {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
                                   // backend
-                                  GENDER = x["gender"];
-                                  print('gendervijay $GENDER');
+                                  // GENDER = x["gender"];
+                                  // print('gendervijay $GENDER');
                                   // u.then((value) =>
                                   //     ACCESS_LOGIN = value["access"]);
-                                  ACCESS_LOGIN = x["access"];
-                                  print('accessvijay $ACCESS_LOGIN');
+                                  // ACCESS_LOGIN = x["access"];
+                                  // print('accessvijay $ACCESS_LOGIN');
                                   // then.then((value) => print(value));
                                 }
                               });
+                              String? GENDER = await storage.read(key: 'gender');
 
                               if (errors.isNotEmpty) {
                                 String errorText = errors.join(
@@ -305,21 +315,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (GENDER == 'Female') {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => const BottomPage(),
+                                      builder: (context) => BottomPage(storage: storage),
                                     ),
                                   );
                                 } else if (GENDER == 'Male') {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const BottomPageMale(),
+                                          BottomPageMale(storage: storage),
                                     ),
                                   );
                                 } else if (GENDER == 'Admin') {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const BottomPageAdmin(),
+                                          BottomPageAdmin(storage: storage,),
                                     ),
                                   );
                                 }
@@ -336,7 +346,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) =>
-                                          const RegisterScreen()));
+                                          RegisterScreen(storage: storage,)));
                                 },
                                 child: const Text(
                                   'Not a member? Register',

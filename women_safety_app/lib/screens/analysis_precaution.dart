@@ -2,45 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
 
+import 'package:women_safety_app/components/app_bar.dart';
+
 class AnalysisScreenPre extends StatelessWidget {
   const AnalysisScreenPre({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Analysis'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _AnalysisBox(
-                  label: 'Women Saved',
-                  number: 123,
-                  improvement: 15,
+      appBar: const AppBarConstant(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _AnalysisBox(
+                    label: 'Women Saved',
+                    number: 123,
+                    improvement: 15,
+                  ),
+                  _AnalysisBox(
+                    label: 'Crime Reduce',
+                    number: 456,
+                    improvement: -7,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  'No. of User v/s Days',
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                _AnalysisBox(
-                  label: 'Crime Reduce',
-                  number: 456,
-                  improvement: -7,
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Last 7 Days vs Last 30 Days',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            _BarChart(),
-            const SizedBox(height: 16),
-            _SecondBarChart(),
-          ],
+              ),
+              const SizedBox(height: 8),
+              _BarChart(),
+              const SizedBox(height: 16),
+              _SecondBarChart(),
+            ],
+          ),
         ),
       ),
     );
@@ -60,7 +64,9 @@ class _AnalysisBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double boxWidth = MediaQuery.of(context).size.width * 0.40;
     return Container(
+      width: boxWidth,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -138,6 +144,8 @@ class _BarChart extends StatelessWidget {
                     return 'PreV';
                   case 2:
                     return 'PreS';
+                  case 3:
+                    return 'Users';
                   default:
                     return '';
                 }
@@ -159,6 +167,10 @@ class _BarChart extends StatelessWidget {
             BarChartGroupData(x: 2, barRods: [
               BarChartRodData(
                   y: randomData[1].toDouble(), colors: [Colors.blue]),
+            ]),
+            BarChartGroupData(x: 3, barRods: [
+              BarChartRodData(
+                  y: randomData[5].toDouble(), colors: [Colors.blue]),
             ]),
             // ... Add more day data
           ],
