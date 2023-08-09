@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/sign_up.dart';
 import 'dart:convert';
@@ -26,13 +27,17 @@ dynamic getObject(String objectName) async {
 }
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final FlutterSecureStorage storage;
+  const RegisterScreen({super.key, required this.storage});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  // final FlutterSecureStorage storage;
+  // _RegisterScreenState({required this.storage});
+  FlutterSecureStorage get storage => widget.storage;
   String? aadharnumber;
   String? otp;
   bool showOtpField = false;
@@ -285,7 +290,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           // Login button
                           if (showOtpField)
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async{
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
@@ -293,10 +298,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   final data = validateOtp(otp!, aadharnumber!);
                                   // final then = data.then((value) =>
                                   // saveObject(value, 'user_register'));
-                                  data.then((value) =>
-                                      ACCESS_REGISTER = value["access"]);
-                                  data.then(
-                                      (value) => USERNAME = value["username"]);
+                                  // data.then((value) =>
+                                  //     ACCESS_REGISTER = value["access"]);
+                                  var x = await data;
+                                  await storage.write(key: 'access_register', value: x["access"]);
+                                  // data.then(
+                                  //     (value) => USERNAME = value["username"]);
+                                  await storage.write(key: 'username', value: x["username"]);
                                   // then.then((value) => print(value));
                                   // print("Hello!");
                                   // final x = getObject('user_register');
@@ -305,7 +313,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const SignupScreen(),
+                                          SignupScreen(storage: storage,),
                                     ),
                                   );
                                 } else {

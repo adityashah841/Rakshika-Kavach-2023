@@ -5,6 +5,7 @@ import 'package:women_safety_app/components/bottom_bar_admin.dart';
 import 'package:women_safety_app/components/bottom_bar_male.dart';
 import 'package:women_safety_app/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 // import 'package:women_safety_app/screens/register.dart';
 
 void main() async {
@@ -34,8 +35,8 @@ class AppStart extends StatefulWidget {
 
 class _AppStartState extends State<AppStart> {
   final storage = const FlutterSecureStorage();
-  // String? accessToken;
-  // String? gender;
+  String? ACCESS_LOGIN;
+  String? GENDER;
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _AppStartState extends State<AppStart> {
     _checkTokenAndGender();
   }
 
+  
   Future<void> _checkTokenAndGender() async {
     // final x = getObject('user_login');
     // if (x != null) {
@@ -54,22 +56,22 @@ class _AppStartState extends State<AppStart> {
     //     setState(() {});
     //   }
     // }
-    // ACCESS_LOGIN = ACCESS_LOGIN;
-    // GENDER = GENDER;
+    ACCESS_LOGIN = await storage.read(key: 'access_login');
+    GENDER = await storage.read(key: 'gender');
   }
 
   @override
   Widget build(BuildContext context) {
     if (ACCESS_LOGIN == null) {
-      return const LoginScreen();
+      return LoginScreen(storage: storage);
     } else {
       // gender ??= 'Female';
       if (GENDER == 'Female') {
-        return const BottomPage();
+        return BottomPage(storage: storage);
       } else if (GENDER == 'Male') {
-        return const BottomPageMale();
+        return BottomPageMale(storage: storage);
       } else {
-        return const BottomPageAdmin();
+        return BottomPageAdmin(storage: storage);
       }
     }
   }

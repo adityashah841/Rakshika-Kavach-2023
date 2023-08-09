@@ -5,23 +5,40 @@ import 'package:women_safety_app/screens/fake_call_screen.dart';
 import 'package:women_safety_app/screens/prevention.dart';
 import 'package:women_safety_app/screens/prosecution.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class BottomPageAdmin extends StatefulWidget {
-  const BottomPageAdmin({super.key});
+  final FlutterSecureStorage storage;
+  const BottomPageAdmin({super.key, required this.storage});
 
   @override
   State<BottomPageAdmin> createState() => _BottomPageAdminState();
 }
 
 class _BottomPageAdminState extends State<BottomPageAdmin> {
-  int currentIndex = 1;
-  List<Widget> pages = [
-    const BlogScreen(),
-    const AnalysisScreenPre(),
-     AnalysisScreenPrevention(),
-    const AnalysisScreenProsecution(),
-    const FakeCallScreen(),
-  ];
+  FlutterSecureStorage get storage => widget.storage;
+  int currentIndex = 2;
+  // List<Widget> pages = [
+  //   const BlogScreen(),
+    // const AnalysisScreenPrevention(),
+  //   const AnalysisScreenPre(),
+  //    AnalysisScreenPrevention(),
+  //   const AnalysisScreenProsecution(),
+  //   const FakeCallScreen(),
+  // ];
+  late List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      BlogScreen(storage: storage),
+      const AnalysisScreenPrevention(),
+      const AnalysisScreenPre(),
+       const AnalysisScreenProsecution(),
+      const FakeCallScreen(),
+    ];
+  }
   onTapped(int index) {
     setState(() {
       currentIndex = index;

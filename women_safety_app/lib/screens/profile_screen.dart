@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -35,7 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Rakshika'),
+        backgroundColor: rBottomBar,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 5),
               const CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/images/user.JPG'),
+                // backgroundImage: AssetImage('assets/images/user.JPG'),
               ),
               const SizedBox(
                 height: 20,
@@ -189,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 children: [
                   const Text('Type:'),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   DropdownButton<String>(
                     value: selectedAddressType,
                     onChanged: (String? newValue) {
@@ -244,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Emergency Contact'),
+          title: const Text('Add Emergency Contact'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

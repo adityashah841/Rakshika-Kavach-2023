@@ -5,23 +5,38 @@ import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class BottomPageMale extends StatefulWidget {
-  const BottomPageMale({super.key});
+  final FlutterSecureStorage storage;
+  const BottomPageMale({super.key, required this.storage});
 
   @override
   State<BottomPageMale> createState() => _BottomPageMaleState();
 }
 
 class _BottomPageMaleState extends State<BottomPageMale> {
+  FlutterSecureStorage get storage => widget.storage;
   int currentIndex = 2;
-  List<Widget> pages = [
-    const NearMeScreen(),
-    const BlogScreen(),
-    const CommunityChatScreen(),
-    const FakeCallScreen(),
-    const ChatBotScreen(),
-  ];
+  // List<Widget> pages = [
+  //   const NearMeScreen(),
+  //   const BlogScreen(),
+  //   const CommunityChatScreen(),
+  //   const FakeCallScreen(),
+  //   const ChatBotScreen(),
+  // ];
+  late List<Widget> pages;
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      const NearMeScreen(),
+      BlogScreen(storage: storage),
+      CommunityChatScreen(storage: storage),
+      const FakeCallScreen(),
+      const ChatBotScreen(),
+    ];
+  }
   onTapped(int index) {
     setState(() {
       currentIndex = index;

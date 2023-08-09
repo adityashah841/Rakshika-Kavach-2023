@@ -4,6 +4,7 @@ import 'package:women_safety_app/components/blog_slider.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/components/sos_button.dart';
 // import 'package:women_safety_app/utils/color.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -39,9 +40,29 @@ class _StartScreenState extends State<StartScreen> {
   ];
 
   final List<String> contacts = ['+917303404504'];
+  // Future<void> _requestPermissionsSequentially() async {
+  //   bool permissionsRequested = false;
+
+  //   // Location permission
+  //   await Permission.location.request();
+
+  //   // Microphone permission
+  //   await Permission.microphone.request();
+
+  //   // Camera permission
+  //   await Permission.camera.request();
+
+  //   // Contacts permission
+  //   await Permission.contacts.request();
+
+  //   setState(() {
+  //     permissionsRequested = true;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // _requestPermissionsSequentially();
     return Scaffold(
       appBar: const AppBarConstant(),
       body: Container(

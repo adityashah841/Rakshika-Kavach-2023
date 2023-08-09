@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/log_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,13 +7,17 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final FlutterSecureStorage storage;
+  const SignupScreen({super.key, required this.storage});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  // final FlutterSecureStorage storage;
+  // _SignupScreenState({required this.storage});
+  FlutterSecureStorage get storage => widget.storage;
   String? username;
   String? password;
   String? confirmPassword;
@@ -372,7 +377,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                   height: 20,
                                 ),
                                 ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: () async{
+                                      String? ACCESS_REGISTER = await storage.read(key: 'access_register');
                                       setState(() {
                                         if (_formkey.currentState?.validate() ??
                                             false) {
@@ -402,7 +408,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const LoginScreen(),
+                                                LoginScreen(storage: storage,),
                                           ),
                                         );
                                       }
