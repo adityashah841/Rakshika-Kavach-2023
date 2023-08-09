@@ -5,7 +5,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/screens/register.dart';
 
 class Blog {
   String title;

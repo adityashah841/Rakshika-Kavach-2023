@@ -45,6 +45,8 @@ class _AppStartState extends State<AppStart> {
   void initState() {
     super.initState();
     _checkTokenAndGender();
+    // if (ACCESS_LOGIN != null)
+    // sendLocationUpdates();
   }
 
   void sendLocationUpdates() async {
@@ -85,6 +87,8 @@ class _AppStartState extends State<AppStart> {
     // }
     ACCESS_LOGIN = await storage.read(key: 'access_login');
     GENDER = await storage.read(key: 'gender');
+    // if (ACCESS_LOGIN != null)
+    // sendLocationUpdates();
   }
 
   @override

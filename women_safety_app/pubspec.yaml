@@ -63,6 +63,11 @@ dependencies:
   flutter_svg: ^2.0.7
   flutter_translate: ^4.0.4
   multi_language_json: ^1.2.0
+
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
   video_player: ^2.7.0
 
 dev_dependencies:

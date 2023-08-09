@@ -229,7 +229,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
                       ),
                     );
                   }),
-            )
+            ),
           ],
         ),
       ),
