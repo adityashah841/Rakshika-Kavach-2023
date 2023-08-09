@@ -62,10 +62,10 @@ class SignUp(generics.GenericAPIView):
                 )
 
                 number = '+91' + str(user.phone)
-                # try:
-                #     verifyPhone.send(number)
-                # except:
-                #     return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_404_NOT_FOUND)
+                try:
+                    verifyPhone.send(number)
+                except:
+                    return JsonResponse({'error':"Activation Link has expired"}, status=status.HTTP_404_NOT_FOUND)
                 content = {'detail': 'OTP sent'}
                 return JsonResponse(content, status = status.HTTP_200_OK) 
             content = {'detail': 'User already exists try login'}
@@ -84,9 +84,9 @@ class VerifyPhoneView(generics.GenericAPIView):
                 user = User.objects.get(aadhar_number=serializer.data['aadhar_number'])
                 code = serializer.data['code']
                 number = '+91' + str(user.phone_number)
-                # if verifyPhone.check(number, code):
-                user.is_active = True
-                user.save()
+                if verifyPhone.check(number, code):
+                    user.is_active = True
+                    user.save()
                 if user.is_active:
                     tokens = RefreshToken.for_user(user=user)
                     content = {

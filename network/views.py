@@ -35,8 +35,8 @@ class SendRequestView(generics.GenericAPIView):
         except User.DoesNotExist:
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        if UserWarrior.objects.filter(user = user).exists():
-            uw = UserWarrior.objects.filter(user = user, accept = False, reject = False)
+        if UserWarrior.objects.filter(warrior = user).exists():
+            uw = UserWarrior.objects.filter(warrior = user, accept = False, reject = False)
             recipeDetails = UserWarriorSerializer(uw, many=True, context={'request': request})
             return JsonResponse(recipeDetails.data, safe = False, status = status.HTTP_200_OK)
         content = {'detail': 'No request notification'}
@@ -53,14 +53,15 @@ class SendRequestView(generics.GenericAPIView):
                 return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
             try:
                 warrior=User.objects.get(phone_number = serializer.data['phone'])
+                number = '+91'+str(warrior.phone_number)
             except:
-                # message = client.messages \
-                #     .create(
-                #         messaging_service_sid=config('TWILIO_SERVICE_SID'),
-                #         body='DOWNLOAD THE RAKSHIKA APP! YOUR ACQUITANCE WANTS TO MAKE YOU A WARRIOR',
-                #         to='+919082230267'
-                #     )
-                # print(message.sid)
+                message = client.messages \
+                    .create(
+                        messaging_service_sid=config('TWILIO_SERVICE_SID'),
+                        body='DOWNLOAD THE RAKSHIKA APP! YOUR ACQUITANCE WANTS TO MAKE YOU A WARRIOR',
+                        to=number
+                    )
+                print(message.sid)
                 content = {'detail': 'This warrior is not a user, sending message to join Rakshika'}
                 return JsonResponse(content, status = status.HTTP_200_OK)
             UserWarrior.objects.create(
@@ -78,6 +79,7 @@ class AcceptWarriorRequestView(generics.GenericAPIView):
     def post(self, request,pk):
         try:
             uw = UserWarrior.objects.get(warrior=request.user, id = pk, accept = False, reject = False) 
+            print(um)
         except UserWarrior.DoesNotExist:
             content = {'detail': 'No such notification'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
@@ -89,20 +91,22 @@ class AcceptWarriorRequestView(generics.GenericAPIView):
 
 class WarriorCountView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated,]
-
+    
     def post(self, request):
         try:
             user=User.objects.get(aadhar_number = request.user.aadhar_number)
         except User.DoesNotExist:
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
-        
+        war = UserWarrior.objects.filter(user=user,accept = True)
         warriors = UserWarrior.objects.filter(user=user,accept = True).count()
         volunteer = UserWarrior.objects.filter(warrior=user,accept = True).count()
 
+        uws = UserWarriorSerializer(war, many=True, context={'request': request})
+
         content =  {
-            'warriors': (warriors),
-            'volunteer': (volunteer)
+            'warriors': warriors,
+            'volunteer': volunteer
         }
         return JsonResponse(content, status = status.HTTP_200_OK)
     
@@ -145,12 +149,12 @@ class SendNotificationView(generics.GenericAPIView):
                 latitude = serializer.data['latitude'],
                 longitude = serializer.data['longitude']
             ) 
-
+            number = '+91'+str(user1.phone_number)
             message = client.messages \
                 .create(
                     messaging_service_sid=config('TWILIO_SERVICE_SID'),
                     body=f'you have a notification from {user.username}, location is https://www.google.com/maps?q=${notif.latitude},${notif.longitude}',
-                    to='+919082230267'
+                    to=number
                 )
             print(message.sid)
             content = {'detail': 'location send to user'}
