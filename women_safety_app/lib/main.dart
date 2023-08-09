@@ -3,6 +3,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/bottom_bar.dart';
 import 'package:women_safety_app/components/bottom_bar_admin.dart';
 import 'package:women_safety_app/components/bottom_bar_male.dart';
+import 'package:record/record.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 import 'package:women_safety_app/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:women_safety_app/screens/register.dart';
@@ -36,7 +39,8 @@ class _AppStartState extends State<AppStart> {
   final storage = const FlutterSecureStorage();
   String? ACCESS_LOGIN;
   String? GENDER;
-
+  late Record audioRecord;
+  late AudioPlayer audioPlayer;
   @override
   void initState() {
     super.initState();
