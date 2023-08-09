@@ -1,5 +1,4 @@
 import 'dart:convert'; // Import this for json decoding
-import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/bottom_bar.dart';
