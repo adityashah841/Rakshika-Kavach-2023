@@ -33,7 +33,7 @@ class _BottomPageState extends State<BottomPage> {
     pages = [
       const NearMeScreen(),
       const SafeNavScreen(),
-      const StartScreen(),
+      StartScreen(storage: storage,),
       const FakeCallScreen(),
       CommunityChatScreen(storage: storage,),
     ];

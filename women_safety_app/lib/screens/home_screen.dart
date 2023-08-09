@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/components/blog_slider.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
@@ -6,13 +7,15 @@ import 'package:women_safety_app/components/sos_button.dart';
 // import 'package:women_safety_app/utils/color.dart';
 
 class StartScreen extends StatefulWidget {
-  const StartScreen({super.key});
+  final FlutterSecureStorage storage;
+  const StartScreen({super.key, required this.storage});
 
   @override
   State<StartScreen> createState() => _StartScreenState();
 }
 
 class _StartScreenState extends State<StartScreen> {
+  FlutterSecureStorage get storage => widget.storage;
   final List<String> imageList = [
     'assets/blogs/1.jpg',
     'assets/blogs/2.jpg',
@@ -55,7 +58,7 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           children: [
             BlogSlider(imageList: imageList, sloganList: sloganList),
-            SOSButton(contacts: contacts),
+            SOSButton(contacts: contacts, storage: storage,),
             EmergencyButton(contacts: contacts),
           ],
         ),
