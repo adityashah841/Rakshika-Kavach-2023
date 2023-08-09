@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
-import 'package:women_safety_app/screens/general_chat_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/screens/safe_nav_screen.dart';
 import 'package:women_safety_app/screens/home_screen.dart';

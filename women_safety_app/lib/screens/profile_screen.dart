@@ -191,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 children: [
                   const Text('Type:'),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   DropdownButton<String>(
                     value: selectedAddressType,
                     onChanged: (String? newValue) {
@@ -246,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Emergency Contact'),
+          title: const Text('Add Emergency Contact'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
