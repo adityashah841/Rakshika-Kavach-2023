@@ -9,6 +9,12 @@ from .serializer import SendRequestSerializer, UserWarriorSerializer, Notificati
 from rest_framework.permissions import IsAuthenticated
 from .models import UserWarrior, Notification
 from decouple import config
+# from accounts.models import User
+from accounts.serializers import UserSerializer
+from typing import List, Tuple
+from math import radians, sin, cos, sqrt, atan2
+from queue import PriorityQueue
+import heapq
 # Create your views here.
 
 import os
@@ -200,3 +206,51 @@ class NotifyUserRequestView(generics.GenericAPIView):
             return JsonResponse(recipeDetails.data, safe = False, status = status.HTTP_200_OK)
         content = {'detail': 'No such notification'}
         return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+    
+def distance(user1: User, user2: User) -> float:
+    R = 6371 # radius of Earth in km
+    lat1, lon1, lat2, lon2 = map(radians,[user1.latitude,user1.longitude,user2.latitude,user2.longitude])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat /2)**2 + cos(lat1) * cos(lat2) * sin(dlon /2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1-a))
+    return R * c
+
+def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple[User, float]]:
+    visited = set()
+    queue = PriorityQueue()
+    queue.put((0, current_user))
+    nearest_users = []
+    user_warrior_relations = UserWarrior.objects.filter(user=current_user)
+    acquaintances = [user_warrior_relation.warrior for user_warrior_relation in user_warrior_relations]
+
+    while not queue.empty():
+        _, user = queue.get()
+        if user not in visited:
+            visited.add(user)
+            dist = distance(current_user, user)
+            if dist <= r:
+                if len(nearest_users) < n:
+                    heapq.heappush(nearest_users, (-dist, user))
+                else:
+                    heapq.heappushpop(nearest_users, (-dist, user))
+            for acquaintance in acquaintances:
+                if acquaintance not in visited:
+                    h = sqrt((acquaintance.latitude - current_user.latitude) ** 2 + (acquaintance.longitude - current_user.longitude) ** 2)
+                    queue.put((h, acquaintance))
+
+    return [(user, -dist) for dist, user in nearest_users]
+
+class UserCommunityTrustSearch(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated,]
+
+    def get(self, request):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        nearest_users = find_nearest_users_astar(user, 20, 5)
+        nearest_users = [user for user, _ in nearest_users]
+        recipeDetails = UserSerializer(nearest_users, many=True, context={'request': request})
+        return JsonResponse(recipeDetails.data, safe = False, status = status.HTTP_200_OK)
