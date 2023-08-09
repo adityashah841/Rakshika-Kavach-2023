@@ -32,8 +32,8 @@ class LocationStreamView(generics.GenericAPIView):
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         serializer = UserSerializer(instance = user, data=request.data, partial = True)
         if serializer.is_valid():
-            print(serializer.validated_data["latitude"])
-            print(serializer.validated_data["longitude"])
+            # print(serializer.validated_data["latitude"])
+            # print(serializer.validated_data["longitude"])
             serializer.save()
             return JsonResponse(serializer.data,safe=False,status = status.HTTP_200_OK)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST)

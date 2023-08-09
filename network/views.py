@@ -15,6 +15,10 @@ from typing import List, Tuple
 from math import radians, sin, cos, sqrt, atan2
 from queue import PriorityQueue
 import heapq
+import requests
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+# from .serializer import CommunitySearchSerializer
 # Create your views here.
 
 import os
@@ -223,6 +227,7 @@ def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple
     nearest_users = []
     user_warrior_relations = UserWarrior.objects.filter(user=current_user)
     acquaintances = [user_warrior_relation.warrior for user_warrior_relation in user_warrior_relations]
+    url = 'https://rakshika.onrender.com/network/notification/'
 
     while not queue.empty():
         _, user = queue.get()
@@ -231,6 +236,18 @@ def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple
             dist = distance(current_user, user)
             if dist <= r:
                 if len(nearest_users) < n:
+                    # SendNotificationView.post(user)
+                    params = {
+                        id: user.id,
+                    }
+                    data = {
+                        'latitude': current_user.latitude,
+                        'longitude': current_user.longitude
+                    }
+                    response = requests.post(url, params=params, data=data)
+                    # Check if the request was successful
+                    if response.status_code != 200:
+                        return [-1]
                     heapq.heappush(nearest_users, (-dist, user))
                 else:
                     heapq.heappushpop(nearest_users, (-dist, user))
@@ -243,14 +260,28 @@ def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple
 
 class UserCommunityTrustSearch(generics.GenericAPIView):
     permission_classes = [IsAuthenticated,]
+    # serializer_class = CommunitySearchSerializer
 
+    latitude_param = openapi.Parameter('latitude', openapi.IN_QUERY, description="Latitude", type=openapi.TYPE_STRING)
+    longitude_param = openapi.Parameter('longitude', openapi.IN_QUERY, description="Longitude", type=openapi.TYPE_STRING)
+
+    @swagger_auto_schema(
+        operation_description="Run Astar algorithm for community search",
+        manual_parameters=[latitude_param, longitude_param]
+    )
     def get(self, request):
         try:
             user=User.objects.get(aadhar_number = request.user.aadhar_number)
         except User.DoesNotExist:
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        serializer = UserSerializer(instance = user, data=request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
         nearest_users = find_nearest_users_astar(user, 20, 5)
+        if nearest_users[0] == -1:
+            content = {'detail': 'Error in sending notification'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         nearest_users = [user for user, _ in nearest_users]
-        recipeDetails = UserSerializer(nearest_users, many=True, context={'request': request})
-        return JsonResponse(recipeDetails.data, safe = False, status = status.HTTP_200_OK)
+        nearest_users_details = UserSerializer(nearest_users, many=True, context={'request': request})
+        return JsonResponse(nearest_users_details.data, safe = False, status = status.HTTP_200_OK)
