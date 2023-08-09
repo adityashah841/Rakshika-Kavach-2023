@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/bottom_bar.dart';
@@ -5,8 +7,9 @@ import 'package:women_safety_app/components/bottom_bar_admin.dart';
 import 'package:women_safety_app/components/bottom_bar_male.dart';
 import 'package:women_safety_app/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import 'package:http/http.dart' as http;
 // import 'package:women_safety_app/screens/register.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,9 +45,35 @@ class _AppStartState extends State<AppStart> {
   void initState() {
     super.initState();
     _checkTokenAndGender();
+    // if (ACCESS_LOGIN != null)
+    // sendLocationUpdates();
   }
 
-  
+  void sendLocationUpdates() async {
+    // Create a new repeating timer that runs every 15 minutes
+    Timer.periodic(Duration(minutes: 15), (Timer timer) async {
+      // Get the user's current location
+      final Position position = await Geolocator.getCurrentPosition();
+      const backendUrl = 'https://rakshika.onrender.com/';
+      // Send the location update to the backend
+      final response = await http.post(
+        Uri.parse('$backendUrl/update-location'),
+        body: {
+          'latitude': position.latitude.toString(),
+          'longitude': position.longitude.toString(),
+        },
+      );
+
+      // Handle the response from the backend
+      if (response.statusCode == 200) {
+        print('Location update sent successfully');
+      } else {
+        print('Failed to send location update: ${response.body}');
+        throw Exception('Failed to send location update');
+      }
+    });
+  }
+
   Future<void> _checkTokenAndGender() async {
     // final x = getObject('user_login');
     // if (x != null) {
@@ -58,6 +87,8 @@ class _AppStartState extends State<AppStart> {
     // }
     ACCESS_LOGIN = await storage.read(key: 'access_login');
     GENDER = await storage.read(key: 'gender');
+    // if (ACCESS_LOGIN != null)
+    // sendLocationUpdates();
   }
 
   @override

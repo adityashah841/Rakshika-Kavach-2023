@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:camera/camera.dart';
@@ -10,9 +11,12 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:cloudinary/cloudinary.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class SOSButton extends StatefulWidget {
-  const SOSButton({Key? key, required this.contacts}) : super(key: key);
+  final FlutterSecureStorage storage;
+  const SOSButton({Key? key, required this.contacts, required this.storage}) : super(key: key);
   final List<String> contacts;
 
   @override
@@ -20,6 +24,7 @@ class SOSButton extends StatefulWidget {
 }
 
 class _SOSButtonState extends State<SOSButton> {
+  FlutterSecureStorage get storage => widget.storage;
   bool isClicked = false;
   late String videoPath;
   late Record audioRecord;
@@ -31,6 +36,41 @@ class _SOSButtonState extends State<SOSButton> {
     cloudName: dotenv.env['CLOUD_NAME']!,
   );
   bool isRecording = false;
+
+  Future<void> getNearestUsers(String authToken, String latitude, String longitude) async {
+    final params = {'latitude': latitude, 'longitude': longitude};
+    final url = Uri.parse('https://rakshika.onrender.com/network/community-users-search/').replace(queryParameters: params);
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $authToken'};
+
+    final response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to perform community search.');
+    }
+  }
+
+  Future<Map<String, dynamic>> setEvidence(String authToken, String videoPath, String audioPath, String location) async {
+    final url = Uri.parse('https://rakshika.onrender.com/evidences/');
+    final headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer $authToken'};
+
+    final body = {
+      'video': videoPath,
+      'audio': audioPath,
+      'location': location,
+      };
+    final response = await http.post(url, body:body, headers: headers);
+
+    if (response.statusCode == 201) {
+      final data = jsonDecode(response.body);
+      return data;  
+    }
+    else {
+      throw Exception('Failed to create evidence.');
+    }
+  } 
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +205,12 @@ class _SOSButtonState extends State<SOSButton> {
         print('Cloudinary video upload failed: ${responseVid.error}');
       }
 
+      final position = await _getCurrentLocation();
+      final latitude = position.latitude.toString();
+      final longitude = position.longitude.toString();
+
+      final ACCESS_LOGIN = await storage.read(key: 'user_login');
+      final data = await setEvidence(ACCESS_LOGIN!, videoPath, audioPath, '$latitude, $longitude');
       // Display the saved video
       print(videoPath);
     });
@@ -206,6 +252,10 @@ class _SOSButtonState extends State<SOSButton> {
     Position position;
     try {
       position = await _getCurrentLocation();
+      final latitude = position.latitude.toString();
+      final longitude = position.longitude.toString();
+      final ACCESS_LOGIN = await storage.read(key: 'user_login');
+      await getNearestUsers(ACCESS_LOGIN!, latitude, longitude);
       String message = 'Krish Shah\n\n';
       message += 'Project practice Che Ignore !!\n\n';
       message += 'My current location is:\n';
