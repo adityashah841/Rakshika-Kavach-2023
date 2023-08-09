@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 75,
+                  height: 40,
                 ),
                 SvgPicture.asset(
                   'assets/illustrations/login.svg',
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           //hyphen and dash allowed but not at beginning and end
                           //length from 3 to 30 characters
                           TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             onChanged: (value) {
                               if (value.isNotEmpty) {
                                 removeError(
@@ -189,9 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              // label: const Text("Username"),
                               label: const Text("Phone Number"),
-                              // hintText: "Enter Username",
                               hintText: "Enter Phone Number",
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
