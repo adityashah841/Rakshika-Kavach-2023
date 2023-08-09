@@ -9,4 +9,5 @@ urlpatterns = [
     path('profile/', views.UserView.as_view(), name = "User Profile"),
     path('address/<str:pk>/', views.AddressView.as_view(), name = "User Address"),
     path('emergency-contact/<str:pk>/', views.EmergencyContactView.as_view(), name = "User Emergency Contact"),
+    path('get-users/', views.GetUserList.as_view(), name = "get all users")
 ]

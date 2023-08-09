@@ -87,6 +87,8 @@ class User(AbstractBaseUser):
     phone_number      = models.DecimalField(max_digits = 10, decimal_places = 0,unique=True)
     image             = models.ImageField(upload_to = upload_path_handler,null = True, blank = True)
     DOB               = models.DateField()
+    latitude          = models.CharField(max_length=200,blank=True, null=True)
+    longitude         = models.CharField(max_length=200,blank=True, null=True)
     is_active         = models.BooleanField(default=False)
     staff             = models.BooleanField(default=False)
     admin             = models.BooleanField(default=False)

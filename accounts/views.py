@@ -299,3 +299,9 @@ class EmergencyContactView(generics.GenericAPIView):
         emergency.delete()
         content = {'detail': 'Emergency Deleted'}
         return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
+    
+
+class GetUserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
