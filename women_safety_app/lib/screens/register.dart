@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:women_safety_app/screens/log_in.dart';
 import 'package:women_safety_app/screens/sign_up.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -231,6 +232,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             child: const Text('Get OTP'),
                           ),
+                          Row(
+                            children: [
+                              Visibility(
+                                visible: !showOtpField,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => LoginScreen(
+                                                  storage: storage,
+                                                )));
+                                  },
+                                  child: const Text(
+                                    'Already a member? Login',
+                                    style: TextStyle(
+                                        color: Colors.blue, fontSize: 14),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -289,7 +311,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           // Login button
                           if (showOtpField)
                             ElevatedButton(
-                              onPressed: () async{
+                              onPressed: () async {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
@@ -300,10 +322,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   // data.then((value) =>
                                   //     ACCESS_REGISTER = value["access"]);
                                   var x = await data;
-                                  await storage.write(key: 'access_register', value: x["access"]);
+                                  await storage.write(
+                                      key: 'access_register',
+                                      value: x["access"]);
                                   // data.then(
                                   //     (value) => USERNAME = value["username"]);
-                                  await storage.write(key: 'username', value: x["username"]);
+                                  await storage.write(
+                                      key: 'username', value: x["username"]);
                                   // then.then((value) => print(value));
                                   // print("Hello!");
                                   // final x = getObject('user_register');
@@ -311,8 +336,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   // print("\n\n");
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          SignupScreen(storage: storage,),
+                                      builder: (context) => SignupScreen(
+                                        storage: storage,
+                                      ),
                                     ),
                                   );
                                 } else {

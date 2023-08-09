@@ -377,8 +377,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                   height: 20,
                                 ),
                                 ElevatedButton(
-                                    onPressed: () async{
-                                      String? ACCESS_REGISTER = await storage.read(key: 'access_register');
+                                    onPressed: () async {
+                                      String? ACCESS_REGISTER = await storage
+                                          .read(key: 'access_register');
                                       setState(() {
                                         if (_formkey.currentState?.validate() ??
                                             false) {
@@ -407,13 +408,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                       } else {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginScreen(storage: storage,),
+                                            builder: (context) => LoginScreen(
+                                              storage: storage,
+                                            ),
                                           ),
                                         );
                                       }
                                     },
-                                    child: const Text('Now Log-In')),
+                                    child: const Text('Log-In')),
                               ],
                             ),
                           ),
