@@ -57,6 +57,11 @@ dependencies:
   geocoding: ^2.0.1
   google_maps_webservice: ^0.0.20-nullsafety.4
   shared_preferences: ^2.0.12
+  flutter_secure_storage: ^5.0.0
+  fl_chart: ^0.40.0
+  camera: ^0.10.5+2
+  flutter_svg: ^2.0.7
+  video_player: ^2.7.0
 
 dev_dependencies:
   flutter_test:
@@ -84,6 +89,7 @@ flutter:
     - assets/images/
     - assets/ringtones/
     - assets/blogs/
+    - assets/illustrations/
     - .env
   #   - images/a_dot_ham.jpeg
 

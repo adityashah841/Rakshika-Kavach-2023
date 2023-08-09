@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/screens/analysis_precaution.dart';
+import 'package:women_safety_app/screens/blog.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
-import 'package:women_safety_app/screens/general_chat_screen.dart';
-import 'package:women_safety_app/screens/near_me_screen.dart';
-import 'package:women_safety_app/screens/safe_nav_screen.dart';
-import 'package:women_safety_app/screens/home_screen.dart';
+import 'package:women_safety_app/screens/prevention.dart';
+import 'package:women_safety_app/screens/prosecution.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class BottomPage extends StatefulWidget {
+class BottomPageAdmin extends StatefulWidget {
   final FlutterSecureStorage storage;
-  const BottomPage({super.key, required this.storage});
+  const BottomPageAdmin({super.key, required this.storage});
 
   @override
-  State<BottomPage> createState() => _BottomPageState();
+  State<BottomPageAdmin> createState() => _BottomPageAdminState();
 }
 
-class _BottomPageState extends State<BottomPage> {
+class _BottomPageAdminState extends State<BottomPageAdmin> {
   FlutterSecureStorage get storage => widget.storage;
-  int currentIndex = 2;
+  int currentIndex = 1;
   // List<Widget> pages = [
-  //   const NearMeScreen(),
-  //   const SafeNavScreen(),
-  //   const StartScreen(),
+  //   const BlogScreen(),
+  //   const AnalysisScreenPre(),
+  //    AnalysisScreenPrevention(),
+  //   const AnalysisScreenProsecution(),
   //   const FakeCallScreen(),
-  //   const GeneralChatScreen(),
   // ];
   late List<Widget> pages;
 
@@ -31,14 +31,13 @@ class _BottomPageState extends State<BottomPage> {
   void initState() {
     super.initState();
     pages = [
-      NearMeScreen(),
-      SafeNavScreen(),
-      StartScreen(),
+      BlogScreen(storage: storage),
+      const AnalysisScreenPre(),
+      AnalysisScreenPrevention(),
+      const AnalysisScreenProsecution(),
       const FakeCallScreen(),
-      GeneralChatScreen(storage: storage,),
     ];
   }
-
   onTapped(int index) {
     setState(() {
       currentIndex = index;
@@ -60,28 +59,28 @@ class _BottomPageState extends State<BottomPage> {
         unselectedFontSize: 12.0,
         items: const [
           BottomNavigationBarItem(
-            label: "Near Me",
-            icon: Icon(Icons.near_me),
+            label: "Blogs",
+            icon: Icon(Icons.bookmarks_sharp),
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "SafeNav",
-            icon: Icon(Icons.location_on),
+            label: "Precaution",
+            icon: Icon(Icons.pie_chart),
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(Icons.space_dashboard_rounded),
+            label: "Prevention",
+            icon: Icon(Icons.graphic_eq_rounded),
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Fake Call",
+            label: "Prosecution",
+            icon: Icon(Icons.bar_chart_rounded),
+            backgroundColor: rBottomBar,
+          ),
+          BottomNavigationBarItem(
+            label: "Call",
             icon: Icon(Icons.call),
-            backgroundColor: rBottomBar,
-          ),
-          BottomNavigationBarItem(
-            label: "Chat",
-            icon: Icon(Icons.chat_outlined),
             backgroundColor: rBottomBar,
           ),
         ],

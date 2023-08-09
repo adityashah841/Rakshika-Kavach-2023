@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/screens/blog.dart';
 import 'package:women_safety_app/screens/chat_bot_screen.dart';
@@ -7,7 +8,8 @@ import 'package:women_safety_app/screens/video_call_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
 
 class GeneralChatScreen extends StatefulWidget {
-  const GeneralChatScreen({Key? key}) : super(key: key);
+  final FlutterSecureStorage storage;
+  const GeneralChatScreen({Key? key, required this.storage}) : super(key: key);
 
   @override
   _GeneralChatScreenState createState() => _GeneralChatScreenState();
@@ -15,6 +17,7 @@ class GeneralChatScreen extends StatefulWidget {
 
 class _GeneralChatScreenState extends State<GeneralChatScreen>
     with SingleTickerProviderStateMixin {
+  FlutterSecureStorage get storage => widget.storage;
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimationRight;
   late Animation<Offset> _slideAnimationLeft;
@@ -103,7 +106,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
                     child: _buildBox(
                       'Blogs',
                       'assets/images/commuityChat.png',
-                      BlogScreen(),
+                      BlogScreen(storage: storage,),
                       rLightPink,
                     ),
                   ),
@@ -153,6 +156,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
               const SizedBox(height: 8),
               Text(
                 name,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

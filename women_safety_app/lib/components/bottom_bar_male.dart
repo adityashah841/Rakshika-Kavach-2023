@@ -1,44 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/screens/blog.dart';
+import 'package:women_safety_app/screens/chat_bot_screen.dart';
+import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
-import 'package:women_safety_app/screens/general_chat_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
-import 'package:women_safety_app/screens/safe_nav_screen.dart';
-import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class BottomPage extends StatefulWidget {
+class BottomPageMale extends StatefulWidget {
   final FlutterSecureStorage storage;
-  const BottomPage({super.key, required this.storage});
+  const BottomPageMale({super.key, required this.storage});
 
   @override
-  State<BottomPage> createState() => _BottomPageState();
+  State<BottomPageMale> createState() => _BottomPageMaleState();
 }
 
-class _BottomPageState extends State<BottomPage> {
+class _BottomPageMaleState extends State<BottomPageMale> {
   FlutterSecureStorage get storage => widget.storage;
   int currentIndex = 2;
   // List<Widget> pages = [
   //   const NearMeScreen(),
-  //   const SafeNavScreen(),
-  //   const StartScreen(),
+  //   const BlogScreen(),
+  //   const CommunityChatScreen(),
   //   const FakeCallScreen(),
-  //   const GeneralChatScreen(),
+  //   const ChatBotScreen(),
   // ];
   late List<Widget> pages;
-
   @override
   void initState() {
     super.initState();
     pages = [
       NearMeScreen(),
-      SafeNavScreen(),
-      StartScreen(),
+      BlogScreen(storage: storage),
+      CommunityChatScreen(),
       const FakeCallScreen(),
-      GeneralChatScreen(storage: storage,),
+      const ChatBotScreen(),
     ];
   }
-
   onTapped(int index) {
     setState(() {
       currentIndex = index;
@@ -65,13 +63,13 @@ class _BottomPageState extends State<BottomPage> {
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "SafeNav",
-            icon: Icon(Icons.location_on),
+            label: "Blogs",
+            icon: Icon(Icons.bookmarks_sharp),
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Home",
-            icon: Icon(Icons.space_dashboard_rounded),
+            label: "Warriors",
+            icon: Icon(Icons.security),
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
@@ -80,8 +78,8 @@ class _BottomPageState extends State<BottomPage> {
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Chat",
-            icon: Icon(Icons.chat_outlined),
+            label: "ChatBot",
+            icon: Icon(Icons.boy_outlined),
             backgroundColor: rBottomBar,
           ),
         ],

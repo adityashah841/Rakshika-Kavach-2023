@@ -1,4 +1,7 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:women_safety_app/screens/register.dart';
@@ -46,26 +49,34 @@ Future<List<Blog>> getBlogs(String? authToken) async {
 }
 
 class BlogScreen extends StatefulWidget {
-  const BlogScreen({super.key});
+  final FlutterSecureStorage storage;
+  const BlogScreen({super.key, required this.storage});
 
   @override
   State<BlogScreen> createState() => _BlogScreenState();
 }
 
 class _BlogScreenState extends State<BlogScreen> {
+  FlutterSecureStorage get storage => widget.storage;
   List<Blog> blogDisplay = [];
   @override
-  void initState() {
+  void initState() async{
     super.initState();
-    final u = getObject('user_login');
-    u.then((value) =>
-    getBlogs(value['access']).then((blogs) {
+    // final u = getObject('user_login');
+    // u.then((value) =>
+    // getBlogs(value['access']).then((blogs) {
+    //   setState(() {
+    //     // print(100);
+    //     blogDisplay = blogs;
+    //   });
+    // })
+    // );
+    String? ACCESS_LOGIN = await storage.read(key: 'access_login');
+    getBlogs(ACCESS_LOGIN).then((blogs) {
       setState(() {
-        // print(100);
         blogDisplay = blogs;
       });
-    })
-    );
+    });
   }
 
   @override

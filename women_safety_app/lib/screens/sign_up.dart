@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/log_in.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:women_safety_app/screens/register.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final FlutterSecureStorage storage;
+  const SignupScreen({super.key, required this.storage});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  // final FlutterSecureStorage storage;
+  // _SignupScreenState({required this.storage});
+  FlutterSecureStorage get storage => widget.storage;
   String? username;
   String? password;
   String? confirmPassword;
@@ -23,21 +29,20 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
-  Future<void> setLoginCreds(String username, String password, String authToken) async {
-    final url = Uri.parse('https://rakshika.onrender.com/account/set-login-creds/');
+  Future<void> setLoginCreds(
+      String username, String password, String authToken) async {
+    final url =
+        Uri.parse('https://rakshika.onrender.com/account/set-login-creds/');
     final headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $authToken'
     };
-    final body = jsonEncode({
-      'username': username,
-      'password': password
-    });
+    final body = jsonEncode({'username': username, 'password': password});
 
     final response = await http.post(url, headers: headers, body: body);
 
-    if (response.statusCode != 200) {
+    if (response.statusCode != 202) {
       throw Exception(response.body);
     }
   }
@@ -94,10 +99,13 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        height: 150,
-                        width: 150,
+                      const SizedBox(
+                        height: 60,
+                      ),
+                      SvgPicture.asset(
+                        'assets/illustrations/create.svg',
+                        height: 185,
+                        width: 185,
                       ),
                       const Text(
                         'Create your Account',
@@ -370,19 +378,20 @@ class _SignupScreenState extends State<SignupScreen> {
                                   height: 20,
                                 ),
                                 ElevatedButton(
-                                    onPressed: () {
+                                    onPressed: () async{
+                                      String? ACCESS_REGISTER = await storage.read(key: 'access_register');
                                       setState(() {
                                         if (_formkey.currentState?.validate() ??
                                             false) {
                                           _formkey.currentState!.save();
                                           //  logic (backend)
-                                          final u = getObject('user_register');
-                                          u.then((value) => {
-                                                setLoginCreds(
-                                                    username!,
-                                                    password!,
-                                                    value['access']),
-                                              });
+                                          // final u = getObject('user_register');
+                                          // u.then((value) => {
+                                          //       setLoginCreds(username!,
+                                          //           password!, value['access']),
+                                          //     });
+                                          setLoginCreds(username!, password!,
+                                              ACCESS_REGISTER!);
                                         }
                                       });
 
@@ -400,7 +409,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                const LoginScreen(),
+                                                LoginScreen(storage: storage,),
                                           ),
                                         );
                                       }

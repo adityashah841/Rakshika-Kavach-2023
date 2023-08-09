@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:women_safety_app/components/bottom_bar.dart';
+import 'package:women_safety_app/components/bottom_bar_admin.dart';
+import 'package:women_safety_app/components/bottom_bar_male.dart';
 import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:women_safety_app/main.dart';
+
+// String? GENDER;
+// String? ACCESS_REGISTER;
+// String? USERNAME;
+// String? ACCESS_LOGIN;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final FlutterSecureStorage storage;
+  const LoginScreen({super.key, required this.storage});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // final FlutterSecureStorage storage;
+  // _LoginScreenState({required this.storage});
+  FlutterSecureStorage get storage => widget.storage;
   String? username;
   String? password;
   bool remember = false;
@@ -26,10 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       'accept': 'application/json',
       'Content-Type': 'application/json',
     };
-    final body = jsonEncode({
-      'phone': phone,
-      'password': password
-    });
+    final body = jsonEncode({'phone': phone, 'password': password});
 
     final response = await http.post(url, headers: headers, body: body);
 
@@ -86,10 +98,16 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: 125,
-                  width: 125,
+                const SizedBox(
+                  height: 75,
+                ),
+                SvgPicture.asset(
+                  'assets/illustrations/login.svg',
+                  height: 250,
+                  width: 250,
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 const Text(
                   'Log-in',
@@ -126,14 +144,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         "Phone number must be 10 digits long");
                               }
                               if (containsDigit(value)) {
-                                removeError(error: "Invalid phone number format");
+                                removeError(
+                                    error: "Invalid phone number format");
                               }
                               // Store the username value in a variable (if required)
                               username = value;
                             },
                             validator: (value) {
                               if (value!.isEmpty) {
-                                addError(error: "Please enter your phone number");
+                                addError(
+                                    error: "Please enter your phone number");
                                 return "";
                               } else if (value.length != 10) {
                                 addError(
@@ -239,19 +259,32 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 30,
                           ),
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              // String? gender;
+                              final u = loginUser(username!, password!);
+                              // final then = u.then((value) =>
+                              //     saveObject(value, 'user_login'));
+                              // u.then((value) => GENDER = value['gender']);
+                              var x = await u;
+                              await storage.write(
+                                      key: 'access_login', value: x["access"]);
+                              await storage.write(
+                                      key: 'gender', value: x["gender"]);
                               setState(() {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
                                   // backend
-                                  final u = loginUser(username!, password!);
-                                  // u.then((value) => loginUser(username!, password!, value['access']));
-                                  u.then((value) => saveObject(value, 'user_login'));
-                                  // print(access);
-                                  // print("\n\n");
+                                  // GENDER = x["gender"];
+                                  // print('gendervijay $GENDER');
+                                  // u.then((value) =>
+                                  //     ACCESS_LOGIN = value["access"]);
+                                  // ACCESS_LOGIN = x["access"];
+                                  // print('accessvijay $ACCESS_LOGIN');
+                                  // then.then((value) => print(value));
                                 }
                               });
+                              String? GENDER = await storage.read(key: 'gender');
 
                               if (errors.isNotEmpty) {
                                 String errorText = errors.join(
@@ -264,11 +297,44 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textColor: Colors.white,
                                 );
                               } else {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const StartScreen(),
-                                  ),
-                                );
+                                // String? gender;
+                                // final x = getObject('user_login');
+                                // print(x);
+                                // if (x != null) {
+                                //   final value = await x;
+                                //   print(value);
+                                //   if (value != null) {
+                                //     final value2 =
+                                //         jsonDecode(jsonEncode(value));
+                                //     print(value2);
+                                //     gender = value2["gender"];
+                                //     print(gender);
+                                //     setState(() {});
+                                //   }
+                                // }
+                                print('gender: $GENDER');
+                                // gender ??= 'Female';
+                                if (GENDER == 'Female') {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BottomPage(storage: storage),
+                                    ),
+                                  );
+                                } else if (GENDER == 'Male') {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BottomPageMale(storage: storage),
+                                    ),
+                                  );
+                                } else if (GENDER == 'Admin') {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BottomPageAdmin(storage: storage,),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: const Text('Login'),
@@ -279,17 +345,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             children: [
                               TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const RegisterScreen()));
-                                  },
-                                  child: const Text(
-                                    'Not a member? Register',
-                                    style: TextStyle(
-                                        color: Colors.blue, fontSize: 14),
-                                  ))
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegisterScreen(storage: storage,)));
+                                },
+                                child: const Text(
+                                  'Not a member? Register',
+                                  style: TextStyle(
+                                      color: Colors.blue, fontSize: 14),
+                                ),
+                              )
                             ],
                           ),
                         ],
