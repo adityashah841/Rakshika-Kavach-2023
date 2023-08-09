@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
 import 'package:women_safety_app/screens/general_chat_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
@@ -20,7 +21,7 @@ class _BottomPageState extends State<BottomPage> {
     const SafeNavScreen(),
     const StartScreen(),
     const FakeCallScreen(),
-    const GeneralChatScreen(),
+    const CommunityChatScreen(),
   ];
   onTapped(int index) {
     setState(() {
@@ -63,8 +64,8 @@ class _BottomPageState extends State<BottomPage> {
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Chat",
-            icon: Icon(Icons.chat_outlined),
+            label: "Warrior",
+            icon: Icon(Icons.security),
             backgroundColor: rBottomBar,
           ),
         ],

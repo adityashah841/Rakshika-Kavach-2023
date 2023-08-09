@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/screens/register.dart';
 
 class Blog {
@@ -71,9 +72,7 @@ class _BlogScreenState extends State<BlogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blogs'),
-      ),
+      appBar: const AppBarConstant(),
       body: ListView.builder(
         itemCount: blogDisplay.length,
         itemBuilder: (context, index) {

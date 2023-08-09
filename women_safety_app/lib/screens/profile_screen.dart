@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -35,7 +36,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Rakshika'),
+        backgroundColor: rBottomBar,
       ),
       body: SingleChildScrollView(
         child: Padding(
