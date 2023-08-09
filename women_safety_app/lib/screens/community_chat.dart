@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/components/app_bar.dart';
 import '../utils/color.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CommunityChatScreen extends StatefulWidget {
-  const CommunityChatScreen({super.key});
+  final FlutterSecureStorage storage;
+  const CommunityChatScreen({super.key, required this.storage});
 
   @override
   State<CommunityChatScreen> createState() => _CommunityChatScreenState();
 }
 
 class _CommunityChatScreenState extends State<CommunityChatScreen> {
+  FlutterSecureStorage get storage => widget.storage;
   int yourWarriorsCount = 10;
   List<String> pendingRequests = ['User1', 'User2', 'User3'];
 
@@ -21,14 +25,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: rBottomBar,
-        title: const Text('Rakshika'),
-        titleTextStyle: const TextStyle(
-          fontSize: 38,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      appBar: const AppBarConstant(),
       backgroundColor: rBackground,
       body: SingleChildScrollView(
         child: Column(

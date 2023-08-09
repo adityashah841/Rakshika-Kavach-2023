@@ -82,7 +82,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
                     child: _buildBox(
                       'Community Warriors',
                       'assets/images/commuityChat.png',
-                      CommunityChatScreen(),
+                      CommunityChatScreen(storage: storage,),
                       rLightPink,
                     ),
                   ),

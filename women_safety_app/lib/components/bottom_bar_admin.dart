@@ -17,9 +17,10 @@ class BottomPageAdmin extends StatefulWidget {
 
 class _BottomPageAdminState extends State<BottomPageAdmin> {
   FlutterSecureStorage get storage => widget.storage;
-  int currentIndex = 1;
+  int currentIndex = 2;
   // List<Widget> pages = [
   //   const BlogScreen(),
+    // const AnalysisScreenPrevention(),
   //   const AnalysisScreenPre(),
   //    AnalysisScreenPrevention(),
   //   const AnalysisScreenProsecution(),
@@ -32,9 +33,9 @@ class _BottomPageAdminState extends State<BottomPageAdmin> {
     super.initState();
     pages = [
       BlogScreen(storage: storage),
+      const AnalysisScreenPrevention(),
       const AnalysisScreenPre(),
-      AnalysisScreenPrevention(),
-      const AnalysisScreenProsecution(),
+       const AnalysisScreenProsecution(),
       const FakeCallScreen(),
     ];
   }

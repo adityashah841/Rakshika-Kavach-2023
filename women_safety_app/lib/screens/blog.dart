@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/screens/register.dart';
 
 class Blog {
@@ -59,8 +60,18 @@ class BlogScreen extends StatefulWidget {
 class _BlogScreenState extends State<BlogScreen> {
   FlutterSecureStorage get storage => widget.storage;
   List<Blog> blogDisplay = [];
+
+  Future<void> blogUpdate() async {
+    String? ACCESS_LOGIN = await storage.read(key: 'access_login');
+    getBlogs(ACCESS_LOGIN).then((blogs) {
+      setState(() {
+        blogDisplay = blogs;
+      });
+    });
+  }
+
   @override
-  void initState() async{
+  void initState() {
     super.initState();
     // final u = getObject('user_login');
     // u.then((value) =>
@@ -71,20 +82,13 @@ class _BlogScreenState extends State<BlogScreen> {
     //   });
     // })
     // );
-    String? ACCESS_LOGIN = await storage.read(key: 'access_login');
-    getBlogs(ACCESS_LOGIN).then((blogs) {
-      setState(() {
-        blogDisplay = blogs;
-      });
-    });
+    blogUpdate();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blogs'),
-      ),
+      appBar: const AppBarConstant(),
       body: ListView.builder(
         itemCount: blogDisplay.length,
         itemBuilder: (context, index) {

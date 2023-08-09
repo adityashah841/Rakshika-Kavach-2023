@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:women_safety_app/components/app_bar.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -23,18 +24,18 @@ class _AnalysisScreenPreventionState extends State<AnalysisScreenPrevention> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Prevention Line Graph'),
-      ),
+      appBar: const AppBarConstant(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              'Prevention Diversions',
-              style: Theme.of(context).textTheme.titleLarge,
+            Center(
+              child: Text(
+                'Prevention Diversions',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
             const SizedBox(height: 32),
             _buildLineChart(selectedChartIndex),

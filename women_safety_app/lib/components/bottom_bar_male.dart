@@ -30,9 +30,9 @@ class _BottomPageMaleState extends State<BottomPageMale> {
   void initState() {
     super.initState();
     pages = [
-      NearMeScreen(),
+      const NearMeScreen(),
       BlogScreen(storage: storage),
-      CommunityChatScreen(),
+      CommunityChatScreen(storage: storage),
       const FakeCallScreen(),
       const ChatBotScreen(),
     ];

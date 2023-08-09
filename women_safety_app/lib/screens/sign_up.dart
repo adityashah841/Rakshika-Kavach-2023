@@ -5,7 +5,6 @@ import 'package:women_safety_app/screens/log_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:women_safety_app/screens/register.dart';
 
 class SignupScreen extends StatefulWidget {
   final FlutterSecureStorage storage;
