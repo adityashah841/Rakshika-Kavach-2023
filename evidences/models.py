@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import User
-# from cloudinary_storage.storage import RawMediaCloudinaryStorage
+from cloudinary_storage.storage import RawMediaCloudinaryStorage
 # from cloudinary_storage.validators import validate_video
 
 from django.conf import settings
@@ -28,10 +28,10 @@ class Evidence(models.Model):
     action = models.CharField(max_length=100, default=None) # What action was taken by the authorities 
     action_taken_by = models.CharField(max_length=100, default=None) # Who took the action
     action_taken_timestamp = models.DateTimeField(default=None) # When the action was taken
-    # video = models.FileField(upload_to=get_video_upload_to, storage=RawMediaCloudinaryStorage())
-    # audio = models.FileField(upload_to=get_audio_upload_to, storage=RawMediaCloudinaryStorage())
-    audio = models.FileField(upload_to=get_audio_upload_to)
-    video = models.FileField(upload_to=get_video_upload_to)
+    video = models.FileField(upload_to=get_video_upload_to, storage=RawMediaCloudinaryStorage())
+    audio = models.FileField(upload_to=get_audio_upload_to, storage=RawMediaCloudinaryStorage())
+    # audio = models.FileField(upload_to=get_audio_upload_to)
+    # video = models.FileField(upload_to=get_video_upload_to)
     # action_taken = models.CharField(max_length=100)
     # action_taken_by = models.CharField(max_length=100)
     # action_taken_timestamp = models.DateTimeField(auto_now_add=True)
