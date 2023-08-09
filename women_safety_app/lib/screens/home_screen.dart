@@ -40,29 +40,29 @@ class _StartScreenState extends State<StartScreen> {
   ];
 
   final List<String> contacts = ['+917303404504'];
-  Future<void> _requestPermissionsSequentially() async {
-    bool permissionsRequested = false;
+  // Future<void> _requestPermissionsSequentially() async {
+  //   bool permissionsRequested = false;
 
-    // Location permission
-    await Permission.location.request();
+  //   // Location permission
+  //   await Permission.location.request();
 
-    // Microphone permission
-    await Permission.microphone.request();
+  //   // Microphone permission
+  //   await Permission.microphone.request();
 
-    // Camera permission
-    await Permission.camera.request();
+  //   // Camera permission
+  //   await Permission.camera.request();
 
-    // Contacts permission
-    await Permission.contacts.request();
+  //   // Contacts permission
+  //   await Permission.contacts.request();
 
-    setState(() {
-      permissionsRequested = true;
-    });
-  }
+  //   setState(() {
+  //     permissionsRequested = true;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    _requestPermissionsSequentially();
+    // _requestPermissionsSequentially();
     return Scaffold(
       appBar: const AppBarConstant(),
       body: Container(
