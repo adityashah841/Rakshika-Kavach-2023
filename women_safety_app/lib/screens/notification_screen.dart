@@ -107,6 +107,20 @@ class _NotificationScreenState extends State<NotificationScreen> {
               color: rBottomBar,
             ),
             title: Text('ABC'),
+            trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+              //use icon buttons!
+              Icon(
+                Icons.check,
+                color: Colors.green,
+              ),
+              SizedBox(
+                width: 3,
+              ),
+              Icon(
+                Icons.cancel,
+                color: Colors.red,
+              ),
+            ]),
           ),
         ],
       ),
