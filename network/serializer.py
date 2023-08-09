@@ -16,7 +16,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ['id','user', 'user_notify','accept','reject','latitude','longitude']
+        fields = '__all__'
 
     # def get_user_name(self,obj):
     #     return obj.user.first_name

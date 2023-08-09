@@ -21,6 +21,7 @@ class Notification(models.Model):
     user_notify = models.ForeignKey(User,on_delete = models.CASCADE, related_name='send_notif', null = True, blank=True)
     latitude = models.CharField(max_length=200)
     longitude = models.CharField(max_length=200)
+    message = models.CharField(max_length=200, blank=True, null=True)
     accept = models.BooleanField(default=False)
     reject = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

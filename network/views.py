@@ -179,6 +179,7 @@ class AcceptNotificationRequestView(generics.GenericAPIView):
             content = {'detail': 'No such notification'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         uw.accept = True
+        uw.message = f"{request.user.username} is close and on the way, stay calm"
         uw.save()
         content = {'detail': 'Notification accepted'}
         return JsonResponse(content, status = status.HTTP_200_OK)
