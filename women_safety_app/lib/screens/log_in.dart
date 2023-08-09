@@ -1,18 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:women_safety_app/screens/home_screen.dart';
+import 'package:women_safety_app/components/bottom_bar.dart';
+import 'package:women_safety_app/components/bottom_bar_admin.dart';
+import 'package:women_safety_app/components/bottom_bar_male.dart';
 import 'package:women_safety_app/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+// String? GENDER;
+// String? ACCESS_REGISTER;
+// String? USERNAME;
+// String? ACCESS_LOGIN;
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final FlutterSecureStorage storage;
+  const LoginScreen({super.key, required this.storage});
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // final FlutterSecureStorage storage;
+  // _LoginScreenState({required this.storage});
+  FlutterSecureStorage get storage => widget.storage;
   String? username;
   String? password;
   bool remember = false;
@@ -21,13 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formkey = GlobalKey<FormState>();
   final List<String> errors = [];
 
-  Future<Map<String, dynamic>> loginUser(
-      String phone, String password, String authToken) async {
+  Future<Map<String, dynamic>> loginUser(String phone, String password) async {
     final url = Uri.parse('https://rakshika.onrender.com/account/login/');
     final headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $authToken'
     };
     final body = jsonEncode({'phone': phone, 'password': password});
 
@@ -75,6 +86,29 @@ class _LoginScreenState extends State<LoginScreen> {
     return value.contains(RegExp(r'[0-9]'));
   }
 
+  Future<void> _checkAndRequestPermissions() async {
+    final cameraStatus = await Permission.camera.request();
+    final microphoneStatus = await Permission.microphone.request();
+    final locationStatus = await Permission.location.request();
+    final contactsStatus = await Permission.contacts.request();
+
+    if (cameraStatus != PermissionStatus.granted ||
+        microphoneStatus != PermissionStatus.granted ||
+        locationStatus != PermissionStatus.granted ||
+        contactsStatus != PermissionStatus.granted) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Permission Required'),
+            content:
+                Text('Please grant all required permissions to use the app.'),
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 75,
+                  height: 40,
                 ),
                 SvgPicture.asset(
                   'assets/illustrations/login.svg',
@@ -120,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           //hyphen and dash allowed but not at beginning and end
                           //length from 3 to 30 characters
                           TextFormField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.number,
                             onChanged: (value) {
                               if (value.isNotEmpty) {
                                 removeError(
@@ -155,9 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              // label: const Text("Username"),
                               label: const Text("Phone Number"),
-                              // hintText: "Enter Username",
                               hintText: "Enter Phone Number",
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.always,
@@ -247,17 +279,33 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 30,
                           ),
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
+                              // String? gender;
+                              final u = loginUser(username!, password!);
+                              // final then = u.then((value) =>
+                              //     saveObject(value, 'user_login'));
+                              // u.then((value) => GENDER = value['gender']);
+                              var x = await u;
+                              await storage.write(
+                                  key: 'access_login', value: x["access"]);
+                              await storage.write(
+                                  key: 'gender', value: x["gender"]);
                               setState(() {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
                                   // backend
-                                  final u = getObject('user');
-                                  u.then((value) => loginUser(
-                                      username!, password!, value['access']));
+                                  // GENDER = x["gender"];
+                                  // print('gendervijay $GENDER');
+                                  // u.then((value) =>
+                                  //     ACCESS_LOGIN = value["access"]);
+                                  // ACCESS_LOGIN = x["access"];
+                                  // print('accessvijay $ACCESS_LOGIN');
+                                  // then.then((value) => print(value));
                                 }
                               });
+                              String? GENDER =
+                                  await storage.read(key: 'gender');
 
                               if (errors.isNotEmpty) {
                                 String errorText = errors.join(
@@ -270,11 +318,32 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textColor: Colors.white,
                                 );
                               } else {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => const StartScreen(),
-                                  ),
-                                );
+                                print('gender: $GENDER');
+                                // gender ??= 'Female';
+                                _checkAndRequestPermissions();
+                                if (GENDER == 'Female') {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BottomPage(storage: storage),
+                                    ),
+                                  );
+                                } else if (GENDER == 'Male') {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          BottomPageMale(storage: storage),
+                                    ),
+                                  );
+                                } else if (GENDER == 'Admin') {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => BottomPageAdmin(
+                                        storage: storage,
+                                      ),
+                                    ),
+                                  );
+                                }
                               }
                             },
                             child: const Text('Login'),
@@ -287,8 +356,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegisterScreen()));
+                                      builder: (context) => RegisterScreen(
+                                            storage: storage,
+                                          )));
                                 },
                                 child: const Text(
                                   'Not a member? Register',

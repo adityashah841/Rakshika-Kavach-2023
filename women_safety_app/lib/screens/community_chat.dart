@@ -1,16 +1,26 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/components/app_bar.dart';
 import '../utils/color.dart';
+<<<<<<< HEAD
 import 'package:http/http.dart' as http;
 
 class CommunityChatScreen extends StatefulWidget {
   const CommunityChatScreen({Key? key}) : super(key: key);
+=======
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class CommunityChatScreen extends StatefulWidget {
+  final FlutterSecureStorage storage;
+  const CommunityChatScreen({super.key, required this.storage});
+>>>>>>> d7c8ce58b00a511aee8b405b53b9f277238c720b
 
   @override
   _CommunityChatScreenState createState() => _CommunityChatScreenState();
 }
 
 class _CommunityChatScreenState extends State<CommunityChatScreen> {
+  FlutterSecureStorage get storage => widget.storage;
   int yourWarriorsCount = 10;
   List<Map<String, dynamic>> pendingRequests = [];
   List<Map<String, dynamic>> addWarriors = [];
@@ -127,14 +137,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: rBottomBar,
-        title: const Text('Rakshika'),
-        titleTextStyle: const TextStyle(
-          fontSize: 38,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      appBar: const AppBarConstant(),
       backgroundColor: rBackground,
       body: SingleChildScrollView(
         child: Column(
@@ -321,6 +324,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
             SizedBox(
               height: 200,
               child: ListView.builder(
+<<<<<<< HEAD
                 itemCount: addWarriors.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
@@ -354,6 +358,34 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
                   );
                 },
               ),
+=======
+                  itemCount: 10,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      width: 150,
+                      margin: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.account_circle,
+                              size: 40.0, color: rBottomBar),
+                          const SizedBox(height: 8),
+                          Text('Contact $index'),
+                          const SizedBox(height: 8),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: const Text('Add'),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+>>>>>>> d7c8ce58b00a511aee8b405b53b9f277238c720b
             ),
           ],
         ),

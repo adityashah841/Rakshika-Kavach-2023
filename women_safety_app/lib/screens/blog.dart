@@ -1,7 +1,10 @@
+// import 'dart:html';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:women_safety_app/screens/register.dart';
+import 'package:women_safety_app/components/app_bar.dart';
 
 class Blog {
   String title;
@@ -16,7 +19,7 @@ class Blog {
       required this.imageURL});
 }
 
-Future<List<Blog>> getBlogs(String authToken) async {
+Future<List<Blog>> getBlogs(String? authToken) async {
   final response = await http.get(
     // Uri.parse('http://localhost:8000/blogs/1/'),
     Uri.parse('https://rakshika.onrender.com/blogs/1/'),
@@ -46,34 +49,45 @@ Future<List<Blog>> getBlogs(String authToken) async {
 }
 
 class BlogScreen extends StatefulWidget {
-  const BlogScreen({super.key});
+  final FlutterSecureStorage storage;
+  const BlogScreen({super.key, required this.storage});
 
   @override
   State<BlogScreen> createState() => _BlogScreenState();
 }
 
 class _BlogScreenState extends State<BlogScreen> {
+  FlutterSecureStorage get storage => widget.storage;
   List<Blog> blogDisplay = [];
+
+  Future<void> blogUpdate() async {
+    String? ACCESS_LOGIN = await storage.read(key: 'access_login');
+    getBlogs(ACCESS_LOGIN).then((blogs) {
+      setState(() {
+        blogDisplay = blogs;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    final u = getObject('user');
-    u.then((value) =>
-    getBlogs(value['access']).then((blogs) {
-      setState(() {
-        // print(100);
-        blogDisplay = blogs;
-      });
-    })
-    );
+    // final u = getObject('user_login');
+    // u.then((value) =>
+    // getBlogs(value['access']).then((blogs) {
+    //   setState(() {
+    //     // print(100);
+    //     blogDisplay = blogs;
+    //   });
+    // })
+    // );
+    blogUpdate();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Blogs'),
-      ),
+      appBar: const AppBarConstant(),
       body: ListView.builder(
         itemCount: blogDisplay.length,
         itemBuilder: (context, index) {

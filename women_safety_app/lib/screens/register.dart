@@ -1,33 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:women_safety_app/screens/log_in.dart';
 import 'package:women_safety_app/screens/sign_up.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-void saveObject(dynamic myObject, String objectName) async {
+Future<bool> saveObject(dynamic myObject, String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String jsonString = jsonEncode(myObject);
-  await prefs.setString(objectName, jsonString);
+  bool x = await prefs.setString(objectName, jsonString);
+  return x;
 }
 
 dynamic getObject(String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? jsonString = prefs.getString(objectName);
-  Map<String, dynamic> jsonMap = jsonDecode(jsonString!);
+  if (jsonString == null) {
+    return null;
+  }
+  Map<String, dynamic> jsonMap = jsonDecode(jsonString);
   return jsonMap;
 }
 
 class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+  final FlutterSecureStorage storage;
+  const RegisterScreen({super.key, required this.storage});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  // final FlutterSecureStorage storage;
+  // _RegisterScreenState({required this.storage});
+  FlutterSecureStorage get storage => widget.storage;
   String? aadharnumber;
   String? otp;
   bool showOtpField = false;
@@ -222,6 +232,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             child: const Text('Get OTP'),
                           ),
+                          Row(
+                            children: [
+                              Visibility(
+                                visible: !showOtpField,
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => LoginScreen(
+                                                  storage: storage,
+                                                )));
+                                  },
+                                  child: const Text(
+                                    'Already a member? Login',
+                                    style: TextStyle(
+                                        color: Colors.blue, fontSize: 14),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -280,22 +311,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           // Login button
                           if (showOtpField)
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
                                   _formkey.currentState!.save();
                                   // Perform the login logic here...
                                   final data = validateOtp(otp!, aadharnumber!);
-                                  data.then(
-                                      (value) => saveObject(value, 'user'));
-                                  print("Hello!");
-                                  final x = getObject('user');
-                                  x.then((value) => print(value));
-                                  print("\n\n");
+                                  // final then = data.then((value) =>
+                                  // saveObject(value, 'user_register'));
+                                  // data.then((value) =>
+                                  //     ACCESS_REGISTER = value["access"]);
+                                  var x = await data;
+                                  await storage.write(
+                                      key: 'access_register',
+                                      value: x["access"]);
+                                  // data.then(
+                                  //     (value) => USERNAME = value["username"]);
+                                  await storage.write(
+                                      key: 'username', value: x["username"]);
+                                  // then.then((value) => print(value));
+                                  // print("Hello!");
+                                  // final x = getObject('user_register');
+                                  // x.then((value) => print(value));
+                                  // print("\n\n");
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SignupScreen(),
+                                      builder: (context) => SignupScreen(
+                                        storage: storage,
+                                      ),
                                     ),
                                   );
                                 } else {

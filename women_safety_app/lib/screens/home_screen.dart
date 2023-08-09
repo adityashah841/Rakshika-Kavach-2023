@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/components/blog_slider.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/components/sos_button.dart';
+import 'package:women_safety_app/components/warrior_component.dart';
 // import 'package:women_safety_app/utils/color.dart';
 
 class StartScreen extends StatefulWidget {
-  const StartScreen({super.key});
+  final FlutterSecureStorage storage;
+  const StartScreen({super.key, required this.storage});
 
   @override
   State<StartScreen> createState() => _StartScreenState();
 }
 
 class _StartScreenState extends State<StartScreen> {
-  final List<String> imageList = [
-    'assets/blogs/1.jpg',
-    'assets/blogs/2.jpg',
-    'assets/blogs/3.jpg',
-    'assets/blogs/4.jpg',
-  ];
+  FlutterSecureStorage get storage => widget.storage;
+  // final List<String> imageList = [
+  //   'assets/blogs/1.jpg',
+  //   'assets/blogs/2.jpg',
+  //   'assets/blogs/3.jpg',
+  //   'assets/blogs/4.jpg',
+  // ];
   final List<String> sloganList = [
     'Women safety first!',
     'Empowered women empower women!',
@@ -39,9 +43,29 @@ class _StartScreenState extends State<StartScreen> {
   ];
 
   final List<String> contacts = ['+917303404504'];
+  // Future<void> _requestPermissionsSequentially() async {
+  //   bool permissionsRequested = false;
+
+  //   // Location permission
+  //   await Permission.location.request();
+
+  //   // Microphone permission
+  //   await Permission.microphone.request();
+
+  //   // Camera permission
+  //   await Permission.camera.request();
+
+  //   // Contacts permission
+  //   await Permission.contacts.request();
+
+  //   setState(() {
+  //     permissionsRequested = true;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
+    // _requestPermissionsSequentially();
     return Scaffold(
       appBar: const AppBarConstant(),
       body: Container(
@@ -54,7 +78,8 @@ class _StartScreenState extends State<StartScreen> {
         ),
         child: Column(
           children: [
-            BlogSlider(imageList: imageList, sloganList: sloganList),
+            // BlogSlider(imageList: imageList, sloganList: sloganList),
+            WarriorsBox(storage: storage),
             SOSButton(contacts: contacts),
             EmergencyButton(contacts: contacts),
           ],

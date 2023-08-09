@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -11,7 +12,6 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
@@ -30,13 +30,14 @@ class _ProfilePageState extends State<ProfilePage> {
     'Other Address 1',
     'Other Address 2',
   ];
-  Map<String, bool> subtitleVisibility = {}; // New property
+  Map<String, bool> subtitleVisibility = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
+        title: const Text('Rakshika'),
+        backgroundColor: rBottomBar,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -46,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 5),
               const CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/images/user.JPG'),
+                // backgroundImage: AssetImage('assets/images/user.JPG'),
               ),
               const SizedBox(
                 height: 20,
@@ -57,7 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 CupertinoIcons.person,
               ),
               const SizedBox(height: 10),
-
               itemProfile(
                 'Age',
                 '15',
@@ -92,8 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 10),
-              const SizedBox(height: 5), // Add spacing
-              // Heading for Permissions
+              const SizedBox(height: 5),
               Container(
                 alignment: Alignment.centerLeft,
                 child: const Text(
@@ -105,7 +104,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 10),
-
               itemProfileToggle(
                 'Allow for Location',
                 CupertinoIcons.location,
@@ -140,16 +138,25 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 10),
               itemProfileToggle(
-                'Allow Contacts Access', // Added
-                CupertinoIcons.person_crop_circle, // Correct icon
-                contactsToggle, // Added
+                'Allow for Notification',
+                CupertinoIcons.bell_circle,
+                cameraToggle,
                 (value) {
-                  // Added
                   setState(() {
-                    // Added
-                    contactsToggle = value; // Added
-                  }); // Added
-                }, // Added
+                    // cameraToggle = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              itemProfileToggle(
+                'Allow Contacts Access',
+                CupertinoIcons.person_crop_circle,
+                contactsToggle,
+                (value) {
+                  setState(() {
+                    contactsToggle = value;
+                  });
+                },
               ),
               const SizedBox(height: 10),
               itemProfileToggle(
@@ -184,7 +191,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 children: [
                   const Text('Type:'),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   DropdownButton<String>(
                     value: selectedAddressType,
                     onChanged: (String? newValue) {
@@ -239,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Emergency Contact'),
+          title: const Text('Add Emergency Contact'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -288,7 +295,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  itemProfile(String title, String subtitle, IconData iconData) {
+  Widget itemProfile(String title, String subtitle, IconData iconData) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -303,24 +310,29 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       child: ListTile(
-        title: Text(title),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
         subtitle: Flexible(
           child: Text(
             subtitle,
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 18,
             ),
           ),
         ),
-        leading: Icon(iconData),
+        leading: Icon(iconData, color: Colors.black),
         tileColor: Colors.white,
       ),
     );
   }
 
-  itemProfile1(String title, IconData iconData, List<String> addresses) {
+  Widget itemProfile1(String title, IconData iconData, List<String> addresses) {
     if (!subtitleVisibility.containsKey(title)) {
       subtitleVisibility[title] = false; // Initialize visibility for this item
     }
@@ -339,7 +351,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       child: ListTile(
-        title: Text(title),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
         subtitle: GestureDetector(
           onTap: () {
             setState(() {
@@ -355,7 +372,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   return Text(
                     address,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                     ),
                   );
                 }).toList(),
@@ -363,19 +380,36 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ),
-        leading: Icon(iconData),
+        leading: Icon(iconData, color: Colors.black),
         trailing: GestureDetector(
           onTap: () {
             setState(() {
               subtitleVisibility[title] = !subtitleVisibility[title]!;
             });
           },
-          child: Icon(
-            subtitleVisibility[title]!
-                ? CupertinoIcons.up_arrow
-                : CupertinoIcons.down_arrow,
-            size: 30,
-            color: Colors.grey.shade400,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  // Handle the "Add" action here
+                  _showAddressModal(context);
+                },
+                child: Icon(
+                  CupertinoIcons.add,
+                  size: 30,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(width: 10),
+              Icon(
+                subtitleVisibility[title]!
+                    ? CupertinoIcons.up_arrow
+                    : CupertinoIcons.down_arrow,
+                size: 28,
+                color: Colors.black,
+              ),
+            ],
           ),
         ),
         tileColor: Colors.white,
@@ -383,7 +417,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  itemProfileToggle(String title, IconData iconData, bool value,
+  Widget itemProfileToggle(String title, IconData iconData, bool value,
       ValueChanged<bool> onChanged) {
     return Container(
       decoration: BoxDecoration(
@@ -400,7 +434,10 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       child: ListTile(
         title: Text(title),
-        leading: Icon(iconData),
+        leading: Icon(
+          iconData,
+          color: Colors.black,
+        ),
         trailing: CupertinoSwitch(
           value: value,
           onChanged: onChanged,
