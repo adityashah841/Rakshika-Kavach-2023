@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -294,7 +293,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  itemProfile(String title, String subtitle, IconData iconData) {
+  Widget itemProfile(String title, String subtitle, IconData iconData) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -309,14 +308,19 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       child: ListTile(
-        title: Text(title),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+          ),
+        ),
         subtitle: Flexible(
           child: Text(
             subtitle,
             overflow: TextOverflow.ellipsis,
             maxLines: 3,
             style: const TextStyle(
-              fontSize: 16,
+              fontSize: 18,
             ),
           ),
         ),
@@ -326,7 +330,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  itemProfile1(String title, IconData iconData, List<String> addresses) {
+  Widget itemProfile1(String title, IconData iconData, List<String> addresses) {
     if (!subtitleVisibility.containsKey(title)) {
       subtitleVisibility[title] = false; // Initialize visibility for this item
     }
@@ -345,7 +349,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       child: ListTile(
-        title: Text(title),
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
         subtitle: GestureDetector(
           onTap: () {
             setState(() {
@@ -361,7 +370,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   return Text(
                     address,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                     ),
                   );
                 }).toList(),
@@ -406,7 +415,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  itemProfileToggle(String title, IconData iconData, bool value,
+  Widget itemProfileToggle(String title, IconData iconData, bool value,
       ValueChanged<bool> onChanged) {
     return Container(
       decoration: BoxDecoration(
