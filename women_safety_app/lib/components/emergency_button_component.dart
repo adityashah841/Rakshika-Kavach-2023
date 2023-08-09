@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shake/shake.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 class EmergencyButton extends StatefulWidget {
   final List<String> contacts;
@@ -48,6 +49,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        const SizedBox(height: 20),
         GestureDetector(
           onTap: () async {
             await _getCurrentLocationAndTrigger(widget.contacts);
@@ -57,7 +59,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
             width: MediaQuery.of(context).size.width * 0.75,
             decoration: const BoxDecoration(
               shape: BoxShape.rectangle,
-              color: Colors.green,
+              color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: const Center(
@@ -65,7 +67,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
                 'Alert Contacts',
                 style: TextStyle(
                   fontSize: 14.0,
-                  color: Colors.white,
+                  color: rBottomBar,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -140,9 +142,7 @@ class _EmergencyButtonState extends State<EmergencyButton> {
     Position position;
     try {
       position = await _getCurrentLocation();
-      String message = 'Krish Shah\n\n';
-      message += 'Project practice Che Ignore !!\n\n';
-      message += 'My current location is:\n';
+      String message = 'My current location is:\n';
       message += 'Latitude: ${position.latitude}\n';
       message += 'Longitude: ${position.longitude}\n';
       message += 'Click the following link to see my live location:\n';

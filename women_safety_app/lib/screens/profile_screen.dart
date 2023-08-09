@@ -201,11 +201,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       selectedAddressType = newValue!;
                     },
                     items: <String>[
-                      'Primary',
-                      'Secondary',
-                      'Work',
-                      'Home',
-                      'Other',
+                      'Home Virar',
+                      'Office Dahisar',
+                      'D J Sanghvi',
                     ].map<DropdownMenuItem<String>>(
                       (String value) {
                         return DropdownMenuItem<String>(
