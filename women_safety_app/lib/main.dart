@@ -1,4 +1,3 @@
-import 'dart:convert'; // Import this for json decoding
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/bottom_bar.dart';
@@ -6,7 +5,6 @@ import 'package:women_safety_app/components/bottom_bar_admin.dart';
 import 'package:women_safety_app/components/bottom_bar_male.dart';
 import 'package:women_safety_app/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:women_safety_app/screens/register.dart';
 
 void main() async {

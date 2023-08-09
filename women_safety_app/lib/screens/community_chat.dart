@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:women_safety_app/components/app_bar.dart';
 import '../utils/color.dart';
 
 class CommunityChatScreen extends StatefulWidget {
@@ -21,14 +22,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: rBottomBar,
-        title: const Text('Rakshika'),
-        titleTextStyle: const TextStyle(
-          fontSize: 38,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      appBar: const AppBarConstant(),
       backgroundColor: rBackground,
       body: SingleChildScrollView(
         child: Column(
