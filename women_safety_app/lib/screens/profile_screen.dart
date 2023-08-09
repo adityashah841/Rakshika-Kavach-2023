@@ -34,6 +34,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return MaterialApp(
       debugShowCheckedModeBanner: false, // Add this line
       home: Scaffold(
@@ -53,6 +54,63 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(
                   height: 20,
+=======
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Rakshika'),
+        backgroundColor: rBottomBar,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            children: [
+              const SizedBox(height: 5),
+              const CircleAvatar(
+                radius: 50,
+                // backgroundImage: AssetImage('assets/images/user.JPG'),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              itemProfile(
+                'Name',
+                'Vidhi Kansara',
+                CupertinoIcons.person,
+              ),
+              const SizedBox(height: 10),
+              itemProfile(
+                'Age',
+                '20',
+                CupertinoIcons.clock,
+              ),
+              const SizedBox(height: 10),
+              itemProfile(
+                'Residential Address',
+                'Vasai Vivar',
+                CupertinoIcons.home,
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  _showAddressModal(context);
+                },
+                child: itemProfile1(
+                  'Other Address',
+                  CupertinoIcons.desktopcomputer,
+                  otherAddresses,
+                ),
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  _showEmergencyContactModal(context);
+                },
+                child: itemProfile1(
+                  'Emergency Contacts',
+                  CupertinoIcons.bell,
+                  ['+919689155601', '+919082230267'],
+>>>>>>> 15ffda6eeac016336384784278c0ff95072e650f
                 ),
                 itemProfile(
                   'Name',
@@ -201,11 +259,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       selectedAddressType = newValue!;
                     },
                     items: <String>[
-                      'Primary',
-                      'Secondary',
-                      'Work',
-                      'Home',
-                      'Other',
+                      'Home Virar',
+                      'Office Dahisar',
+                      'D J Sanghvi',
                     ].map<DropdownMenuItem<String>>(
                       (String value) {
                         return DropdownMenuItem<String>(

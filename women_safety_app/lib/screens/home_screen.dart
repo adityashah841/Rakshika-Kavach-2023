@@ -42,7 +42,7 @@ class _StartScreenState extends State<StartScreen> {
     'Safety is not negotiable!',
   ];
 
-  final List<String> contacts = ['+917303404504'];
+  final List<String> contacts = ['+919689155601','+919082230267'];
   // Future<void> _requestPermissionsSequentially() async {
   //   bool permissionsRequested = false;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import '../utils/color.dart';
 
 class NotificationItem {
@@ -39,6 +40,15 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  final FlutterTts flutterTts = FlutterTts();
+
+  _speak(String text) async {
+    await flutterTts.setLanguage("en-US");
+    await flutterTts.setPitch(1);
+    await flutterTts.setVolume(1.0);
+    await flutterTts.speak(text);
+  }
+
   void _removeNotification(int index) {
     setState(() {
       dummyNotifications.removeAt(index);
@@ -50,6 +60,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return InkWell(
       onTap: () {
         // Implement what happens when the user taps on a notification item.
+        _speak(notification.message);
       },
       child: Container(
         decoration: BoxDecoration(
