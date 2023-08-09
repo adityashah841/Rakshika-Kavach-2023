@@ -83,37 +83,37 @@ class NearMeScreen extends StatelessWidget {
                     _buildServiceBox(
                       image: 'assets/images/policeStation.png',
                       text: "Police Stations",
-                      gradientColors: [rPurple, Colors.white],
+                      gradientColors: [p1, Colors.white],
                       searchLocation: "Police stations",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/railwayStation.png',
                       text: "Railway Stations",
-                      gradientColors: [rPurple, Colors.white],
+                      gradientColors: [p1, Colors.white],
                       searchLocation: "Railway stations",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/hospital.png',
                       text: "Hospitals",
-                      gradientColors: [rPurple, Colors.white],
+                      gradientColors: [p1, Colors.white],
                       searchLocation: "Hospitals",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/busStation.png',
                       text: "Bus Stations",
-                      gradientColors: [rPurple, Colors.white],
+                      gradientColors: [p1, Colors.white],
                       searchLocation: "Bus stations",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/pharmacies.png',
                       text: "Pharmacies",
-                      gradientColors: [rPurple, Colors.white],
+                      gradientColors: [p1, Colors.white],
                       searchLocation: "Pharmacies",
                     ),
                     _buildServiceBox(
                       image: 'assets/images/temples.png',
                       text: "Religious Centers",
-                      gradientColors: [rPurple, Colors.white],
+                      gradientColors: [p1, Colors.white],
                       searchLocation: "Temples",
                     ),
                   ],
@@ -131,6 +131,7 @@ class NearMeScreen extends StatelessWidget {
     required String text,
     required List<Color> gradientColors,
     required String searchLocation,
+    // required double height,
   }) {
     return GestureDetector(
       onTap: () {
@@ -154,14 +155,16 @@ class NearMeScreen extends StatelessWidget {
             children: [
               Image.asset(
                 image,
+                height: 100,
+                width: 100,
               ),
-              const SizedBox(height: 0.02),
+              const SizedBox(height: 3),
               Text(
                 text,
                 style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 14.0,
-                ),
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
             ],
