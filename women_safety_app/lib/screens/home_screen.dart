@@ -79,7 +79,14 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           children: [
             // BlogSlider(imageList: imageList, sloganList: sloganList),
-            WarriorsBox(storage: storage),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  WarriorsBox(storage: storage),
+                ],
+              ),
+            ),
             SOSButton(contacts: contacts),
             EmergencyButton(contacts: contacts),
           ],
