@@ -34,142 +34,145 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Rakshika'),
-        backgroundColor: rBottomBar,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Column(
-            children: [
-              const SizedBox(height: 5),
-              const CircleAvatar(
-                radius: 50,
-                // backgroundImage: AssetImage('assets/images/user.JPG'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              itemProfile(
-                'Name',
-                'Ahad Hashmi',
-                CupertinoIcons.person,
-              ),
-              const SizedBox(height: 10),
-              itemProfile(
-                'Age',
-                '15',
-                CupertinoIcons.clock,
-              ),
-              const SizedBox(height: 10),
-              itemProfile(
-                'Residential Address',
-                'abc address, xyz city',
-                CupertinoIcons.home,
-              ),
-              const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {
-                  _showAddressModal(context);
-                },
-                child: itemProfile1(
-                  'Other Address',
-                  CupertinoIcons.desktopcomputer,
-                  otherAddresses,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Add this line
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Rakshika'),
+          backgroundColor: rBottomBar,
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: Column(
+              children: [
+                const SizedBox(height: 5),
+                const CircleAvatar(
+                  radius: 50,
+                  // backgroundImage: AssetImage('assets/images/user.JPG'),
                 ),
-              ),
-              const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () {
-                  _showEmergencyContactModal(context);
-                },
-                child: itemProfile1(
-                  'Emergency Contacts',
-                  CupertinoIcons.bell,
-                  ['hello', 'new'],
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(height: 10),
-              const SizedBox(height: 5),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Permissions',
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
+                itemProfile(
+                  'Name',
+                  'Ahad Hashmi',
+                  CupertinoIcons.person,
+                ),
+                const SizedBox(height: 10),
+                itemProfile(
+                  'Age',
+                  '15',
+                  CupertinoIcons.clock,
+                ),
+                const SizedBox(height: 10),
+                itemProfile(
+                  'Residential Address',
+                  'abc address, xyz city',
+                  CupertinoIcons.home,
+                ),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    _showAddressModal(context);
+                  },
+                  child: itemProfile1(
+                    'Other Address',
+                    CupertinoIcons.desktopcomputer,
+                    otherAddresses,
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              itemProfileToggle(
-                'Allow for Location',
-                CupertinoIcons.location,
-                locationToggle,
-                (value) {
-                  setState(() {
-                    locationToggle = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              itemProfileToggle(
-                'Allow for Audio & Mic',
-                CupertinoIcons.mic,
-                audioToggle,
-                (value) {
-                  setState(() {
-                    audioToggle = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              itemProfileToggle(
-                'Allow for Camera',
-                CupertinoIcons.camera,
-                cameraToggle,
-                (value) {
-                  setState(() {
-                    cameraToggle = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              itemProfileToggle(
-                'Allow for Notification',
-                CupertinoIcons.bell_circle,
-                cameraToggle,
-                (value) {
-                  setState(() {
-                    // cameraToggle = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              itemProfileToggle(
-                'Allow Contacts Access',
-                CupertinoIcons.person_crop_circle,
-                contactsToggle,
-                (value) {
-                  setState(() {
-                    contactsToggle = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 10),
-              itemProfileToggle(
-                'Night Mode',
-                CupertinoIcons.moon,
-                nightModeToggle,
-                (value) {
-                  setState(() {
-                    nightModeToggle = value;
-                  });
-                },
-              ),
-            ],
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    _showEmergencyContactModal(context);
+                  },
+                  child: itemProfile1(
+                    'Emergency Contacts',
+                    CupertinoIcons.bell,
+                    ['hello', 'new'],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const SizedBox(height: 5),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: const Text(
+                    'Permissions',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                itemProfileToggle(
+                  'Allow for Location',
+                  CupertinoIcons.location,
+                  locationToggle,
+                  (value) {
+                    setState(() {
+                      locationToggle = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                itemProfileToggle(
+                  'Allow for Audio & Mic',
+                  CupertinoIcons.mic,
+                  audioToggle,
+                  (value) {
+                    setState(() {
+                      audioToggle = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                itemProfileToggle(
+                  'Allow for Camera',
+                  CupertinoIcons.camera,
+                  cameraToggle,
+                  (value) {
+                    setState(() {
+                      cameraToggle = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                itemProfileToggle(
+                  'Allow for Notification',
+                  CupertinoIcons.bell_circle,
+                  cameraToggle,
+                  (value) {
+                    setState(() {
+                      // cameraToggle = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                itemProfileToggle(
+                  'Allow Contacts Access',
+                  CupertinoIcons.person_crop_circle,
+                  contactsToggle,
+                  (value) {
+                    setState(() {
+                      contactsToggle = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 10),
+                itemProfileToggle(
+                  'Night Mode',
+                  CupertinoIcons.moon,
+                  nightModeToggle,
+                  (value) {
+                    setState(() {
+                      nightModeToggle = value;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -198,11 +201,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       selectedAddressType = newValue!;
                     },
                     items: <String>[
-                      'Primary',
-                      'Secondary',
-                      'Work',
-                      'Home',
-                      'Other',
+                      'Home Virar',
+                      'Office Dahisar',
+                      'D J Sanghvi',
                     ].map<DropdownMenuItem<String>>(
                       (String value) {
                         return DropdownMenuItem<String>(
@@ -302,7 +303,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 10,
@@ -353,7 +354,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: ListTile(
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
@@ -371,7 +372,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: addresses.map((address) {
                   return Text(
                     address,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   );
@@ -395,13 +396,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   // Handle the "Add" action here
                   _showAddressModal(context);
                 },
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.add,
                   size: 30,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Icon(
                 subtitleVisibility[title]!
                     ? CupertinoIcons.up_arrow
@@ -425,7 +426,7 @@ class _ProfilePageState extends State<ProfilePage> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 10,

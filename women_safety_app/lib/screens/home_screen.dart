@@ -43,7 +43,7 @@ class _StartScreenState extends State<StartScreen> {
     'Safety is not negotiable!',
   ];
 
-  final List<String> contacts = ['+917303404504'];
+  final List<String> contacts = ['+919689155601','+919082230267'];
   // Future<void> _requestPermissionsSequentially() async {
   //   bool permissionsRequested = false;
 
@@ -80,8 +80,15 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           children: [
             // BlogSlider(imageList: imageList, sloganList: sloganList),
-            WarriorsBox(storage: storage),
-            SOSButton(contacts: contacts, storage: storage,),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  WarriorsBox(storage: storage),
+                ],
+              ),
+            ),
+            SOSButton(contacts: contacts, storage: storage),
             EmergencyButton(contacts: contacts),
           ],
         ),

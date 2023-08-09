@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/screens/community_chat.dart';
+import 'package:women_safety_app/utils/color.dart';
+
+import '../utils/color.dart';
 
 class WarriorsBox extends StatelessWidget {
   final FlutterSecureStorage storage;
@@ -20,30 +23,30 @@ class WarriorsBox extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.blue, // Box background color
+          color: Colors.white, // Box background color
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 2,
               blurRadius: 5,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
         ),
-        child: Column(
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              Icons.shield,
+              Icons.security,
               size: 50,
-              color: Colors.white, // Icon color
+              color: rBottomBar, // Icon color
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Text(
-              'Warriors Box', // Box title
+              'Rakshika Warriors ', // Box title
               style: TextStyle(
-                color: Colors.white, // Text color
+                color: rBottomBar, // Text color
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
@@ -60,9 +63,9 @@ class YourDestinationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Warriors Page'),
+        title: const Text('Warriors Page'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Welcome to the Warriors Page!'),
       ),
     );
