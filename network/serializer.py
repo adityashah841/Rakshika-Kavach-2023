@@ -39,3 +39,11 @@ class UserWarriorSerializer(serializers.ModelSerializer):
     
     def get_warrior_name(self,obj):
         return obj.warrior.username
+    
+# class CommunitySearchSerializer(serializers.Serializer):
+#     # community = serializers.CharField(max_length=100)
+#     latitude = serializers.CharField(max_length=100)
+#     longitude = serializers.CharField(max_length=100)
+
+#     class Meta:
+#         fields = ['latitude','longitude']

@@ -13,6 +13,37 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.conf import settings
 from django.contrib.auth import get_user_model
 import base64
+from django.core.mail import EmailMultiAlternatives
+from django.conf import settings
+from django.core.files.base import ContentFile
+import requests
+
+def send_email_with_cloud_attachments(to_email, subject, message, video_url, audio_url):
+    """
+    Send an email with video and audio attachments from the cloud using links.
+    
+    :param to_email: str or list of str
+        The email address(es) to send the email to.
+    :param subject: str
+        The subject of the email.
+    :param message: str
+        The message to include in the email.
+    :param video_url: str
+        The URL of the video file in the cloud.
+    :param audio_url: str
+        The URL of the audio file in the cloud.
+    """
+    from_email = settings.DEFAULT_FROM_EMAIL
+    msg = EmailMultiAlternatives(subject, message, from_email, [to_email])
+    
+    video_response = requests.get(video_url)
+    msg.attach("video.mp4", video_response.content, "video/mp4")
+    
+    audio_response = requests.get(audio_url)
+    msg.attach("audio.mp3", audio_response.content, "audio/mpeg")
+    
+    msg.send()
+
 
 User = get_user_model()
 
@@ -33,6 +64,13 @@ class EvidenceView(generics.GenericAPIView):
         if serializer.is_valid():
             # print(serializer.validated_data['video'])
             serializer.save()
+            send_email_with_cloud_attachments(
+                to_email=request.user.email,
+                subject='Evidence uploaded',
+                message='Your evidence has been uploaded successfully.',
+                video_url=serializer.validated_data['video'].url,
+                audio_url=serializer.validated_data['audio'].url
+            )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
