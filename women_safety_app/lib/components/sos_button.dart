@@ -9,7 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:cloudinary/cloudinary.dart';
 
 class SOSButton extends StatefulWidget {

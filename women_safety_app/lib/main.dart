@@ -8,6 +8,7 @@ import 'package:audioplayers/audioplayers.dart';
 
 import 'package:women_safety_app/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 // import 'package:women_safety_app/screens/register.dart';
 
 void main() async {
@@ -47,6 +48,7 @@ class _AppStartState extends State<AppStart> {
     _checkTokenAndGender();
   }
 
+  
   Future<void> _checkTokenAndGender() async {
     // final x = getObject('user_login');
     // if (x != null) {

@@ -8,6 +8,7 @@ import 'package:women_safety_app/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // String? GENDER;
 // String? ACCESS_REGISTER;
@@ -83,6 +84,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool containsDigit(String value) {
     return value.contains(RegExp(r'[0-9]'));
+  }
+
+  Future<void> _checkAndRequestPermissions() async {
+    final cameraStatus = await Permission.camera.request();
+    final microphoneStatus = await Permission.microphone.request();
+    final locationStatus = await Permission.location.request();
+    final contactsStatus = await Permission.contacts.request();
+
+    if (cameraStatus != PermissionStatus.granted ||
+        microphoneStatus != PermissionStatus.granted ||
+        locationStatus != PermissionStatus.granted ||
+        contactsStatus != PermissionStatus.granted) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Permission Required'),
+            content:
+                Text('Please grant all required permissions to use the app.'),
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -265,9 +289,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               // u.then((value) => GENDER = value['gender']);
                               var x = await u;
                               await storage.write(
-                                      key: 'access_login', value: x["access"]);
+                                  key: 'access_login', value: x["access"]);
                               await storage.write(
-                                      key: 'gender', value: x["gender"]);
+                                  key: 'gender', value: x["gender"]);
                               setState(() {
                                 if (_formkey.currentState?.validate() ??
                                     false) {
@@ -282,7 +306,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   // then.then((value) => print(value));
                                 }
                               });
-                              String? GENDER = await storage.read(key: 'gender');
+                              String? GENDER =
+                                  await storage.read(key: 'gender');
 
                               if (errors.isNotEmpty) {
                                 String errorText = errors.join(
@@ -295,27 +320,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   textColor: Colors.white,
                                 );
                               } else {
-                                // String? gender;
-                                // final x = getObject('user_login');
-                                // print(x);
-                                // if (x != null) {
-                                //   final value = await x;
-                                //   print(value);
-                                //   if (value != null) {
-                                //     final value2 =
-                                //         jsonDecode(jsonEncode(value));
-                                //     print(value2);
-                                //     gender = value2["gender"];
-                                //     print(gender);
-                                //     setState(() {});
-                                //   }
-                                // }
                                 print('gender: $GENDER');
                                 // gender ??= 'Female';
+                                _checkAndRequestPermissions();
                                 if (GENDER == 'Female') {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => BottomPage(storage: storage),
+                                      builder: (context) =>
+                                          BottomPage(storage: storage),
                                     ),
                                   );
                                 } else if (GENDER == 'Male') {
@@ -328,8 +340,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 } else if (GENDER == 'Admin') {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          BottomPageAdmin(storage: storage,),
+                                      builder: (context) => BottomPageAdmin(
+                                        storage: storage,
+                                      ),
                                     ),
                                   );
                                 }
@@ -345,8 +358,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          RegisterScreen(storage: storage,)));
+                                      builder: (context) => RegisterScreen(
+                                            storage: storage,
+                                          )));
                                 },
                                 child: const Text(
                                   'Not a member? Register',
