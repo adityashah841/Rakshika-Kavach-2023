@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:women_safety_app/screens/analysis_precaution.dart';
 import 'package:women_safety_app/screens/prevention.dart';
 import 'package:women_safety_app/screens/profile_screen.dart';
-import 'package:women_safety_app/screens/setting_screen.dart';
+import 'package:women_safety_app/screens/notification_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
 
 class AppBarConstant extends StatefulWidget implements PreferredSizeWidget {
