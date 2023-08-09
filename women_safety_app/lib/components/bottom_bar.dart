@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/community_chat.dart';
+import 'package:women_safety_app/screens/blog.dart';
+// import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/screens/safe_nav_screen.dart';
@@ -33,9 +34,9 @@ class _BottomPageState extends State<BottomPage> {
     pages = [
       const NearMeScreen(),
       const SafeNavScreen(),
-      const StartScreen(),
+      StartScreen(storage: storage),
       const FakeCallScreen(),
-      CommunityChatScreen(storage: storage,),
+      BlogScreen(storage: storage)
     ];
   }
 
@@ -80,8 +81,8 @@ class _BottomPageState extends State<BottomPage> {
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Warrior",
-            icon: Icon(Icons.security),
+            label: "Blogs",
+            icon: Icon(Icons.bookmarks_sharp),
             backgroundColor: rBottomBar,
           ),
         ],
