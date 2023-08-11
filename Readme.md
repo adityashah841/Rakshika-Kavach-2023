@@ -2,7 +2,7 @@
 
 ### Kavach 2023 - A national level hackathon organised by the MoE's Innovation Cell,AICTE in collaboration with Bureau of Police Research and Development (BPR&D)(MHA) and Indian Cybercrime Coordination Centre (I4C)(MHA) to identify innovative concepts and technology solutions for addressing the security challenges of the 21st century faced by Indian intelligence agencies and conceived to challenge India's innovative minds to conceptualise ideas and framework in the domain of cyber security using artificial intelligence, deep learning, machine learning, automation, big data and cloud computing.
 ## Introduction:
-<p>Hello Everyone, this is the team Sleep Deprived which consists of 6 members and each stack: Krish Shah, Mohammed Raza Syed, Vidhi Kansara for Flutter(Frontend), Anaida Lewis and Vijay Harkare for Django(Backend), Aditya Shah and Mohammed Raza for AI/ML and Aditya Shah for IOT</p>
+<p>Hello Everyone, this is the team Sleep Deprived which consists of 6 members and each stack: Krish Shah, Mohammed Raza, Vidhi Kansara for Flutter(Frontend), Anaida Lewis and Vijay Harkare for Django(Backend), Aditya Shah and Mohammed Raza for AI/ML and Aditya Shah for IOT</p>
 
 ## Problem Statement : 
 
