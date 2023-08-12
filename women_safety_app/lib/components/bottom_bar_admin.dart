@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:women_safety_app/screens/analysis_precaution.dart';
 import 'package:women_safety_app/screens/blog.dart';
 import 'package:women_safety_app/screens/e_fir_admin.dart';
-import 'package:women_safety_app/screens/fake_call_screen.dart';
 import 'package:women_safety_app/screens/prevention.dart';
 import 'package:women_safety_app/screens/prosecution.dart';
 import 'package:women_safety_app/utils/color.dart';
