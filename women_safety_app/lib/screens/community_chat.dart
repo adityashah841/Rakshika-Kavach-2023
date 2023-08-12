@@ -2,18 +2,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import '../utils/color.dart';
-<<<<<<< HEAD
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-class CommunityChatScreen extends StatefulWidget {
-  const CommunityChatScreen({Key? key}) : super(key: key);
-=======
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CommunityChatScreen extends StatefulWidget {
   final FlutterSecureStorage storage;
   const CommunityChatScreen({super.key, required this.storage});
->>>>>>> d7c8ce58b00a511aee8b405b53b9f277238c720b
 
   @override
   _CommunityChatScreenState createState() => _CommunityChatScreenState();
@@ -37,7 +32,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
   Future<void> _fetchDataWithAuthorization() async {
     final token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxODM0MzEwLCJpYXQiOjE2OTE1NzUxMTAsImp0aSI6IjNlZjdhNmYyYTk0NTRjMTliYzVkN2ZlNTMyMDZmNTFhIiwidXNlcl9pZCI6MX0.0t3z9GC9d7JgHxnifq5Q5tJEuVB8gFf6frpvrb6kPyc';
     final response = await http.get(
-      Uri.parse('http://127.0.0.1:8000/network/'),
+      Uri.parse('https://rakshika.onrender.com/network/'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -55,9 +50,10 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
 
 
   Future<void> _postAdd(String phone) async {
+    print(phone);
     final token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxODM0MzEwLCJpYXQiOjE2OTE1NzUxMTAsImp0aSI6IjNlZjdhNmYyYTk0NTRjMTliYzVkN2ZlNTMyMDZmNTFhIiwidXNlcl9pZCI6MX0.0t3z9GC9d7JgHxnifq5Q5tJEuVB8gFf6frpvrb6kPyc';
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/network/'),
+      Uri.parse('https://rakshika.onrender.com/network/'),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
@@ -101,7 +97,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
   Future<void> _getFollowersFollowing() async {
     final token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxODM0MzEwLCJpYXQiOjE2OTE1NzUxMTAsImp0aSI6IjNlZjdhNmYyYTk0NTRjMTliYzVkN2ZlNTMyMDZmNTFhIiwidXNlcl9pZCI6MX0.0t3z9GC9d7JgHxnifq5Q5tJEuVB8gFf6frpvrb6kPyc';
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/network/count/'),
+      Uri.parse('https://rakshika.onrender.com/network/count/'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -161,7 +157,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
                         style: TextStyle(fontSize: 18.0),
                       ),
                       Text(
-                        '$responseData["warriors"]' ?? '0',
+                        yourWarriorsCount.toString(), // Use your dynamic variable here
                         style: const TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
@@ -169,16 +165,16 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
                       )
                     ],
                   ),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         'You being warrior',
                         style: TextStyle(fontSize: 18.0),
                       ),
                       Text(
-                        '$responseData["volunteer"]' ?? '0',
-                        style: const TextStyle(
+                        '20',
+                        style: TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -324,7 +320,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
             SizedBox(
               height: 200,
               child: ListView.builder(
-<<<<<<< HEAD
+
                 itemCount: addWarriors.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
@@ -358,34 +354,6 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
                   );
                 },
               ),
-=======
-                  itemCount: 10,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      width: 150,
-                      margin: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.account_circle,
-                              size: 40.0, color: rBottomBar),
-                          const SizedBox(height: 8),
-                          Text('Contact $index'),
-                          const SizedBox(height: 8),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: const Text('Add'),
-                          )
-                        ],
-                      ),
-                    );
-                  }),
->>>>>>> d7c8ce58b00a511aee8b405b53b9f277238c720b
             ),
           ],
         ),
