@@ -20,10 +20,10 @@ class WarriorsBox extends StatelessWidget {
         ));
       },
       child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
+        width: 185,
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: Colors.white, // Box background color
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -34,24 +34,29 @@ class WarriorsBox extends StatelessWidget {
             ),
           ],
         ),
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.security,
-              size: 50,
-              color: rBottomBar, // Icon color
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Rakshika Warriors ', // Box title
-              style: TextStyle(
-                color: rBottomBar, // Text color
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+        child: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.security,
+                size: 50,
+                color: rBottomBar,
               ),
-            ),
-          ],
+              SizedBox(height: 10),
+              Text(
+                'Rakshika Warriors',
+                style: TextStyle(
+                  color: rBottomBar,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
+          ),
         ),
       ),
     );

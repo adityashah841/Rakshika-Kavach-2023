@@ -69,6 +69,7 @@ dependencies:
   video_player: ^2.7.0
   assets_audio_player: ^3.0.6
   flutter_charts: ^0.5.1
+  file_picker: ^5.3.3
 
 dev_dependencies:
   flutter_test:

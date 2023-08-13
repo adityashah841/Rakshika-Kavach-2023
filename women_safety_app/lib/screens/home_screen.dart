@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/app_bar.dart';
+import 'package:women_safety_app/components/efir_female_component.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/components/sos_button.dart';
 import 'package:women_safety_app/components/warrior_component.dart';
@@ -80,9 +81,12 @@ class _StartScreenState extends State<StartScreen> {
             // BlogSlider(imageList: imageList, sloganList: sloganList),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Column(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   WarriorsBox(storage: storage),
+                  const SizedBox(width: 15),
+                  const EFirFemaleComponent(),
                 ],
               ),
             ),

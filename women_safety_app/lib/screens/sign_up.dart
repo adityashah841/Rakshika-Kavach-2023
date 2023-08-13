@@ -286,14 +286,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                           error:
                                               "Please confirm your password");
                                     }
-
                                     if (password == value) {
                                       removeError(
                                           error: "Passwords don't match");
                                     } else {
                                       addError(error: "Passwords don't match");
                                     }
-
                                     confirmPassword = value;
                                   },
                                   validator: (value) {
