@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import '../utils/color.dart';
 import 'dart:convert';
 
-
 class NotificationItem {
   int id;
   Object user;
@@ -13,9 +12,12 @@ class NotificationItem {
   String message;
   DateTime created_at;
 
-
   NotificationItem(
-      {required this.id, required this.user, required this.user_notify,required this.message, required this.created_at});
+      {required this.id,
+      required this.user,
+      required this.user_notify,
+      required this.message,
+      required this.created_at});
 }
 // List<NotificationItem> dummyNotifications = [
 //   NotificationItem(
@@ -41,7 +43,7 @@ Future<List<NotificationItem>> getNotif(String? authToken) async {
     // print(data);
     final notifs = data.map<NotificationItem>((NotifData) {
       return NotificationItem(
-        id : NotifData['id'],
+        id: NotifData['id'],
         user: NotifData['user'],
         user_notify: NotifData['user_notify'],
         message: NotifData['message'] ?? "",
@@ -56,7 +58,6 @@ Future<List<NotificationItem>> getNotif(String? authToken) async {
     throw Exception('Failed to load notifs');
   }
 }
-
 
 Future<List<NotificationItem>> getHelpNotif(String? authToken) async {
   final response = await http.get(
@@ -74,7 +75,7 @@ Future<List<NotificationItem>> getHelpNotif(String? authToken) async {
     // print(data);
     final helpnotifs = data.map<NotificationItem>((HelpNotifData) {
       return NotificationItem(
-        id : HelpNotifData['id'],
+        id: HelpNotifData['id'],
         user: HelpNotifData['user'],
         user_notify: HelpNotifData['user_notify'],
         message: HelpNotifData['message'] ?? "",
@@ -89,8 +90,6 @@ Future<List<NotificationItem>> getHelpNotif(String? authToken) async {
     throw Exception('Failed to load help notifs');
   }
 }
-
-
 
 String _getTimeAgo(DateTime dateTime) {
   final now = DateTime.now();
@@ -114,8 +113,6 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-
-
   final FlutterTts flutterTts = FlutterTts();
 
   _speak(String text) async {
@@ -129,10 +126,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   List<NotificationItem> NotifDisplay = [];
   List<NotificationItem> HelpNotifDisplay = [];
 
-
   Future<void> NotifUpdate() async {
     // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
-    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String ACCESS_LOGIN =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     getNotif(ACCESS_LOGIN).then((notif) {
       setState(() {
         NotifDisplay = notif;
@@ -143,7 +140,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Future<void> HelpNotifUpdate() async {
     // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
-    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String ACCESS_LOGIN =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     getHelpNotif(ACCESS_LOGIN).then((helpnotif) {
       setState(() {
         HelpNotifDisplay = helpnotif;
@@ -152,9 +150,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     // print(NotifDisplay);
   }
 
-  
-
-
   @override
   void initState() {
     super.initState();
@@ -162,20 +157,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
     HelpNotifUpdate();
   }
 
-  void _removeNotification(int id) async{
-      String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
-      final response = await http.delete(
-        Uri.parse('https://rakshika.onrender.com/network/notification/${id}/'),
-        headers: {'Authorization': 'Bearer $token'},
-      );
+  void _removeNotification(int id) async {
+    String token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    final response = await http.delete(
+      Uri.parse('https://rakshika.onrender.com/network/notification/${id}/'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
 
-      if (response.statusCode == 202) {
-        await HelpNotifUpdate();
-        await NotifUpdate();
-        print('Request success with status: ${response.statusCode}');
-      } else {
-        print('Request failed with status: ${response.statusCode}');
-      }
+    if (response.statusCode == 202) {
+      await HelpNotifUpdate();
+      await NotifUpdate();
+      print('Request success with status: ${response.statusCode}');
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+    }
   }
 
   Widget _buildNotificationItem(int index) {
@@ -193,35 +189,81 @@ class _NotificationScreenState extends State<NotificationScreen> {
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         padding: const EdgeInsets.all(16.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  notification.message,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    notification.message,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                    "From: ${notification.user} - ${_getTimeAgo(notification.created_at)}"),
-              ],
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "From: ${notification.user} - ${_getTimeAgo(notification.created_at)}",
+                  ),
+                ],
+              ),
             ),
             GestureDetector(
               onTap: () {
                 _removeNotification(notification.id);
               },
               child: const Icon(Icons.delete),
-            )
+            ),
           ],
         ),
       ),
     );
   }
+
+  // Widget _buildNotificationItem(int index) {
+  //   final notification = NotifDisplay[index];
+  //   return InkWell(
+  //     onTap: () {
+  //       // Implement what happens when the user taps on a notification item.
+  //       _speak(notification.message);
+  //     },
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         border: Border.all(color: Colors.grey, width: 1.0),
+  //         borderRadius: BorderRadius.circular(8.0),
+  //       ),
+  //       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+  //       padding: const EdgeInsets.all(16.0),
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Text(
+  //                 notification.message,
+  //                 style: const TextStyle(
+  //                   fontSize: 18.0,
+  //                   fontWeight: FontWeight.bold,
+  //                 ),
+  //               ),
+  //               const SizedBox(height: 8.0),
+  //               Text(
+  //                   "From: ${notification.user} - ${_getTimeAgo(notification.created_at)}"),
+  //             ],
+  //           ),
+  //           GestureDetector(
+  //             onTap: () {
+  //               _removeNotification(notification.id);
+  //             },
+  //             child: const Icon(Icons.delete),
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildtrustItemWidget(int index) {
     final helpnotification = HelpNotifDisplay[index];
@@ -290,6 +332,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ListView.builder(
               itemCount: HelpNotifDisplay.length,
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return _buildtrustItemWidget(index);
               },
@@ -298,6 +341,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ListView.builder(
               itemCount: NotifDisplay.length,
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 return _buildNotificationItem(index);
               },
@@ -308,10 +352,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  void _handleCancelIconClick(int id) async{
-    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+  void _handleCancelIconClick(int id) async {
+    String token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     final response = await http.delete(
-      Uri.parse('https://rakshika.onrender.com/network/notification/accept/${id}/'),
+      Uri.parse(
+          'https://rakshika.onrender.com/network/notification/accept/${id}/'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -325,9 +371,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _handleCheckedIconClick1(int id) async {
-    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     final response = await http.post(
-      Uri.parse('https://rakshika.onrender.com/network/notification/accept/${id}/'),
+      Uri.parse(
+          'https://rakshika.onrender.com/network/notification/accept/${id}/'),
       headers: {'Authorization': 'Bearer $token'},
     );
 
@@ -339,7 +387,4 @@ class _NotificationScreenState extends State<NotificationScreen> {
       print('Request failed with status: ${response.statusCode}');
     }
   }
-
 }
-
-
