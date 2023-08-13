@@ -39,9 +39,6 @@ Aditya Shah: https://github.com/adityashah841
   <a href="https://flutter.dev/" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/flutter/flutter-original.svg" alt="flutter" width="40" height="40"/>
   </a>
-  <a href="https://www.djangoproject.com/" target="_blank" rel="noreferrer">
-    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-original.svg" alt="django" width="40" height="40"/>
-  </a>
   <a href="https://www.tensorflow.org/" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tensorflow/tensorflow-original.svg" alt="tensorflow" width="40" height="40"/>
   </a>
@@ -60,7 +57,18 @@ Aditya Shah: https://github.com/adityashah841
   <a href="https://fastapi.tiangolo.com/" target="_blank" rel="noreferrer">
     <img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="fastapi" width="40" height="40"/>
   </a>
+  <a href="https://aws.amazon.com/" target="_blank" rel="noreferrer">
+    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40"/>
+  </a>
+  <a href="https://www.django-rest-framework.org/" target="_blank" rel="noreferrer">
+    <img src="https://www.vectorlogo.zone/logos/djangoproject/djangoproject-ar21.svg" alt="django rest framework" width="40" height="40"/>
+  </a>
+  <a href="https://www.raspberrypi.org/" target="_blank" rel="noreferrer">
+    <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/raspberrypi/raspberrypi-original.svg" alt="raspberry pi" width="40" height="40"/>
+  </a>
 </p>
+
+
 
 
 ## App Preview:
@@ -74,7 +82,7 @@ Aditya Shah: https://github.com/adityashah841
 <p float="left">
   <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/ac7d6047-f43b-48de-99f4-d276975119e2" width = "200">
   <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/83f72d56-a74c-4c60-a506-e92258f6e333" width = "200">
-  <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/1cf3b1bb-04f8-4b4e-815b-9a59be62786c" width = "200">
+  <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/3ffa8e74-252b-44c9-93b8-40b6ce71f329" width = "200">
   <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/9a8016d0-a99c-4180-ab9a-42a3611fc7b9" width = "200">
 </p>
 
@@ -86,8 +94,7 @@ Aditya Shah: https://github.com/adityashah841
 </p>
 
 <p float="left">
-  <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/3ffa8e74-252b-44c9-93b8-40b6ce71f329" width = "200">
+<img src="https://github.com/AnaidaLewis/project2023/assets/91888013/1cf3b1bb-04f8-4b4e-815b-9a59be62786c" width = "200">
 </p>
 
-<p>"Success is not final, failure is not fatal: It is the courage to continue that counts." - Winston Churchill</p>
 
