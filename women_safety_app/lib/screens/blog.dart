@@ -102,7 +102,7 @@ class _BlogScreenState extends State<BlogScreen> {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               margin:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,15 +110,15 @@ class _BlogScreenState extends State<BlogScreen> {
                   // Display the minimized image
                   post.imageURL.isNotEmpty
                       ? SizedBox(
-                          height: 150, // Set the desired height
-                          width: double
-                              .infinity, // Match the width of the container
-                          child: Image.network(
-                            post.imageURL,
-                            fit:
-                                BoxFit.cover, // Adjust the image's aspect ratio
-                          ),
-                        )
+                    height: 150, // Set the desired height
+                    width: double
+                        .infinity, // Match the width of the container
+                    child: Image.network(
+                      post.imageURL,
+                      fit:
+                      BoxFit.cover, // Adjust the image's aspect ratio
+                    ),
+                  )
                       : const SizedBox.shrink(),
                   const SizedBox(height: 8.0),
                   Text(

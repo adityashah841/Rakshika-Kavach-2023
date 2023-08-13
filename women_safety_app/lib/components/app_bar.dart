@@ -10,8 +10,8 @@ class AppBarConstant extends StatefulWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(
       MediaQueryData.fromView(PlatformDispatcher.instance.views.first)
-              .size
-              .height *
+          .size
+          .height *
           0.071);
   @override
   State<AppBarConstant> createState() => _AppBarConstantState();
@@ -31,7 +31,7 @@ class _AppBarConstantState extends State<AppBarConstant> {
         GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const NotificationScreen()));
+                builder: (context) => NotificationScreen()));
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),

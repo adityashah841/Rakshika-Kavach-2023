@@ -1,23 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 import '../utils/color.dart';
+import 'dart:convert';
+
 
 class NotificationItem {
+  int id;
+  Object user;
+  Object user_notify;
   String message;
-  String sender;
-  DateTime timestamp;
+  DateTime created_at;
+
 
   NotificationItem(
-      {required this.message, required this.sender, required this.timestamp});
+      {required this.id, required this.user, required this.user_notify,required this.message, required this.created_at});
+}
+// List<NotificationItem> dummyNotifications = [
+//   NotificationItem(
+//     message: "You received a new message",
+//     sender: "ABC",
+//     timestamp: DateTime.now().subtract(const Duration(minutes: 10)),
+//   ),
+// ];
+
+Future<List<NotificationItem>> getNotif(String? authToken) async {
+  final response = await http.get(
+    // Uri.parse('http://localhost:8000/blogs/1/'),
+    Uri.parse('https://rakshika.onrender.com/network/user-notify/'),
+    headers: {
+      'accept': 'application/json',
+      // 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNzI4NDU0LCJpYXQiOjE2OTE0NjkyNTQsImp0aSI6ImY3MzYyMzc5Y2I5MTQ1MTM4OWM0MDU2M2ZlMjY3ODE4IiwidXNlcl9pZCI6NX0.LmamNhJ_rMYSSeygaB677gxVCjSBpsxUSjJU0XaHO9U',
+      'Authorization': 'Bearer $authToken',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    // print(data);
+    final notifs = data.map<NotificationItem>((NotifData) {
+      return NotificationItem(
+        id : NotifData['id'],
+        user: NotifData['user'],
+        user_notify: NotifData['user_notify'],
+        message: NotifData['message'] ?? "",
+        created_at: DateTime.parse(NotifData['created_at']),
+      );
+    }).toList();
+    print("Not printing");
+    print(notifs);
+    return notifs;
+  } else {
+    print("response code : ${response.statusCode}");
+    throw Exception('Failed to load notifs');
+  }
 }
 
-List<NotificationItem> dummyNotifications = [
-  NotificationItem(
-    message: "You received a new message",
-    sender: "ABC",
-    timestamp: DateTime.now().subtract(const Duration(minutes: 10)),
-  ),
-];
+
+Future<List<NotificationItem>> getHelpNotif(String? authToken) async {
+  final response = await http.get(
+    // Uri.parse('http://localhost:8000/blogs/1/'),
+    Uri.parse('https://rakshika.onrender.com/network/notification/1/'),
+    headers: {
+      'accept': 'application/json',
+      // 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNzI4NDU0LCJpYXQiOjE2OTE0NjkyNTQsImp0aSI6ImY3MzYyMzc5Y2I5MTQ1MTM4OWM0MDU2M2ZlMjY3ODE4IiwidXNlcl9pZCI6NX0.LmamNhJ_rMYSSeygaB677gxVCjSBpsxUSjJU0XaHO9U',
+      'Authorization': 'Bearer $authToken',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    // print(data);
+    final helpnotifs = data.map<NotificationItem>((HelpNotifData) {
+      return NotificationItem(
+        id : HelpNotifData['id'],
+        user: HelpNotifData['user'],
+        user_notify: HelpNotifData['user_notify'],
+        message: HelpNotifData['message'] ?? "",
+        created_at: DateTime.parse(HelpNotifData['created_at']),
+      );
+    }).toList();
+    print("Not printing");
+    print(helpnotifs);
+    return helpnotifs;
+  } else {
+    print("response code : ${response.statusCode}");
+    throw Exception('Failed to load help notifs');
+  }
+}
+
+
 
 String _getTimeAgo(DateTime dateTime) {
   final now = DateTime.now();
@@ -34,12 +107,15 @@ String _getTimeAgo(DateTime dateTime) {
 }
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
+  // final FlutterSecureStorage storage;
+  // const NotificationScreen({super.key, required this.storage});
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+
+
   final FlutterTts flutterTts = FlutterTts();
 
   _speak(String text) async {
@@ -49,14 +125,61 @@ class _NotificationScreenState extends State<NotificationScreen> {
     await flutterTts.speak(text);
   }
 
-  void _removeNotification(int index) {
-    setState(() {
-      dummyNotifications.removeAt(index);
+  // FlutterSecureStorage get storage => widget.storage;
+  List<NotificationItem> NotifDisplay = [];
+  List<NotificationItem> HelpNotifDisplay = [];
+
+
+  Future<void> NotifUpdate() async {
+    // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
+    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    getNotif(ACCESS_LOGIN).then((notif) {
+      setState(() {
+        NotifDisplay = notif;
+      });
     });
+    // print(NotifDisplay);
+  }
+
+  Future<void> HelpNotifUpdate() async {
+    // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
+    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    getHelpNotif(ACCESS_LOGIN).then((helpnotif) {
+      setState(() {
+        HelpNotifDisplay = helpnotif;
+      });
+    });
+    // print(NotifDisplay);
+  }
+
+  
+
+
+  @override
+  void initState() {
+    super.initState();
+    NotifUpdate();
+    HelpNotifUpdate();
+  }
+
+  void _removeNotification(int id) async{
+      String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+      final response = await http.delete(
+        Uri.parse('https://rakshika.onrender.com/network/notification/${id}/'),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (response.statusCode == 202) {
+        await HelpNotifUpdate();
+        await NotifUpdate();
+        print('Request success with status: ${response.statusCode}');
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
   }
 
   Widget _buildNotificationItem(int index) {
-    final notification = dummyNotifications[index];
+    final notification = NotifDisplay[index];
     return InkWell(
       onTap: () {
         // Implement what happens when the user taps on a notification item.
@@ -85,12 +208,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                    "From: ${notification.sender} - ${_getTimeAgo(notification.timestamp)}"),
+                    "From: ${notification.user} - ${_getTimeAgo(notification.created_at)}"),
               ],
             ),
             GestureDetector(
               onTap: () {
-                _removeNotification(index);
+                _removeNotification(notification.id);
               },
               child: const Icon(Icons.delete),
             )
@@ -100,7 +223,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
     );
   }
 
-  Widget _buildtrustItemWidget() {
+  Widget _buildtrustItemWidget(int index) {
+    final helpnotification = HelpNotifDisplay[index];
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey, width: 1.0),
@@ -108,28 +233,37 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       padding: const EdgeInsets.all(16.0),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.account_circle,
               size: 40.0,
               color: rBottomBar,
             ),
-            title: Text('ABC'),
+            title: Text("${helpnotification.user} needs help"),
             trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-              //use icon buttons!
-              Icon(
-                Icons.check,
-                color: Colors.green,
+              GestureDetector(
+                onTap: () {
+                  _handleCheckedIconClick1(helpnotification.id);
+                },
+                child: const Icon(
+                  Icons.check,
+                  color: Colors.green,
+                ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 3,
               ),
-              Icon(
-                Icons.cancel,
-                color: Colors.red,
+              GestureDetector(
+                onTap: () {
+                  _handleCancelIconClick(helpnotification.id);
+                },
+                child: const Icon(
+                  Icons.cancel,
+                  color: Colors.red,
+                ),
               ),
             ]),
           ),
@@ -153,10 +287,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            _buildtrustItemWidget(),
+            ListView.builder(
+              itemCount: HelpNotifDisplay.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return _buildtrustItemWidget(index);
+              },
+            ),
             const SizedBox(height: 16.0),
             ListView.builder(
-              itemCount: dummyNotifications.length,
+              itemCount: NotifDisplay.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return _buildNotificationItem(index);
@@ -167,4 +307,39 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
     );
   }
+
+  void _handleCancelIconClick(int id) async{
+    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    final response = await http.delete(
+      Uri.parse('https://rakshika.onrender.com/network/notification/accept/${id}/'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 202) {
+      await HelpNotifUpdate();
+      await NotifUpdate();
+      print('Request success with status: ${response.statusCode}');
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+    }
+  }
+
+  void _handleCheckedIconClick1(int id) async {
+    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    final response = await http.post(
+      Uri.parse('https://rakshika.onrender.com/network/notification/accept/${id}/'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      await HelpNotifUpdate();
+      await NotifUpdate();
+      print('Request success with status: ${response.statusCode}');
+    } else {
+      print('Request failed with status: ${response.statusCode}');
+    }
+  }
+
 }
+
+
