@@ -11,18 +11,18 @@ class SendRequestSerializer(serializers.Serializer):
 
 
 class NotificationSerializer(serializers.ModelSerializer):
-    # user_name = serializers.SerializerMethodField()
-    # user_notify_name = serializers.SerializerMethodField()
+    user = serializers.SerializerMethodField()
+    user_notify = serializers.SerializerMethodField()
 
     class Meta:
         model = Notification
         fields = '__all__'
 
-    # def get_user_name(self,obj):
-    #     return obj.user.first_name
+    def get_user(self,obj):
+        return obj.user.firstname
     
-    # def get_user_notify_name(self,obj):
-    #     return obj.user_notify.first_name
+    def get_user_notify(self,obj):
+        return obj.user_notify.firstname
     
 
 

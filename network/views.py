@@ -89,7 +89,7 @@ class AcceptWarriorRequestView(generics.GenericAPIView):
     def post(self, request,pk):
         try:
             uw = UserWarrior.objects.get(warrior=request.user, id = pk, accept = False, reject = False) 
-            print(um)
+            
         except UserWarrior.DoesNotExist:
             content = {'detail': 'No such notification'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
@@ -197,6 +197,17 @@ class AcceptNotificationRequestView(generics.GenericAPIView):
         uw.save()
         content = {'detail': 'Notification accepted'}
         return JsonResponse(content, status = status.HTTP_200_OK)
+    
+    def delete(self, request,pk):
+        try:
+            blog = Notification.objects.get(id = pk)
+        except Notification.DoesNotExist:
+            content = {'detail': 'No such Notification exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        blog.reject = True
+        blog.save()
+        content = {'detail': 'Notification rejected'}
+        return JsonResponse(content, status = status.HTTP_202_ACCEPTED)
     
 class NotifyUserRequestView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated,]
