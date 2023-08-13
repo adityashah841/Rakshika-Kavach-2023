@@ -19,7 +19,25 @@ class _EFirAdminState extends State<EFirAdmin> {
       'status': 'pending',
     },
      {
-      'name': 'Krishi Shah',
+      'name': 'Anaida Lewis',
+      'crime': 'Theft',
+      'location': '123 Borivali',
+      'status': 'pending',
+    },
+     {
+      'name': 'Vidhi Kansara',
+      'crime': 'Theft',
+      'location': '123 Borivali',
+      'status': 'pending',
+    },
+     {
+      'name': 'Vijay Harkare',
+      'crime': 'Theft',
+      'location': '123 Borivali',
+      'status': 'pending',
+    },
+     {
+      'name': 'Rashi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
@@ -54,25 +72,7 @@ class _EFirAdminState extends State<EFirAdmin> {
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-     {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-     {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',

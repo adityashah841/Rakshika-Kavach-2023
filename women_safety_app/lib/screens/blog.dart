@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:women_safety_app/components/app_bar.dart';
+import 'package:women_safety_app/utils/color.dart';
 
 class Blog {
   String title;
@@ -59,6 +60,7 @@ class BlogScreen extends StatefulWidget {
 class _BlogScreenState extends State<BlogScreen> {
   FlutterSecureStorage get storage => widget.storage;
   List<Blog> blogDisplay = [];
+  Set<int> expandedIndexes = Set<int>();
 
   Future<void> blogUpdate() async {
     String? ACCESS_LOGIN = await storage.read(key: 'access_login');
@@ -92,9 +94,18 @@ class _BlogScreenState extends State<BlogScreen> {
         itemCount: blogDisplay.length,
         itemBuilder: (context, index) {
           final post = blogDisplay[index];
+          final isExpanded = expandedIndexes.contains(index);
+
           return InkWell(
             onTap: () {
-              // Navigate to a detailed view of the blog post if needed.
+              // Toggle the content expansion on tap.
+              setState(() {
+                if (isExpanded) {
+                  expandedIndexes.remove(index);
+                } else {
+                  expandedIndexes.add(index);
+                }
+              });
             },
             child: Container(
               decoration: BoxDecoration(
@@ -102,7 +113,7 @@ class _BlogScreenState extends State<BlogScreen> {
                 borderRadius: BorderRadius.circular(8.0),
               ),
               margin:
-              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,6 +131,7 @@ class _BlogScreenState extends State<BlogScreen> {
                     ),
                   )
                       : const SizedBox.shrink(),
+
                   const SizedBox(height: 8.0),
                   Text(
                     post.title,
@@ -127,9 +139,34 @@ class _BlogScreenState extends State<BlogScreen> {
                         fontSize: 18.0, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12.0),
-                  Text(post.content),
+
+                  isExpanded
+                      ? Text(post.content)
+                      : Text(
+                          post.content.substring(
+                              0, 150), 
+                        ),
+
                   const SizedBox(height: 8.0),
                   Text('By ${post.author}'),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        if (isExpanded) {
+                          expandedIndexes.remove(index);
+                        } else {
+                          expandedIndexes.add(index);
+                        }
+                      });
+                    },
+                    child: Text(
+                      isExpanded ? 'Read less' : 'Read more',
+                      style: const TextStyle(
+                        color: rBottomBar, 
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
