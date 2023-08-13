@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   FlutterSecureStorage get storage => widget.storage;
   String? username;
   String? password;
-  bool remember = false;
+  bool _obscureText = true;
   final RegExp usernameRegExp =
       RegExp(r'^(?![_\-])(?!.*[_\-]{2})[a-zA-Z0-9_\-]{3,30}(?<![_\-])$');
   final _formkey = GlobalKey<FormState>();
@@ -236,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Contains at least one digit (0-9)
                           TextFormField(
                             onSaved: (newValue) => password = newValue,
-                            obscureText: true,
+                            obscureText: _obscureText,
                             onChanged: (value) {
                               if (value.length >= 8) {
                                 removeError(error: "Password is too short");
@@ -292,6 +292,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderSide:
                                       const BorderSide(color: Colors.black),
                                   gapPadding: 10),
+                              suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _obscureText = !_obscureText;
+                                    });
+                                  },
+                                  child: Icon(
+                                    _obscureText
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.grey,
+                                  )),
                             ),
                           ),
                           const SizedBox(

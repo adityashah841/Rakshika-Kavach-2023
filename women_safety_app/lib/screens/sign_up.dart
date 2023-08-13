@@ -21,6 +21,7 @@ class _SignupScreenState extends State<SignupScreen> {
   String? username;
   String? password;
   String? confirmPassword;
+  bool _obscureText = true;
   String selectedLanguage = "English";
   final RegExp usernameRegExp =
       RegExp(r'^(?![_\-])(?!.*[_\-]{2})[a-zA-Z0-9_\-]{3,30}(?<![_\-])$');
@@ -197,7 +198,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                                 //Password
                                 TextFormField(
-                                  // obscureText: true,
+                                  obscureText: _obscureText,
                                   keyboardType: TextInputType.text,
                                   onChanged: (value) {
                                     if (value.length >= 8) {
@@ -262,6 +263,18 @@ class _SignupScreenState extends State<SignupScreen> {
                                         borderSide: const BorderSide(
                                             color: Colors.black),
                                         gapPadding: 10),
+                                    suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _obscureText = !_obscureText;
+                                          });
+                                        },
+                                        child: Icon(
+                                          _obscureText
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: Colors.grey,
+                                        )),
                                   ),
                                 ),
                                 const SizedBox(
@@ -277,7 +290,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                                 //Re-enter Password
                                 TextFormField(
-                                  // obscureText: true,
+                                  obscureText: _obscureText,
                                   onSaved: (newValue) =>
                                       confirmPassword = newValue,
                                   onChanged: (value) {
@@ -323,6 +336,18 @@ class _SignupScreenState extends State<SignupScreen> {
                                         borderSide: const BorderSide(
                                             color: Colors.black),
                                         gapPadding: 10),
+                                    suffixIcon: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _obscureText = !_obscureText;
+                                          });
+                                        },
+                                        child: Icon(
+                                          _obscureText
+                                              ? Icons.visibility
+                                              : Icons.visibility_off,
+                                          color: Colors.grey,
+                                        )),
                                   ),
                                 ),
 
