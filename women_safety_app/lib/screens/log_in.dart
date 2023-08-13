@@ -47,11 +47,30 @@ class _LoginScreenState extends State<LoginScreen> {
     if (response.statusCode == 200) {
       // Handle successful response
       final data = jsonDecode(response.body);
+      Fluttertoast.showToast(
+        msg: 'Login Successful',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
       // print(data);
       return data;
     } else {
       // Handle error response
       // print(response.body);
+
+      Fluttertoast.showToast(
+        msg: 'Invalid Credentials',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
       throw Exception(response.body);
       // addError(error: 'Invalid OTP');
       // return {};
