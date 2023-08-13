@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.http.response import HttpResponse, JsonResponse
@@ -217,21 +218,36 @@ class NotifyUserRequestView(generics.GenericAPIView):
     
 def distance(user1: User, user2: User) -> float:
     R = 6371 # radius of Earth in km
-    lat1, lon1, lat2, lon2 = map(radians,[user1.latitude,user1.longitude,user2.latitude,user2.longitude])
+    lat1, lon1, lat2, lon2 = map(radians,[float(user1.latitude),float(user1.longitude),float(user2.latitude),float(user2.longitude)])
     dlat = lat2 - lat1
     dlon = lon2 - lon1
     a = sin(dlat /2)**2 + cos(lat1) * cos(lat2) * sin(dlon /2)**2
     c = 2 * atan2(sqrt(a), sqrt(1-a))
     return R * c
 
+def send_notification(user: User, user1: User, latitude: float, longitude: float):
+    notif = Notification.objects.create(
+        user=user,
+        user_notify=user1,
+        latitude=latitude,
+        longitude=longitude
+    )
+
+    message = client.messages.create(
+        messaging_service_sid=config('TWILIO_SERVICE_SID'),
+        body=f'you have a notification from {user.username}, location is https://www.google.com/maps?q=${notif.latitude},${notif.longitude}',
+        to='+919082230267'
+    )
+    print(message.sid)
+
 def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple[User, float]]:
     visited = set()
     queue = PriorityQueue()
     queue.put((0, current_user))
     nearest_users = []
+    print(current_user.phone_number)
     user_warrior_relations = UserWarrior.objects.filter(user=current_user)
     acquaintances = [user_warrior_relation.warrior for user_warrior_relation in user_warrior_relations]
-    url = 'https://rakshika.onrender.com/network/notification/'
 
     while not queue.empty():
         _, user = queue.get()
@@ -240,24 +256,32 @@ def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple
             dist = distance(current_user, user)
             if dist <= r:
                 if len(nearest_users) < n:
+                    print(user.phone_number)
                     # SendNotificationView.post(user)
-                    params = {
-                        id: user.id,
-                    }
-                    data = {
-                        'latitude': current_user.latitude,
-                        'longitude': current_user.longitude
-                    }
-                    response = requests.post(url, params=params, data=data)
-                    # Check if the request was successful
-                    if response.status_code != 200:
-                        return [-1]
+                    # url = f'https://rakshika.onrender.com/network/notification/{user.id}/'
+                    # # params = {
+                    # #     'id': user.id,
+                    # # }
+                    # data = {
+                    #     'latitude': str(current_user.latitude),
+                    #     'longitude': str(current_user.longitude)
+                    # }
+                    # print(user.tokens()["access"])
+                    # headers = {
+                    #     'Content-Type': 'application/json',
+                    #     'Authorization': f'Bearer {user.tokens()["access"]}'
+                    # }
+                    # response = requests.post(url, headers=headers, json=data)
+                    # # Check if the request was successful
+                    # if response.status_code != 200:
+                    #     return [-1]
+                    send_notification(current_user, user, current_user.latitude, current_user.longitude)
                     heapq.heappush(nearest_users, (-dist, user))
                 else:
                     heapq.heappushpop(nearest_users, (-dist, user))
             for acquaintance in acquaintances:
-                if acquaintance not in visited:
-                    h = sqrt((acquaintance.latitude - current_user.latitude) ** 2 + (acquaintance.longitude - current_user.longitude) ** 2)
+                if acquaintance not in visited and acquaintance != current_user:
+                    h = sqrt((float(acquaintance.latitude) - float(current_user.latitude)) ** 2 + (float(acquaintance.longitude) - float(current_user.longitude)) ** 2)
                     queue.put((h, acquaintance))
 
     return [(user, -dist) for dist, user in nearest_users]
@@ -283,7 +307,7 @@ class UserCommunityTrustSearch(generics.GenericAPIView):
         if serializer.is_valid():
             serializer.save()
         nearest_users = find_nearest_users_astar(user, 20, 5)
-        if nearest_users[0] == -1:
+        if len(nearest_users) == 1 and nearest_users[0] == -1:
             content = {'detail': 'Error in sending notification'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         nearest_users = [user for user, _ in nearest_users]
