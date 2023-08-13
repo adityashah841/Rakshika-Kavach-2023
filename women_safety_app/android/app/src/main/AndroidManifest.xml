@@ -13,7 +13,7 @@ xmlns:tools="http://schemas.android.com/tools">
         tools:replace="android:label">
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBfSV-a_DEtaEWNYjiIeEXMRJBoMhElr8I"/>
+            android:value="AIzaSyDfXcgzprxTEtYYh3j1zJxOj2kJTiatyKg"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

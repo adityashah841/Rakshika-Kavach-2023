@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/blog.dart';
 // import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/screens/safe_nav_screen.dart';
-import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -34,9 +32,9 @@ class _BottomPageState extends State<BottomPage> {
     pages = [
       const NearMeScreen(),
       const SafeNavScreen(),
-      StartScreen(storage: storage),
+      // StartScreen(storage: storage),
       const FakeCallScreen(),
-      BlogScreen(storage: storage)
+      // BlogScreen(storage: storage)
     ];
   }
 

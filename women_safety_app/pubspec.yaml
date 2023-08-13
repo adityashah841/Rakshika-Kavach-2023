@@ -61,15 +61,14 @@ dependencies:
   fl_chart: ^0.40.0
   camera: ^0.10.5+2
   flutter_svg: ^2.0.7
-  flutter_translate: ^4.0.4
-  multi_language_json: ^1.2.0
+  # flutter_translate: ^4.0.4
+  # multi_language_json: ^1.2.0
   flutter_tts: ^3.7.0
-
-  flutter_localizations:
-    sdk: flutter
-  intl: any
-
+  charts_flutter: ^0.11.0
+  intl: ^0.17.0
   video_player: ^2.7.0
+  assets_audio_player: ^3.0.6
+  flutter_charts: ^0.5.1
 
 dev_dependencies:
   flutter_test:

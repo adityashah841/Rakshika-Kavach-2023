@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/components/blog_slider.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/components/sos_button.dart';
 import 'package:women_safety_app/components/warrior_component.dart';
@@ -42,7 +41,7 @@ class _StartScreenState extends State<StartScreen> {
     'Safety is not negotiable!',
   ];
 
-  final List<String> contacts = ['+919689155601','+919082230267'];
+  final List<String> contacts = ['+919689155601', '+919082230267'];
   // Future<void> _requestPermissionsSequentially() async {
   //   bool permissionsRequested = false;
 
@@ -79,8 +78,15 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           children: [
             // BlogSlider(imageList: imageList, sloganList: sloganList),
-            WarriorsBox(storage: storage),
-            SOSButton(contacts: contacts),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  WarriorsBox(storage: storage),
+                ],
+              ),
+            ),
+            SOSButton(contacts: contacts, storage: storage),
             EmergencyButton(contacts: contacts),
           ],
         ),

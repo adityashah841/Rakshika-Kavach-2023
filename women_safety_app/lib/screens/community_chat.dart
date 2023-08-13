@@ -111,7 +111,7 @@ class _CommunityChatScreenState extends State<CommunityChatScreen> {
   Future<void> _postAccept(String id) async {
     final token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxODM0MzEwLCJpYXQiOjE2OTE1NzUxMTAsImp0aSI6IjNlZjdhNmYyYTk0NTRjMTliYzVkN2ZlNTMyMDZmNTFhIiwidXNlcl9pZCI6MX0.0t3z9GC9d7JgHxnifq5Q5tJEuVB8gFf6frpvrb6kPyc';
     final response = await http.post(
-      Uri.parse('http://127.0.0.1:8000/network/accept/${id}/'),
+      Uri.parse('https://rakshika.onrender.com/network/accept/${id}/'),
       headers: {'Authorization': 'Bearer $token'},
     );
     print("id : ${id}");

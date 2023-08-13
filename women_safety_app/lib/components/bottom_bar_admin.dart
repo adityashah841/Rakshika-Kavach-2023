@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/screens/analysis_precaution.dart';
 import 'package:women_safety_app/screens/blog.dart';
-import 'package:women_safety_app/screens/fake_call_screen.dart';
+import 'package:women_safety_app/screens/e_fir_admin.dart';
 import 'package:women_safety_app/screens/prevention.dart';
 import 'package:women_safety_app/screens/prosecution.dart';
 import 'package:women_safety_app/utils/color.dart';
@@ -36,7 +36,7 @@ class _BottomPageAdminState extends State<BottomPageAdmin> {
       const AnalysisScreenPrevention(),
       const AnalysisScreenPre(),
        const AnalysisScreenProsecution(),
-      const FakeCallScreen(),
+      const EFirAdmin(),
     ];
   }
   onTapped(int index) {
@@ -80,8 +80,8 @@ class _BottomPageAdminState extends State<BottomPageAdmin> {
             backgroundColor: rBottomBar,
           ),
           BottomNavigationBarItem(
-            label: "Call",
-            icon: Icon(Icons.call),
+            label: "E FIR",
+            icon: Icon(Icons.report),
             backgroundColor: rBottomBar,
           ),
         ],

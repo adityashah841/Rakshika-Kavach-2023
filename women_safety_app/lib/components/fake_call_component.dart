@@ -28,6 +28,7 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
   late AudioPlayer audioPlayer;
   bool isRecording = false;
   String audioPath = '';
+
   final cloudinary = Cloudinary.signedConfig(
     apiKey: dotenv.env['API_KEY']!,
     apiSecret: dotenv.env['API_SECRET']!,
@@ -135,8 +136,8 @@ class _FakeCallComponentState extends State<FakeCallComponent> {
     final twilioPhoneNumber = dotenv.env['TWILIO_PHONE_NUMBER']!;
 
     final List<String> emergencyContacts = [
-      '+917303404504',
-      // '+919322009937',
+      '+919689155601',
+      '+919082230267',
     ];
 
     for (final contact in emergencyContacts) {
