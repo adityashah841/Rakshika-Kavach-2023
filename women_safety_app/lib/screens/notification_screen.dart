@@ -132,7 +132,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Future<void> NotifUpdate() async {
     // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
-    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     getNotif(ACCESS_LOGIN).then((notif) {
       setState(() {
         NotifDisplay = notif;
@@ -143,7 +143,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   Future<void> HelpNotifUpdate() async {
     // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
-    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    String ACCESS_LOGIN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     getHelpNotif(ACCESS_LOGIN).then((helpnotif) {
       setState(() {
         HelpNotifDisplay = helpnotif;
@@ -163,7 +163,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _removeNotification(int id) async{
-      String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+      String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
       final response = await http.delete(
         Uri.parse('https://rakshika.onrender.com/network/notification/${id}/'),
         headers: {'Authorization': 'Bearer $token'},
@@ -309,7 +309,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _handleCancelIconClick(int id) async{
-    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     final response = await http.delete(
       Uri.parse('https://rakshika.onrender.com/network/notification/accept/${id}/'),
       headers: {'Authorization': 'Bearer $token'},
@@ -325,7 +325,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _handleCheckedIconClick1(int id) async {
-    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMTY2MjY4LCJpYXQiOjE2OTE5MDcwNjgsImp0aSI6IjFlMjVkN2Y4OWY2ODRkZDViYTJiOTk2ZTU2Njk2NTYyIiwidXNlcl9pZCI6MjB9.eJ-UmfZJNn8D-Gf03z47u9nSX8wTnW0xT3H4ZYHymEY";
+    String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     final response = await http.post(
       Uri.parse('https://rakshika.onrender.com/network/notification/accept/${id}/'),
       headers: {'Authorization': 'Bearer $token'},
