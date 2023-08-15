@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import '../utils/color.dart';
 import 'dart:convert';
+import 'package:women_safety_app/main.dart';
 
 class NotificationItem {
   int id;
@@ -127,9 +128,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   List<NotificationItem> HelpNotifDisplay = [];
 
   Future<void> NotifUpdate() async {
-    // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
-    String ACCESS_LOGIN =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String? ACCESS_LOGIN = await storage.read(key: 'access_login');
+    // String ACCESS_LOGIN =
+    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     getNotif(ACCESS_LOGIN).then((notif) {
       setState(() {
         NotifDisplay = notif;
@@ -139,9 +140,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Future<void> HelpNotifUpdate() async {
-    // String? ACCESS_LOGIN = await storage.read(key: 'access_login');
-    String ACCESS_LOGIN =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String? ACCESS_LOGIN = await storage.read(key: 'access_login');
+    // String ACCESS_LOGIN =
+    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     getHelpNotif(ACCESS_LOGIN).then((helpnotif) {
       setState(() {
         HelpNotifDisplay = helpnotif;
@@ -158,8 +159,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _removeNotification(int id) async {
-    String token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String? token = await  storage.read(key: 'access_login');
+    // String token =
+    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     final response = await http.delete(
       Uri.parse('https://rakshika.onrender.com/network/notification/${id}/'),
       headers: {'Authorization': 'Bearer $token'},
@@ -353,8 +355,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _handleCancelIconClick(int id) async {
-    String token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String? token = await storage.read(key: "access_login");
+    // String token =
+    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     final response = await http.delete(
       Uri.parse(
           'https://rakshika.onrender.com/network/notification/accept/${id}/'),
@@ -371,8 +374,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   void _handleCheckedIconClick1(int id) async {
-    String token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
+    String? token = await storage.read(key: 'access_login');
+    // String token =
+    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk0NTA5ODkzLCJpYXQiOjE2OTE5MTc4OTMsImp0aSI6IjY5ZjcyYzc4ODlmNjQxNTg5MGZmM2Q2MmU4NjAyOGNjIiwidXNlcl9pZCI6MjB9.3aIYehAhJQJLFBSn_I759zE247O8KmOMiVWHnYkK6BM";
     final response = await http.post(
       Uri.parse(
           'https://rakshika.onrender.com/network/notification/accept/${id}/'),

@@ -227,7 +227,7 @@ class _EFirAdminState extends State<EFirAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarConstant(),
+      appBar: const AppBarConstant(),
       body: Column(
         children: [
           Container(

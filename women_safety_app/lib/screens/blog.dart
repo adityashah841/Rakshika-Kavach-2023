@@ -1,11 +1,12 @@
 // import 'dart:html';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:women_safety_app/main.dart';
 
 class Blog {
   String title;
@@ -50,15 +51,15 @@ Future<List<Blog>> getBlogs(String? authToken) async {
 }
 
 class BlogScreen extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const BlogScreen({super.key, required this.storage});
+  // final FlutterSecureStorage storage;
+  const BlogScreen({super.key,});
 
   @override
   State<BlogScreen> createState() => _BlogScreenState();
 }
 
 class _BlogScreenState extends State<BlogScreen> {
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   List<Blog> blogDisplay = [];
   Set<int> expandedIndexes = Set<int>();
 

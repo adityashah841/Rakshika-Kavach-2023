@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/screens/log_in.dart';
 import 'package:women_safety_app/screens/sign_up.dart';
@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:women_safety_app/main.dart';
 
 Future<bool> saveObject(dynamic myObject, String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,8 +28,8 @@ dynamic getObject(String objectName) async {
 }
 
 class RegisterScreen extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const RegisterScreen({super.key, required this.storage});
+  // final FlutterSecureStorage storage;
+  const RegisterScreen({super.key,});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -37,7 +38,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   // final FlutterSecureStorage storage;
   // _RegisterScreenState({required this.storage});
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   String? aadharnumber;
   String? otp;
   bool showOtpField = false;
@@ -240,9 +241,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                            builder: (context) => LoginScreen(
-                                                  storage: storage,
-                                                )));
+                                            builder: (context) => const LoginScreen()));
                                   },
                                   child: const Text(
                                     'Already a member? Login',
@@ -336,9 +335,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   // print("\n\n");
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => SignupScreen(
-                                        storage: storage,
-                                      ),
+                                      builder: (context) => const SignupScreen(),
                                     ),
                                   );
                                 } else {

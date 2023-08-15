@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/screens/blog.dart';
 import 'package:women_safety_app/screens/chat_bot_screen.dart';
 import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/video_call_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
+import 'package:women_safety_app/main.dart';
 
 class GeneralChatScreen extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const GeneralChatScreen({Key? key, required this.storage}) : super(key: key);
+  // final FlutterSecureStorage storage;
+  const GeneralChatScreen({Key? key,}) : super(key: key);
 
   @override
   _GeneralChatScreenState createState() => _GeneralChatScreenState();
@@ -17,7 +18,7 @@ class GeneralChatScreen extends StatefulWidget {
 
 class _GeneralChatScreenState extends State<GeneralChatScreen>
     with SingleTickerProviderStateMixin {
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimationRight;
   late Animation<Offset> _slideAnimationLeft;
@@ -82,7 +83,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
                     child: _buildBox(
                       'Community Warriors',
                       'assets/images/commuityChat.png',
-                      CommunityChatScreen(storage: storage,),
+                      const CommunityChatScreen(),
                       rLightPink,
                     ),
                   ),
@@ -91,7 +92,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
                     child: _buildBox(
                       'Chat Bot',
                       'assets/images/chatBot.png',
-                      ChatBotScreen(),
+                      const ChatBotScreen(),
                       rPurple,
                     ),
                   ),
@@ -106,7 +107,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
                     child: _buildBox(
                       'Blogs',
                       'assets/images/commuityChat.png',
-                      BlogScreen(storage: storage,),
+                      const BlogScreen(),
                       rLightPink,
                     ),
                   ),
@@ -115,7 +116,7 @@ class _GeneralChatScreenState extends State<GeneralChatScreen>
                     child: _buildBox(
                       'Video Call',
                       'assets/images/chatBot.png',
-                      VideoCallScreen(),
+                      const VideoCallScreen(),
                       rPurple,
                     ),
                   ),

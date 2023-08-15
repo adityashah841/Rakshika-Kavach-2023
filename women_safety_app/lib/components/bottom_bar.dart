@@ -6,18 +6,19 @@ import 'package:women_safety_app/screens/home_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/screens/safe_nav_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:women_safety_app/main.dart';
 
 class BottomPage extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const BottomPage({super.key, required this.storage});
+  // final FlutterSecureStorage storage;
+  const BottomPage({super.key,});
 
   @override
   State<BottomPage> createState() => _BottomPageState();
 }
 
 class _BottomPageState extends State<BottomPage> {
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   int currentIndex = 2;
   // List<Widget> pages = [
   //   const NearMeScreen(),
@@ -34,9 +35,9 @@ class _BottomPageState extends State<BottomPage> {
     pages = <Widget>[
       const NearMeScreen(),
       const SafeNavScreen(),
-      StartScreen(storage: storage),
+      const StartScreen(),
       const FakeCallScreen(),
-      BlogScreen(storage: storage)
+      const BlogScreen()
     ];
   }
 

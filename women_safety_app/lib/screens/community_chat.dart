@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import '../utils/color.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:women_safety_app/main.dart';
 
 class WarriorItem {
   int id;
@@ -138,8 +139,8 @@ Future<Following> getFollowersFollowing(String? authToken) async {
 }
 
 class CommunityChatScreen extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const CommunityChatScreen({super.key, required this.storage});
+  // final FlutterSecureStorage storage;
+  const CommunityChatScreen({super.key,});
 
   @override
   _CommunityChatScreenState createState() => _CommunityChatScreenState();
@@ -147,7 +148,7 @@ class CommunityChatScreen extends StatefulWidget {
 
 class _CommunityChatScreenState extends State<CommunityChatScreen> {
 
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   List<WarriorItem> myWarriorsDisplay = [];
   List<User> myUserDisplay = [];
   List<WarriorItem> WarriorRequests = [];

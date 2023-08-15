@@ -5,18 +5,19 @@ import 'package:women_safety_app/screens/community_chat.dart';
 import 'package:women_safety_app/screens/fake_call_screen.dart';
 import 'package:women_safety_app/screens/near_me_screen.dart';
 import 'package:women_safety_app/utils/color.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:women_safety_app/main.dart';
 
 class BottomPageMale extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const BottomPageMale({super.key, required this.storage});
+  // final FlutterSecureStorage storage;
+  const BottomPageMale({super.key,});
 
   @override
   State<BottomPageMale> createState() => _BottomPageMaleState();
 }
 
 class _BottomPageMaleState extends State<BottomPageMale> {
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   int currentIndex = 2;
   // List<Widget> pages = [
   //   const NearMeScreen(),
@@ -31,8 +32,8 @@ class _BottomPageMaleState extends State<BottomPageMale> {
     super.initState();
     pages = [
       const NearMeScreen(),
-      BlogScreen(storage: storage),
-      CommunityChatScreen(storage: storage),
+      const BlogScreen(),
+      const CommunityChatScreen(),
       const FakeCallScreen(),
       const ChatBotScreen(),
     ];

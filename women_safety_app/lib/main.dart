@@ -13,6 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 // import 'package:women_safety_app/screens/register.dart';
 
+final storage = const FlutterSecureStorage();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,7 +41,7 @@ class AppStart extends StatefulWidget {
 }
 
 class _AppStartState extends State<AppStart> {
-  final storage = const FlutterSecureStorage();
+  // final storage = const FlutterSecureStorage();
   String? ACCESS_LOGIN;
   String? GENDER;
   late Record audioRecord;
@@ -55,7 +56,7 @@ class _AppStartState extends State<AppStart> {
 
   void sendLocationUpdates() async {
     // Create a new repeating timer that runs every 15 minutes
-    Timer.periodic(Duration(minutes: 15), (Timer timer) async {
+    Timer.periodic(const Duration(minutes: 15), (Timer timer) async {
       // Get the user's current location
       final Position position = await Geolocator.getCurrentPosition();
       const backendUrl = 'https://rakshika.onrender.com/';
@@ -98,15 +99,15 @@ class _AppStartState extends State<AppStart> {
   @override
   Widget build(BuildContext context) {
     if (ACCESS_LOGIN == null) {
-      return LoginScreen(storage: storage);
+      return const LoginScreen();
     } else {
       // gender ??= 'Female';
       if (GENDER == 'Female') {
-        return BottomPage(storage: storage);
+        return const BottomPage();
       } else if (GENDER == 'Male') {
-        return BottomPageMale(storage: storage);
+        return const BottomPageMale();
       } else {
-        return BottomPageAdmin(storage: storage);
+        return const BottomPageAdmin();
       }
     }
   }

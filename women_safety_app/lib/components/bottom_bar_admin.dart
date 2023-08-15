@@ -5,18 +5,19 @@ import 'package:women_safety_app/screens/e_fir_admin.dart';
 import 'package:women_safety_app/screens/prevention.dart';
 import 'package:women_safety_app/screens/prosecution.dart';
 import 'package:women_safety_app/utils/color.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:women_safety_app/main.dart';
 
 class BottomPageAdmin extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const BottomPageAdmin({super.key, required this.storage});
+  // final FlutterSecureStorage storage;
+  const BottomPageAdmin({super.key,});
 
   @override
   State<BottomPageAdmin> createState() => _BottomPageAdminState();
 }
 
 class _BottomPageAdminState extends State<BottomPageAdmin> {
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   int currentIndex = 2;
   // List<Widget> pages = [
   //   const BlogScreen(),
@@ -32,10 +33,10 @@ class _BottomPageAdminState extends State<BottomPageAdmin> {
   void initState() {
     super.initState();
     pages = [
-      BlogScreen(storage: storage),
+      const BlogScreen(),
       const AnalysisScreenPrevention(),
       const AnalysisScreenPre(),
-       const AnalysisScreenProsecution(),
+      const AnalysisScreenProsecution(),
       const EFirAdmin(),
     ];
   }

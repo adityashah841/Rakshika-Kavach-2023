@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:women_safety_app/utils/color.dart';
 import 'package:camera/camera.dart';
@@ -13,10 +13,11 @@ import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:cloudinary/cloudinary.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:women_safety_app/main.dart';
 
 class SOSButton extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const SOSButton({Key? key, required this.contacts, required this.storage})
+  // final FlutterSecureStorage storage;
+  const SOSButton({Key? key, required this.contacts,})
       : super(key: key);
   final List<String> contacts;
 
@@ -25,10 +26,10 @@ class SOSButton extends StatefulWidget {
 }
 
 class _SOSButtonState extends State<SOSButton> {
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   bool isClicked = false;
   late String videoPath;
-  late Record audioRecord;
+  late Record audioRecord = Record();
   late AudioPlayer audioPlayer;
   String audioPath = '';
   final cloudinary = Cloudinary.signedConfig(
@@ -167,7 +168,7 @@ class _SOSButtonState extends State<SOSButton> {
     });
 
     // Create a timer to stop the video recording after 3 minutes.
-    Timer(Duration(minutes: 1), () async {
+    Timer(const Duration(minutes: 1), () async {
       // Stop the video recording.
       XFile videoFile = await controller.stopVideoRecording();
       if (isRecording) {
@@ -185,7 +186,7 @@ class _SOSButtonState extends State<SOSButton> {
       // Save the video to a local file
       final appDir = await getTemporaryDirectory();
       final videoFileName = DateTime.now().toIso8601String();
-      final videoPath = '${appDir.path}/$videoFileName.mp4';
+      final videoPath = '${appDir.path}/$videoFileName.mov';
       await videoFile.saveTo(videoPath);
 
       setState(() {

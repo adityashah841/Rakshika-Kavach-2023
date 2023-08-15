@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:women_safety_app/components/app_bar.dart';
 import 'package:women_safety_app/components/efir_female_component.dart';
 import 'package:women_safety_app/components/emergency_button_component.dart';
 import 'package:women_safety_app/components/sos_button.dart';
 import 'package:women_safety_app/components/warrior_component.dart';
 // import 'package:women_safety_app/utils/color.dart';
+import 'package:women_safety_app/main.dart';
 
 class StartScreen extends StatefulWidget {
-  final FlutterSecureStorage storage;
-  const StartScreen({super.key, required this.storage});
+  // final FlutterSecureStorage storage;
+  const StartScreen({super.key,});
 
   @override
   State<StartScreen> createState() => _StartScreenState();
 }
 
 class _StartScreenState extends State<StartScreen> {
-  FlutterSecureStorage get storage => widget.storage;
+  // FlutterSecureStorage get storage => widget.storage;
   // final List<String> imageList = [
   //   'assets/blogs/1.jpg',
   //   'assets/blogs/2.jpg',
@@ -84,13 +85,13 @@ class _StartScreenState extends State<StartScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  WarriorsBox(storage: storage),
+                  const WarriorsBox(),
                   const SizedBox(width: 15),
                   const EFirFemaleComponent(),
                 ],
               ),
             ),
-            SOSButton(contacts: contacts, storage: storage),
+            SOSButton(contacts: contacts,),
             EmergencyButton(contacts: contacts),
           ],
         ),
