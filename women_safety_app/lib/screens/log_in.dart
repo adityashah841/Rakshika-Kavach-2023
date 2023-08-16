@@ -107,27 +107,53 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _checkAndRequestPermissions() async {
-    final cameraStatus = await Permission.camera.request();
-    final microphoneStatus = await Permission.microphone.request();
-    final locationStatus = await Permission.location.request();
-    final contactsStatus = await Permission.contacts.request();
+  final cameraStatus = await Permission.camera.request();
+  final microphoneStatus = await Permission.microphone.request();
+  final locationStatus = await Permission.location.request();
+  final contactsStatus = await Permission.contacts.request();
 
-    if (cameraStatus != PermissionStatus.granted ||
-        microphoneStatus != PermissionStatus.granted ||
-        locationStatus != PermissionStatus.granted ||
-        contactsStatus != PermissionStatus.granted) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Permission Required'),
-            content:
-                Text('Please grant all required permissions to use the app.'),
-          );
-        },
-      );
-    }
+  List<Permission> permissionsToRequest = [];
+
+  if (cameraStatus != PermissionStatus.granted) {
+    await Permission.camera.request();
+    permissionsToRequest.add(Permission.camera);
   }
+  if (microphoneStatus != PermissionStatus.granted) {
+    await Permission.microphone.request();
+    permissionsToRequest.add(Permission.microphone);
+  }
+  if (locationStatus != PermissionStatus.granted) {
+    await Permission.location.request();
+    permissionsToRequest.add(Permission.location);
+  }
+  if (contactsStatus != PermissionStatus.granted) {
+    await Permission.contacts.request();
+    permissionsToRequest.add(Permission.contacts);
+  }
+
+  // if (permissionsToRequest.isNotEmpty) {
+  //   // ignore: use_build_context_synchronously
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: const Text('Permission Required'),
+  //         content: const Text('Please grant all required permissions to use the app.'),
+  //         actions: [
+  //           FloatingActionButton(
+  //             child: const Text('OK'),
+  //             onPressed: () async {
+  //               Navigator.of(context).pop(); 
+  //               // await Permission.requestAll(permissionsToRequest);
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+}
+
 
   @override
   Widget build(BuildContext context) {
