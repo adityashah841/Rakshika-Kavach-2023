@@ -12,6 +12,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:Rakshika/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 // import 'package:Rakshika/screens/register.dart';
 
 final storage = const FlutterSecureStorage();
@@ -19,6 +20,8 @@ final storage = const FlutterSecureStorage();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
@@ -107,6 +110,7 @@ class _AppStartState extends State<AppStart> {
           return SplashScreen();
         } else {
           if (ACCESS_LOGIN == null) {
+            FlutterNativeSplash.remove();
             return const LoginScreen();
           } else {
             if (GENDER == 'Female') {
