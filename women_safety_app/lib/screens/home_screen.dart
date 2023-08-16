@@ -87,9 +87,15 @@ class _StartScreenState extends State<StartScreen> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  WarriorsBox(),
-                  SizedBox(width: 25),
-                  EFirFemaleComponent(),
+                  Expanded(
+                    flex: 1,
+                    child: WarriorsBox(),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    flex: 1,
+                    child: EFirFemaleComponent(),
+                  ),
                 ],
               ),
             ),

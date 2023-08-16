@@ -47,7 +47,7 @@ class WarriorsBox extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                'Rakshika Warriors',
+                'Warriors',
                 style: TextStyle(
                   color: rBottomBar,
                   fontSize: 17,
