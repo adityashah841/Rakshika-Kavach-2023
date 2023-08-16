@@ -10,8 +10,8 @@ def get_audio_upload_to(instance, filename):
 
 STATUS = (
     ('Pending', 'Pending'),
-    ('Approved', 'Approved'),
-    ('Rejected', 'Rejected')
+    ('Completed', 'Completed'),
+    ('Discarded', 'Discarded')
 )
 
 class EFir(models.Model):
