@@ -39,6 +39,10 @@ class _ProfilePageState extends State<ProfilePage> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Rakshika'),
+          titleTextStyle: const TextStyle(
+              fontSize: 38,
+              fontWeight: FontWeight.bold,
+              color: rBottomNavigationBarItem),
           backgroundColor: rBottomBar,
         ),
         body: SingleChildScrollView(

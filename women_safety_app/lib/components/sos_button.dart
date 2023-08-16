@@ -17,10 +17,8 @@ import 'package:Rakshika/main.dart';
 
 class SOSButton extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const SOSButton({
-    Key? key,
-    required this.contacts,
-  }) : super(key: key);
+  const SOSButton({Key? key, required this.contacts,})
+      : super(key: key);
   final List<String> contacts;
 
   @override
@@ -30,6 +28,8 @@ class SOSButton extends StatefulWidget {
 class _SOSButtonState extends State<SOSButton> {
   // FlutterSecureStorage get storage => widget.storage;
   bool isClicked = false;
+  // late String? cloudinaryUrlAudio;
+  // late String? cloudinaryUrlVideo;
   late String videoPath;
   late Record audioRecord = Record();
   late AudioPlayer audioPlayer;
@@ -47,6 +47,9 @@ class _SOSButtonState extends State<SOSButton> {
     final url = Uri.parse(
             'https://rakshika.onrender.com/network/community-users-search/')
         .replace(queryParameters: params);
+    // final url = Uri.parse(
+    //         'http://localhost:8000/network/community-users-search/')
+    //     .replace(queryParameters: params);
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $authToken'
@@ -62,25 +65,33 @@ class _SOSButtonState extends State<SOSButton> {
     }
   }
 
-  Future<Map<String, dynamic>> setEvidence(String authToken, String videoPath,
+  Future<String> setEvidence(String authToken, String videoPath,
       String audioPath, String location) async {
     final url = Uri.parse('https://rakshika.onrender.com/evidences/');
+    // final url = Uri.parse('http://192.168.33.165:8000/evidences/');
     final headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $authToken'
     };
-
-    final body = {
-      'video': videoPath,
-      'audio': audioPath,
-      'location': location,
-    };
-    final response = await http.post(url, body: body, headers: headers);
+    final request = http.MultipartRequest('POST', url);
+    // final body = jsonEncode({
+    //   'video': videoPath ?? "",k
+    //   'audio': audioPath ?? "",
+    //   'location': location,
+    // });
+    request.headers.addAll(headers);
+    request.files.add(await http.MultipartFile.fromPath('audio', audioPath));
+    request.files.add(await http.MultipartFile.fromPath('video', videoPath));
+    request.fields['location'] = location;
+    // final response = await http.post(url, body: body, headers: headers);
+    final response = await request.send();
 
     if (response.statusCode == 201) {
-      final data = jsonDecode(response.body);
+      final data = response.stream.bytesToString();
+      print(data);
       return data;
     } else {
+      print(response.reasonPhrase);
       throw Exception('Failed to create evidence.');
     }
   }
@@ -170,7 +181,7 @@ class _SOSButtonState extends State<SOSButton> {
     });
 
     // Create a timer to stop the video recording after 3 minutes.
-    Timer(const Duration(minutes: 1), () async {
+    Timer(const Duration(minutes: 0, seconds: 10), () async {
       // Stop the video recording.
       XFile videoFile = await controller.stopVideoRecording();
       if (isRecording) {
@@ -188,43 +199,51 @@ class _SOSButtonState extends State<SOSButton> {
       // Save the video to a local file
       final appDir = await getTemporaryDirectory();
       final videoFileName = DateTime.now().toIso8601String();
-      final videoPath = '${appDir.path}/$videoFileName.mov';
+      final videoPath = '${appDir.path}/$videoFileName.mp4';
       await videoFile.saveTo(videoPath);
 
       setState(() {
         this.videoPath = videoPath;
       });
-      CloudinaryResponse response = await cloudinary.upload(
-        file: audioPath,
-        resourceType: CloudinaryResourceType.raw,
-      );
+      // CloudinaryResponse response = await cloudinary.upload(
+      //   file: audioPath,
+      //   resourceType: CloudinaryResourceType.raw,
+      // );
 
-      if (response.isSuccessful) {
-        String? cloudinaryUrlAudio = response.secureUrl;
-        print('Cloudinary URL: $cloudinaryUrlAudio');
-      } else {
-        print('Cloudinary audio upload failed: ${response.error}');
-      }
+      // if (response.isSuccessful) {
+      //   cloudinaryUrlAudio = response.secureUrl;
+      //   print('Cloudinary URL: $cloudinaryUrlAudio');
+      // } else {
+      //   print('Cloudinary audio upload failed: ${response.error}');
+      // }
 
-      CloudinaryResponse responseVid = await cloudinary.upload(
-        file: videoPath,
-        resourceType: CloudinaryResourceType.raw,
-      );
+      // CloudinaryResponse responseVid = await cloudinary.upload(
+      //   file: videoPath,
+      //   resourceType: CloudinaryResourceType.video,
+      // );
 
-      if (responseVid.isSuccessful) {
-        String? cloudinaryUrlVideo = responseVid.secureUrl;
-        print('Cloudinary URL: $cloudinaryUrlVideo');
-      } else {
-        print('Cloudinary video upload failed: ${responseVid.error}');
-      }
+      // if (responseVid.isSuccessful) {
+      //   cloudinaryUrlVideo = responseVid.secureUrl;
+      //   print('Cloudinary URL: $cloudinaryUrlVideo');
+      // } else {
+      //   print('Cloudinary video upload failed: ${responseVid.error}');
+      // }
 
       final position = await _getCurrentLocation();
       final latitude = position.latitude.toString();
       final longitude = position.longitude.toString();
 
-      final ACCESS_LOGIN = await storage.read(key: 'user_login');
+      final ACCESS_LOGIN = await storage.read(key: 'access_login');
+      // final ACCESS_LOGIN_TEMP = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkyMzczMTk2LCJpYXQiOjE2OTIxMTM5OTYsImp0aSI6ImZlY2UxMGUwMTkwOTQyMjM4ODE2YTJhOTNlZjFhYTE2IiwidXNlcl9pZCI6MjB9.PaAoJgTxfTPAM7wCCxsyI-4Cw_L4e6zQfIEVJtJYl8E";
+      print(ACCESS_LOGIN);
+      print(videoPath);
+      print(audioPath);
+      print(latitude);
+      print(longitude);
       final data = await setEvidence(
           ACCESS_LOGIN!, videoPath, audioPath, '$latitude, $longitude');
+      // final data = await setEvidence(
+      //     ACCESS_LOGIN_TEMP, videoPath, audioPath, '$latitude, $longitude');
       // Display the saved video
       print(videoPath);
     });
@@ -268,7 +287,7 @@ class _SOSButtonState extends State<SOSButton> {
       position = await _getCurrentLocation();
       final latitude = position.latitude.toString();
       final longitude = position.longitude.toString();
-      final ACCESS_LOGIN = await storage.read(key: 'user_login');
+      final ACCESS_LOGIN = await storage.read(key: 'access_login');
       await getNearestUsers(ACCESS_LOGIN!, latitude, longitude);
       String message = 'Krish Shah\n\n';
       message += 'Project practice Che Ignore !!\n\n';
@@ -302,7 +321,7 @@ class _SOSButtonState extends State<SOSButton> {
           );
           print('SMS sent to $contact');
         } catch (e) {
-          // print('Failed to send SMS to $contact: $e');
+          print('Failed to send SMS to $contact: $e');
           Fluttertoast.showToast(
             msg: 'Failed to send SMS to $contact',
             toastLength: Toast.LENGTH_SHORT,
@@ -315,6 +334,7 @@ class _SOSButtonState extends State<SOSButton> {
         }
       }
     } catch (e) {
+      print("Some error occurred: $e");
       Fluttertoast.showToast(
         msg: 'Error getting location. Please try again.',
         toastLength: Toast.LENGTH_SHORT,

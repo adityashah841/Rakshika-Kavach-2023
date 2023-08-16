@@ -50,7 +50,7 @@ class WarriorsBox extends StatelessWidget {
                 'Rakshika Warriors',
                 style: TextStyle(
                   color: rBottomBar,
-                  fontSize: 18,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
                 overflow: TextOverflow.ellipsis,
