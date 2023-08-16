@@ -58,6 +58,7 @@ class SendRequestView(generics.GenericAPIView):
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
+            print(serializer.data['phone'])
             try:
                 user=User.objects.get(aadhar_number = request.user.aadhar_number)
             except User.DoesNotExist:
@@ -82,12 +83,26 @@ class SendRequestView(generics.GenericAPIView):
             ) 
             content = {'detail': 'Request sent to warrior'}
             return JsonResponse(content, status = status.HTTP_200_OK)
+        print(serializer.errors)
         return JsonResponse(serializer.errors, status = status.HTTP_400_BAD_REQUEST) 
         
 
 class AcceptWarriorRequestView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated,]
 
+    def get(self, request,pk):
+        try:
+            user=User.objects.get(aadhar_number = request.user.aadhar_number)
+        except User.DoesNotExist:
+            content = {'detail': 'No such user exists'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        if UserWarrior.objects.filter(user = user).exists():
+            uw = UserWarrior.objects.filter(user = user, accept = True, reject = False)
+            recipeDetails = UserWarriorSerializer(uw, many=True, context={'request': request})
+            return JsonResponse(recipeDetails.data, safe = False, status = status.HTTP_200_OK)
+        content = {'detail': 'No request notification'}
+        return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+    
     def post(self, request,pk):
         try:
             uw = UserWarrior.objects.get(warrior=request.user, id = pk, accept = False, reject = False) 
@@ -98,6 +113,18 @@ class AcceptWarriorRequestView(generics.GenericAPIView):
         uw.accept = True
         uw.save()
         content = {'detail': 'Warrior accepted'}
+        return JsonResponse(content, status = status.HTTP_200_OK)
+    
+    def put(self, request,pk):
+        try:
+            uw = UserWarrior.objects.get(warrior=request.user, id = pk, accept = False, reject = False) 
+            
+        except UserWarrior.DoesNotExist:
+            content = {'detail': 'No such notification'}
+            return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
+        uw.reject = True
+        uw.save()
+        content = {'detail': 'Warrior rejected'}
         return JsonResponse(content, status = status.HTTP_200_OK)
 
 

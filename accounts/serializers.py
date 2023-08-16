@@ -64,7 +64,7 @@ class LoginSerializer(serializers.ModelSerializer):
     
 class UserSerializer(serializers.ModelSerializer):
     aadhar_number = serializers.CharField(max_length=68, min_length=8, read_only=True)
-    phone_number = serializers.CharField(max_length=10, min_length=8, read_only=True)
+    phone_number = serializers.IntegerField(read_only=True)
     DOB = serializers.CharField(max_length=10, min_length=8, read_only=True)
 
     class Meta:

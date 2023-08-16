@@ -3,7 +3,7 @@ from .models import UserWarrior, Notification
 
 
 class SendRequestSerializer(serializers.Serializer):
-    phone = serializers.CharField(max_length=10)
+    phone = serializers.IntegerField()
 
     class Meta:
         fields = ['phone']
