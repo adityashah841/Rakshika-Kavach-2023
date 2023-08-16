@@ -1,5 +1,6 @@
 import 'dart:async';
-// import 'package:geolocator/geolocator.dart';
+import 'package:Rakshika/screens/splash_screen.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Rakshika/components/bottom_bar.dart';
@@ -10,15 +11,22 @@ import 'package:audioplayers/audioplayers.dart';
 // import 'dart:convert';
 import 'package:Rakshika/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 // import 'package:Rakshika/screens/register.dart';
-// import 'package:workmanager/workmanager.dart';
+import 'package:porcupine_flutter/porcupine.dart';
+import 'package:porcupine_flutter/porcupine_error.dart';
+import 'package:porcupine_flutter/porcupine_manager.dart';
 
 final storage = const FlutterSecureStorage();
+final String accessKey =
+    "W2Seq1qvSHOkrlveTuVC1ZfdjaclPsWlhm75QrRy2dF09mfj5Po4VA==";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MyApp());
 }
 
@@ -47,6 +55,11 @@ class _AppStartState extends State<AppStart> {
   String? GENDER;
   late Record audioRecord;
   late AudioPlayer audioPlayer;
+
+  // Define PorcupineManager and other related variables
+  late PorcupineManager porcupineManager;
+  bool porcupineInitialized = false;
+
   // Timer? _timer;
   // Position? _lastPosition;
 
@@ -110,42 +123,96 @@ class _AppStartState extends State<AppStart> {
   @override
   void initState() {
     super.initState();
+    print("PC INTIALISED");
+    _initializePorcupine();
+    print("PC INTIALISED 1");
     _checkTokenAndGender();
     // _startSendingLocationUpdates();
-    // if (ACCESS_LOGIN != null)
-    // sendLocationUpdates();
+  }
+
+  Future<void> _initializePorcupine() async {
+    try {
+      print("Initializing Porcupine...");
+      porcupineManager = await PorcupineManager.fromKeywordPaths(
+        accessKey,
+        
+        ["assets/models/keyword.ppn"],
+        modelPath: "assets/models/porcupine_params_hi.pv",
+        (keywordIndex) {
+          if (keywordIndex >= 0) {
+            // Keyword detected
+            print("Keyword detected: ${keywordIndex}");
+          }
+        },
+      );
+      print("Hello $porcupineManager");
+      await porcupineManager.start();
+      setState(() {
+        porcupineInitialized = true; // Mark initialization as completed
+      });
+      print("Porcupine initialized successfully.");
+    } catch (e) {
+      print("Porcupine initialization error: ${e.toString()}");
+    if (e is PorcupineIOException) {
+      // Print Porcupine specific error code and message
+      // print("Porcupine Error Code: ${e.errorCode}");
+      print("Porcupine Error Message: ${e.message}");
+    }
+    }
   }
 
   Future<void> _checkTokenAndGender() async {
-    // final x = getObject('user_login');
-    // if (x != null) {
-    //   final value = await x;
-    //   if (value != null) {
-    //     final value2 = jsonDecode(jsonEncode(value));
-    //      accessToken = value2["access"];
-    //      gender = value2["gender"];
-    //     setState(() {});
-    //   }
-    // }
     ACCESS_LOGIN = await storage.read(key: 'access_login');
     GENDER = await storage.read(key: 'gender');
-    // if (ACCESS_LOGIN != null)
-    // sendLocationUpdates();
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (ACCESS_LOGIN == null) {
-      return const LoginScreen();
-    } else {
-      // gender ??= 'Female';
-      if (GENDER == 'Female') {
-        return const BottomPage();
-      } else if (GENDER == 'Male') {
-        return const BottomPageMale();
-      } else {
-        return const BottomPageAdmin();
-      }
+  void dispose() {
+    if (porcupineManager != null) {
+      porcupineManager.stop();
+      porcupineManager.delete();
     }
+    super.dispose();
+  }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     if (ACCESS_LOGIN == null) {
+//       return const LoginScreen();
+//     } else {
+//       // gender ??= 'Female';
+//       if (GENDER == 'Female') {
+//         return const BottomPage();
+//       } else if (GENDER == 'Male') {
+//         return const BottomPageMale();
+//       } else {
+//         return const BottomPageAdmin();
+//       }
+//     }
+//   }
+// }
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SplashScreen();
+        } else {
+          if (ACCESS_LOGIN == null) {
+            FlutterNativeSplash.remove();
+            return const LoginScreen();
+          } else {
+            if (GENDER == 'Female') {
+              return const BottomPage();
+            } else if (GENDER == 'Male') {
+              return const BottomPageMale();
+            } else {
+              return const BottomPageAdmin();
+            }
+          }
+        }
+      },
+      future: null,
+    );
   }
 }

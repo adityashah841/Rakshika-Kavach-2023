@@ -70,11 +70,24 @@ dependencies:
   assets_audio_player: ^3.0.6
   flutter_charts: ^0.5.1
   file_picker: ^5.3.3
-  # workmanager: ^0.5.1
+  flutter_native_splash: ^2.3.2
+  porcupine_flutter: ^2.2.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+flutter_native_splash:
+  image: assets/images/icon.png
+  color: "#F2E9EA"
+  android: true
+  ios: true
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -99,6 +112,8 @@ flutter:
     - assets/ringtones/
     - assets/blogs/
     - assets/illustrations/
+    - assets/models/keyword.ppn
+    - assets/models/porcupine_params_hi.pv
     - .env
   #   - images/a_dot_ham.jpeg
 

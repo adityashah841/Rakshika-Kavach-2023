@@ -82,14 +82,20 @@ class _StartScreenState extends State<StartScreen> {
         child: Column(
           children: [
             // BlogSlider(imageList: imageList, sloganList: sloganList),
-            Padding(
-              padding: const EdgeInsets.all(20),
+            const Padding(
+              padding: EdgeInsets.all(20),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const WarriorsBox(),
-                  const SizedBox(width: 15),
-                  const EFirFemaleComponent(),
+                  Expanded(
+                    flex: 1,
+                    child: WarriorsBox(),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    flex: 1,
+                    child: EFirFemaleComponent(),
+                  ),
                 ],
               ),
             ),
