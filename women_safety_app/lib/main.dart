@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Rakshika/screens/splash_screen.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -50,8 +51,6 @@ class _AppStartState extends State<AppStart> {
   void initState() {
     super.initState();
     _checkTokenAndGender();
-    // if (ACCESS_LOGIN != null)
-    // sendLocationUpdates();
   }
 
   void sendLocationUpdates() async {
@@ -80,35 +79,47 @@ class _AppStartState extends State<AppStart> {
   }
 
   Future<void> _checkTokenAndGender() async {
-    // final x = getObject('user_login');
-    // if (x != null) {
-    //   final value = await x;
-    //   if (value != null) {
-    //     final value2 = jsonDecode(jsonEncode(value));
-    //      accessToken = value2["access"];
-    //      gender = value2["gender"];
-    //     setState(() {});
-    //   }
-    // }
     ACCESS_LOGIN = await storage.read(key: 'access_login');
     GENDER = await storage.read(key: 'gender');
-    // if (ACCESS_LOGIN != null)
-    // sendLocationUpdates();
   }
 
+//   @override
+//   Widget build(BuildContext context) {
+//     if (ACCESS_LOGIN == null) {
+//       return const LoginScreen();
+//     } else {
+//       // gender ??= 'Female';
+//       if (GENDER == 'Female') {
+//         return const BottomPage();
+//       } else if (GENDER == 'Male') {
+//         return const BottomPageMale();
+//       } else {
+//         return const BottomPageAdmin();
+//       }
+//     }
+//   }
+// }
   @override
   Widget build(BuildContext context) {
-    if (ACCESS_LOGIN == null) {
-      return const LoginScreen();
-    } else {
-      // gender ??= 'Female';
-      if (GENDER == 'Female') {
-        return const BottomPage();
-      } else if (GENDER == 'Male') {
-        return const BottomPageMale();
-      } else {
-        return const BottomPageAdmin();
-      }
-    }
+    return FutureBuilder(
+      future: Future.delayed(Duration(seconds: 1)),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SplashScreen();
+        } else {
+          if (ACCESS_LOGIN == null) {
+            return const LoginScreen();
+          } else {
+            if (GENDER == 'Female') {
+              return const BottomPage();
+            } else if (GENDER == 'Male') {
+              return const BottomPageMale();
+            } else {
+              return const BottomPageAdmin();
+            }
+          }
+        }
+      },
+    );
   }
 }
