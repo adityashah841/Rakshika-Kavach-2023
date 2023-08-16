@@ -14,8 +14,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 // import 'package:Rakshika/screens/register.dart';
+import 'package:porcupine_flutter/porcupine.dart';
+import 'package:porcupine_flutter/porcupine_error.dart';
+import 'package:porcupine_flutter/porcupine_manager.dart';
 
 final storage = const FlutterSecureStorage();
+final String accessKey =
+    "W2Seq1qvSHOkrlveTuVC1ZfdjaclPsWlhm75QrRy2dF09mfj5Po4VA==";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,10 +55,49 @@ class _AppStartState extends State<AppStart> {
   String? GENDER;
   late Record audioRecord;
   late AudioPlayer audioPlayer;
+
+  // Define PorcupineManager and other related variables
+  late PorcupineManager porcupineManager;
+  bool porcupineInitialized = false;
+
   @override
   void initState() {
     super.initState();
+    print("PC INTIALISED");
+    _initializePorcupine();
+    print("PC INTIALISED 1");
     _checkTokenAndGender();
+  }
+
+  Future<void> _initializePorcupine() async {
+    try {
+      print("Initializing Porcupine...");
+      porcupineManager = await PorcupineManager.fromKeywordPaths(
+        accessKey,
+        
+        ["assets/models/keyword.ppn"],
+        modelPath: "assets/models/porcupine_params_hi.pv",
+        (keywordIndex) {
+          if (keywordIndex >= 0) {
+            // Keyword detected
+            print("Keyword detected: ${keywordIndex}");
+          }
+        },
+      );
+      print("Hello $porcupineManager");
+      await porcupineManager.start();
+      setState(() {
+        porcupineInitialized = true; // Mark initialization as completed
+      });
+      print("Porcupine initialized successfully.");
+    } catch (e) {
+      print("Porcupine initialization error: ${e.toString()}");
+    if (e is PorcupineIOException) {
+      // Print Porcupine specific error code and message
+      // print("Porcupine Error Code: ${e.errorCode}");
+      print("Porcupine Error Message: ${e.message}");
+    }
+    }
   }
 
   void sendLocationUpdates() async {
@@ -84,6 +128,15 @@ class _AppStartState extends State<AppStart> {
   Future<void> _checkTokenAndGender() async {
     ACCESS_LOGIN = await storage.read(key: 'access_login');
     GENDER = await storage.read(key: 'gender');
+  }
+
+  @override
+  void dispose() {
+    if (porcupineManager != null) {
+      porcupineManager.stop();
+      porcupineManager.delete();
+    }
+    super.dispose();
   }
 
 //   @override

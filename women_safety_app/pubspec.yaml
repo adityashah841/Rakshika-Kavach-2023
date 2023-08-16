@@ -71,6 +71,7 @@ dependencies:
   flutter_charts: ^0.5.1
   file_picker: ^5.3.3
   flutter_native_splash: ^2.3.2
+  porcupine_flutter: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -87,7 +88,6 @@ flutter_native_splash:
   color: "#F2E9EA"
   android: true
   ios: true
-
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -112,6 +112,8 @@ flutter:
     - assets/ringtones/
     - assets/blogs/
     - assets/illustrations/
+    - assets/models/keyword.ppn
+    - assets/models/porcupine_params_hi.pv
     - .env
   #   - images/a_dot_ham.jpeg
 
