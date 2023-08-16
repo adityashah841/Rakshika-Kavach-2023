@@ -123,6 +123,7 @@ class _AppStartState extends State<AppStart> {
           }
         }
       },
+      future: null,
     );
   }
 }
