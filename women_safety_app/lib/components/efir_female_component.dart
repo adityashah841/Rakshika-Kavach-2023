@@ -42,7 +42,7 @@ class EFirFemaleComponent extends StatelessWidget {
               'E-Fir ', // Box title
               style: TextStyle(
                 color: rBottomBar, // Text color
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
