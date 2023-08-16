@@ -284,16 +284,21 @@ def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple
     queue = PriorityQueue()
     queue.put((0, current_user))
     nearest_users = []
-    print(current_user.phone_number)
-    user_warrior_relations = UserWarrior.objects.filter(user=current_user)
-    acquaintances = [user_warrior_relation.warrior for user_warrior_relation in user_warrior_relations]
+    print(f'Current User: {current_user.username}, {current_user.phone_number}')
+    # user_warrior_relations = UserWarrior.objects.filter(user=current_user)
+    # acquaintances = [user_warrior_relation.warrior for user_warrior_relation in user_warrior_relations]
 
     while not queue.empty():
         _, user = queue.get()
+        user_warrior_relations = UserWarrior.objects.filter(user=user)
+        acquaintances = [user_warrior_relation.warrior for user_warrior_relation in user_warrior_relations]
         if user not in visited:
             visited.add(user)
             dist = distance(current_user, user)
-            if dist <= r:
+            print(f"\n{user.username} - {current_user.username}: {dist} km")
+            print(f"Current User: {current_user.latitude}, {current_user.longitude}")
+            print(f"User: {user.latitude}, {user.longitude}")
+            if dist <= r and user != current_user:
                 if len(nearest_users) < n:
                     print(user.phone_number)
                     # SendNotificationView.post(user)
@@ -315,6 +320,7 @@ def find_nearest_users_astar(current_user: User, n: int, r: float) -> List[Tuple
                     # if response.status_code != 200:
                     #     return [-1]
                     send_notification(current_user, user, current_user.latitude, current_user.longitude)
+                    print(f"Notification sent to {user.username}")
                     heapq.heappush(nearest_users, (-dist, user))
                 else:
                     heapq.heappushpop(nearest_users, (-dist, user))
@@ -348,6 +354,7 @@ class UserCommunityTrustSearch(generics.GenericAPIView):
         user_ecs_phones = [ec.phone for ec in EmergencyContact.objects.filter(user = user)]
         for ec_phone in user_ecs_phones:
             number = '+91'+str(ec_phone)
+            print(f'Notification sent to emergency contact {number}')
             message = client.messages.create(
                 messaging_service_sid=config('TWILIO_SERVICE_SID'),
                 body=f'You have a notification from {user.username}, location is https://www.google.com/maps?q=${user.latitude},${user.longitude}',
