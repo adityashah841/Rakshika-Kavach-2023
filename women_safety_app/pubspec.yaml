@@ -70,6 +70,7 @@ dependencies:
   assets_audio_player: ^3.0.6
   flutter_charts: ^0.5.1
   file_picker: ^5.3.3
+  # workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
