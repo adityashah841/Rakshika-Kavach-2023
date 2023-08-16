@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'blogs',
     'evidences',
     'network',
-    'location_stream'
+    'location_stream',
+    'efir',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'

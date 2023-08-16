@@ -17,8 +17,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.core.files.base import ContentFile
 import requests
+from cloudinary.utils import cloudinary_url
 
-def send_email_with_cloud_attachments(to_email, subject, message, video_url, audio_url):
+def send_email_with_cloud_attachments(to_email, subject, message):
     """
     Send an email with video and audio attachments from the cloud using links.
     
@@ -28,19 +29,15 @@ def send_email_with_cloud_attachments(to_email, subject, message, video_url, aud
         The subject of the email.
     :param message: str
         The message to include in the email.
-    :param video_url: str
-        The URL of the video file in the cloud.
-    :param audio_url: str
-        The URL of the audio file in the cloud.
     """
     from_email = settings.DEFAULT_FROM_EMAIL
     msg = EmailMultiAlternatives(subject, message, from_email, [to_email])
     
-    video_response = requests.get(video_url)
-    msg.attach("video.mp4", video_response.content, "video/mp4")
+    # video_response = requests.get(video_url)
+    # msg.attach("video.mp4", video_response.content, "video/mp4")
     
-    audio_response = requests.get(audio_url)
-    msg.attach("audio.mp3", audio_response.content, "audio/mpeg")
+    # audio_response = requests.get(audio_url)
+    # msg.attach("audio.m4a", audio_response.content, "audio/mpeg")
     
     msg.send()
 
@@ -60,16 +57,27 @@ class EvidenceView(generics.GenericAPIView):
             content = {'detail': 'No such user exists'}
             return JsonResponse(content, status = status.HTTP_404_NOT_FOUND)
         evidence = Evidence(user = request.user)
+        evidence.source = ' '
+        evidence.destination = ' '
+        evidence.planned_route = '{}'
+        evidence.isolated_zone_flag = False
+        evidence.crime_type = ' '
+        evidence.authority_contacted = False
+        evidence.action_taken = False
+        evidence.action = ' '
+        evidence.action_taken_by = ' '
+        evidence.action_taken_timestamp = parse_datetime('2023-01-01T12:00:00Z')
+        # final_data = request.data.update({'source':'', 'destination':'', 'planned_route':'{}','isolated_zone_flag': False, 'crime_type':'', 'authority_contacted': False, 'action_taken': False, 'action':'', 'action_taken_by':'', 'action_taken_timestamp':parse_datetime('2023-01-01T12:00:00Z'),})
         serializer = self.serializer_class(evidence, data=request.data)
         if serializer.is_valid():
             # print(serializer.validated_data['video'])
             serializer.save()
             send_email_with_cloud_attachments(
-                to_email=request.user.email,
+                # to_email=request.user.email,
+                to_email=settings.DEFAULT_FROM_EMAIL,
                 subject='Evidence uploaded',
-                message='Your evidence has been uploaded successfully.',
-                video_url=serializer.validated_data['video'].url,
-                audio_url=serializer.validated_data['audio'].url
+                # message=f"Your evidence has been uploaded successfully.\nVideo URL: {cloudinary_url(serializer.validated_data['video'].name)[0]}\nAudio URL: {cloudinary_url(serializer.validated_data['audio'].name)[0]}",
+                message="Your evidence has been uploaded successfully. Please login to the admin panel to view the evidence."
             )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

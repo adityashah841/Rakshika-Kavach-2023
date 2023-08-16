@@ -24,6 +24,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 import os
 from twilio.rest import Client
+from accounts.models import EmergencyContact
 
 
 # Find your Account SID and Auth Token at twilio.com/console
@@ -243,11 +244,11 @@ def send_notification(user: User, user1: User, latitude: float, longitude: float
         latitude=latitude,
         longitude=longitude
     )
-
+    number = '+91'+str(user1.phone_number)
     message = client.messages.create(
         messaging_service_sid=config('TWILIO_SERVICE_SID'),
         body=f'you have a notification from {user.username}, location is https://www.google.com/maps?q=${notif.latitude},${notif.longitude}',
-        to='+919082230267'
+        to=number
     )
     print(message.sid)
 
@@ -317,6 +318,16 @@ class UserCommunityTrustSearch(generics.GenericAPIView):
         serializer = UserSerializer(instance = user, data=request.data, partial = True)
         if serializer.is_valid():
             serializer.save()
+        user_ecs_phones = [ec.phone for ec in EmergencyContact.objects.filter(user = user)]
+        for ec_phone in user_ecs_phones:
+            number = '+91'+str(ec_phone)
+            message = client.messages.create(
+                messaging_service_sid=config('TWILIO_SERVICE_SID'),
+                body=f'You have a notification from {user.username}, location is https://www.google.com/maps?q=${user.latitude},${user.longitude}',
+                to=number
+            )
+            print(message.sid)
+
         nearest_users = find_nearest_users_astar(user, 20, 5)
         if len(nearest_users) == 1 and nearest_users[0] == -1:
             content = {'detail': 'Error in sending notification'}
