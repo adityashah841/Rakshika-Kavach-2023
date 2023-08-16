@@ -52,7 +52,7 @@ class _EFirFemaleScreenState extends State<EFirFemaleScreen> {
             ),
             const SizedBox(height: 16),
             const Text(
-              "Choose Language",
+              "Choose Location",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 5),
