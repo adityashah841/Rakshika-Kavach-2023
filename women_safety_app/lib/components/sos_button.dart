@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/utils/color.dart';
 import 'package:camera/camera.dart';
 import 'package:record/record.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -13,12 +13,14 @@ import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:cloudinary/cloudinary.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/main.dart';
 
 class SOSButton extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const SOSButton({Key? key, required this.contacts,})
-      : super(key: key);
+  const SOSButton({
+    Key? key,
+    required this.contacts,
+  }) : super(key: key);
   final List<String> contacts;
 
   @override

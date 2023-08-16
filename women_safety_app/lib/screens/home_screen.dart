@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/components/efir_female_component.dart';
-import 'package:women_safety_app/components/emergency_button_component.dart';
-import 'package:women_safety_app/components/sos_button.dart';
-import 'package:women_safety_app/components/warrior_component.dart';
-// import 'package:women_safety_app/utils/color.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/components/app_bar.dart';
+import 'package:Rakshika/components/efir_female_component.dart';
+import 'package:Rakshika/components/emergency_button_component.dart';
+import 'package:Rakshika/components/sos_button.dart';
+import 'package:Rakshika/components/warrior_component.dart';
+// import 'package:Rakshika/utils/color.dart';
+import 'package:Rakshika/main.dart';
 
 class StartScreen extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const StartScreen({super.key,});
+  const StartScreen({
+    super.key,
+  });
 
   @override
   State<StartScreen> createState() => _StartScreenState();
@@ -91,7 +93,9 @@ class _StartScreenState extends State<StartScreen> {
                 ],
               ),
             ),
-            SOSButton(contacts: contacts,),
+            SOSButton(
+              contacts: contacts,
+            ),
             EmergencyButton(contacts: contacts),
           ],
         ),

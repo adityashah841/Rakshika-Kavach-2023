@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/components/app_bar.dart';
+import 'package:Rakshika/components/app_bar.dart';
 
 class EFirAdmin extends StatefulWidget {
   const EFirAdmin({Key? key}) : super(key: key);
@@ -12,61 +12,37 @@ class _EFirAdminState extends State<EFirAdmin> {
   String _selectedTab = 'Pending';
 
   final List<Map<String, dynamic>> _pendingRequests = [
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Anaida Lewis',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Vidhi Kansara',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Vijay Harkare',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Rashi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-     {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-     {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-     {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
@@ -78,55 +54,79 @@ class _EFirAdminState extends State<EFirAdmin> {
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
       'status': 'pending',
     },
-     {
+    {
+      'name': 'Krishi Shah',
+      'crime': 'Theft',
+      'location': '123 Borivali',
+      'status': 'pending',
+    },
+    {
+      'name': 'Krishi Shah',
+      'crime': 'Theft',
+      'location': '123 Borivali',
+      'status': 'pending',
+    },
+    {
+      'name': 'Krishi Shah',
+      'crime': 'Theft',
+      'location': '123 Borivali',
+      'status': 'pending',
+    },
+    {
+      'name': 'Krishi Shah',
+      'crime': 'Theft',
+      'location': '123 Borivali',
+      'status': 'pending',
+    },
+    {
       'name': 'Krishi Shah',
       'crime': 'Theft',
       'location': '123 Borivali',
@@ -267,10 +267,10 @@ class _EFirAdminState extends State<EFirAdmin> {
         tabName,
         style: TextStyle(
           color: _selectedTab == tabName ? Colors.blue : Colors.black,
-          fontWeight: _selectedTab == tabName ? FontWeight.bold : FontWeight.normal,
+          fontWeight:
+              _selectedTab == tabName ? FontWeight.bold : FontWeight.normal,
         ),
       ),
     );
   }
 }
-

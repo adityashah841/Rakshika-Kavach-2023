@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/blog.dart';
-// import 'package:women_safety_app/screens/community_chat.dart';
-import 'package:women_safety_app/screens/fake_call_screen.dart';
-import 'package:women_safety_app/screens/home_screen.dart';
-import 'package:women_safety_app/screens/near_me_screen.dart';
-import 'package:women_safety_app/screens/safe_nav_screen.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/screens/blog.dart';
+// import 'package:Rakshika/screens/community_chat.dart';
+import 'package:Rakshika/screens/fake_call_screen.dart';
+import 'package:Rakshika/screens/home_screen.dart';
+import 'package:Rakshika/screens/near_me_screen.dart';
+import 'package:Rakshika/screens/safe_nav_screen.dart';
+import 'package:Rakshika/utils/color.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/main.dart';
 
 class BottomPage extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const BottomPage({super.key,});
+  const BottomPage({
+    super.key,
+  });
 
   @override
   State<BottomPage> createState() => _BottomPageState();

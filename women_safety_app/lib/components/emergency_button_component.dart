@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shake/shake.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/utils/color.dart';
 
 class EmergencyButton extends StatefulWidget {
   final List<String> contacts;

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/blog.dart';
-import 'package:women_safety_app/screens/chat_bot_screen.dart';
-import 'package:women_safety_app/screens/community_chat.dart';
-import 'package:women_safety_app/screens/fake_call_screen.dart';
-import 'package:women_safety_app/screens/near_me_screen.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/screens/blog.dart';
+import 'package:Rakshika/screens/chat_bot_screen.dart';
+import 'package:Rakshika/screens/community_chat.dart';
+import 'package:Rakshika/screens/fake_call_screen.dart';
+import 'package:Rakshika/screens/near_me_screen.dart';
+import 'package:Rakshika/utils/color.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/main.dart';
 
 class BottomPageMale extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const BottomPageMale({super.key,});
+  const BottomPageMale({
+    super.key,
+  });
 
   @override
   State<BottomPageMale> createState() => _BottomPageMaleState();
@@ -38,6 +40,7 @@ class _BottomPageMaleState extends State<BottomPageMale> {
       const ChatBotScreen(),
     ];
   }
+
   onTapped(int index) {
     setState(() {
       currentIndex = index;

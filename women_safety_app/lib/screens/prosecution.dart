@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:women_safety_app/components/app_bar.dart';
+import 'package:Rakshika/components/app_bar.dart';
 
 class AnalysisScreenProsecution extends StatefulWidget {
   const AnalysisScreenProsecution({Key? key}) : super(key: key);
@@ -86,16 +86,14 @@ class _AnalysisScreenProsecutionState extends State<AnalysisScreenProsecution> {
             SizedBox(
               height: 300,
               child: Center(
-                
                 child: PieChart(
                   PieChartData(
-                    sections: _pieChartData,
-                    startDegreeOffset: -90,
-                    centerSpaceRadius: 40,
-                    borderData: FlBorderData(show: false),
-                    sectionsSpace: 0,
-                    pieTouchData: PieTouchData()
-                  ),
+                      sections: _pieChartData,
+                      startDegreeOffset: -90,
+                      centerSpaceRadius: 40,
+                      borderData: FlBorderData(show: false),
+                      sectionsSpace: 0,
+                      pieTouchData: PieTouchData()),
                 ),
               ),
             ),
@@ -127,23 +125,24 @@ class _AnalysisScreenProsecutionState extends State<AnalysisScreenProsecution> {
   }
 
   Widget _buildTabButton(String tabName, int tabIndex) {
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 10), // Add margin here
-    child: ElevatedButton(
-      onPressed: () {
-        setState(() {
-          _selectedTabIndex = tabIndex;
-          _initializeGraphData(); // Update the graph data based on tab selection
-        });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: _selectedTabIndex == tabIndex ? Colors.blue : Colors.grey,
-        padding: const EdgeInsets.all(10),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10), // Add margin here
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _selectedTabIndex = tabIndex;
+            _initializeGraphData(); // Update the graph data based on tab selection
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor:
+              _selectedTabIndex == tabIndex ? Colors.blue : Colors.grey,
+          padding: const EdgeInsets.all(10),
+        ),
+        child: Text(tabName),
       ),
-      child: Text(tabName),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildDurationButton(String text, int index) {
     return OutlinedButton(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:women_safety_app/components/app_bar.dart';
+import 'package:Rakshika/components/app_bar.dart';
 
 void main() {
   runApp(const MaterialApp(

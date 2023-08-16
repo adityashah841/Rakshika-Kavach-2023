@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:women_safety_app/components/bottom_bar.dart';
-import 'package:women_safety_app/components/bottom_bar_admin.dart';
-import 'package:women_safety_app/components/bottom_bar_male.dart';
-import 'package:women_safety_app/screens/register.dart';
+import 'package:Rakshika/components/bottom_bar.dart';
+import 'package:Rakshika/components/bottom_bar_admin.dart';
+import 'package:Rakshika/components/bottom_bar_male.dart';
+import 'package:Rakshika/screens/register.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/main.dart';
 
 // String? GENDER;
 // String? ACCESS_REGISTER;
@@ -18,7 +18,9 @@ import 'package:women_safety_app/main.dart';
 
 class LoginScreen extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const LoginScreen({super.key,});
+  const LoginScreen({
+    super.key,
+  });
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -107,53 +109,52 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _checkAndRequestPermissions() async {
-  final cameraStatus = await Permission.camera.request();
-  final microphoneStatus = await Permission.microphone.request();
-  final locationStatus = await Permission.location.request();
-  final contactsStatus = await Permission.contacts.request();
+    final cameraStatus = await Permission.camera.request();
+    final microphoneStatus = await Permission.microphone.request();
+    final locationStatus = await Permission.location.request();
+    final contactsStatus = await Permission.contacts.request();
 
-  List<Permission> permissionsToRequest = [];
+    List<Permission> permissionsToRequest = [];
 
-  if (cameraStatus != PermissionStatus.granted) {
-    await Permission.camera.request();
-    permissionsToRequest.add(Permission.camera);
-  }
-  if (microphoneStatus != PermissionStatus.granted) {
-    await Permission.microphone.request();
-    permissionsToRequest.add(Permission.microphone);
-  }
-  if (locationStatus != PermissionStatus.granted) {
-    await Permission.location.request();
-    permissionsToRequest.add(Permission.location);
-  }
-  if (contactsStatus != PermissionStatus.granted) {
-    await Permission.contacts.request();
-    permissionsToRequest.add(Permission.contacts);
-  }
+    if (cameraStatus != PermissionStatus.granted) {
+      await Permission.camera.request();
+      permissionsToRequest.add(Permission.camera);
+    }
+    if (microphoneStatus != PermissionStatus.granted) {
+      await Permission.microphone.request();
+      permissionsToRequest.add(Permission.microphone);
+    }
+    if (locationStatus != PermissionStatus.granted) {
+      await Permission.location.request();
+      permissionsToRequest.add(Permission.location);
+    }
+    if (contactsStatus != PermissionStatus.granted) {
+      await Permission.contacts.request();
+      permissionsToRequest.add(Permission.contacts);
+    }
 
-  // if (permissionsToRequest.isNotEmpty) {
-  //   // ignore: use_build_context_synchronously
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Permission Required'),
-  //         content: const Text('Please grant all required permissions to use the app.'),
-  //         actions: [
-  //           FloatingActionButton(
-  //             child: const Text('OK'),
-  //             onPressed: () async {
-  //               Navigator.of(context).pop(); 
-  //               // await Permission.requestAll(permissionsToRequest);
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-}
-
+    // if (permissionsToRequest.isNotEmpty) {
+    //   // ignore: use_build_context_synchronously
+    //   showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return AlertDialog(
+    //         title: const Text('Permission Required'),
+    //         content: const Text('Please grant all required permissions to use the app.'),
+    //         actions: [
+    //           FloatingActionButton(
+    //             child: const Text('OK'),
+    //             onPressed: () async {
+    //               Navigator.of(context).pop();
+    //               // await Permission.requestAll(permissionsToRequest);
+    //             },
+    //           ),
+    //         ],
+    //       );
+    //     },
+    //   );
+    // }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -350,11 +351,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               // final then = u.then((value) =>
                               //     saveObject(value, 'user_login'));
                               // u.then((value) => GENDER = value['gender']);
-                              if (u != null){var x = await u;
-                              await storage.write(
-                                  key: 'access_login', value: x["access"]);
-                              await storage.write(
-                                  key: 'gender', value: x["gender"]);}
+                              if (u != null) {
+                                var x = await u;
+                                await storage.write(
+                                    key: 'access_login', value: x["access"]);
+                                await storage.write(
+                                    key: 'gender', value: x["gender"]);
+                              }
                               String? GENDER =
                                   await storage.read(key: 'gender');
 
@@ -375,8 +378,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 if (GENDER == 'Female') {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const BottomPage(),
+                                      builder: (context) => const BottomPage(),
                                     ),
                                   );
                                 } else if (GENDER == 'Male') {
@@ -389,7 +391,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 } else if (GENDER == 'Admin') {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => const BottomPageAdmin(),
+                                      builder: (context) =>
+                                          const BottomPageAdmin(),
                                     ),
                                   );
                                 }
@@ -405,7 +408,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => const RegisterScreen()));
+                                      builder: (context) =>
+                                          const RegisterScreen()));
                                 },
                                 child: const Text(
                                   'Not a member? Register',

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/utils/color.dart';
 // import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 
 class ChatBotScreen extends StatelessWidget {

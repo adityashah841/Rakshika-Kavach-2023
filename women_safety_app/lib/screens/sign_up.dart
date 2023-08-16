@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:women_safety_app/screens/log_in.dart';
+import 'package:Rakshika/screens/log_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/main.dart';
 
 class SignupScreen extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const SignupScreen({super.key,});
+  const SignupScreen({
+    super.key,
+  });
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -432,7 +434,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                       } else {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
-                                            builder: (context) => const LoginScreen(),
+                                            builder: (context) =>
+                                                const LoginScreen(),
                                           ),
                                         );
                                       }

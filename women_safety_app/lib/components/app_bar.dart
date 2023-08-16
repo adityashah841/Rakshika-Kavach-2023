@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/profile_screen.dart';
-import 'package:women_safety_app/screens/notification_screen.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/screens/profile_screen.dart';
+import 'package:Rakshika/screens/notification_screen.dart';
+import 'package:Rakshika/utils/color.dart';
 
 class AppBarConstant extends StatefulWidget implements PreferredSizeWidget {
   const AppBarConstant({super.key});
@@ -10,8 +10,8 @@ class AppBarConstant extends StatefulWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(
       MediaQueryData.fromView(PlatformDispatcher.instance.views.first)
-          .size
-          .height *
+              .size
+              .height *
           0.071);
   @override
   State<AppBarConstant> createState() => _AppBarConstantState();
@@ -30,8 +30,8 @@ class _AppBarConstantState extends State<AppBarConstant> {
       actions: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => NotificationScreen()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => NotificationScreen()));
           },
           child: Container(
             margin: const EdgeInsets.fromLTRB(5, 0, 3, 0),

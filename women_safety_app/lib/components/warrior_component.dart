@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:women_safety_app/screens/community_chat.dart';
-import 'package:women_safety_app/utils/color.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/screens/community_chat.dart';
+import 'package:Rakshika/utils/color.dart';
+import 'package:Rakshika/main.dart';
 
 // import '../utils/color.dart';
 
 class WarriorsBox extends StatelessWidget {
   // final FlutterSecureStorage storage;
-  const WarriorsBox({Key? key,}) : super(key: key);
+  const WarriorsBox({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

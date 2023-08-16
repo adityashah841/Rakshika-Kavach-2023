@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/utils/color.dart';
 
 class BlogSlider extends StatelessWidget {
   final List<String> imageList;

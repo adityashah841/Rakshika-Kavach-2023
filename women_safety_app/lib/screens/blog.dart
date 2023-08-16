@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/utils/color.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/components/app_bar.dart';
+import 'package:Rakshika/utils/color.dart';
+import 'package:Rakshika/main.dart';
 
 class Blog {
   String title;
@@ -52,7 +52,9 @@ Future<List<Blog>> getBlogs(String? authToken) async {
 
 class BlogScreen extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const BlogScreen({super.key,});
+  const BlogScreen({
+    super.key,
+  });
 
   @override
   State<BlogScreen> createState() => _BlogScreenState();
@@ -122,15 +124,15 @@ class _BlogScreenState extends State<BlogScreen> {
                   // Display the minimized image
                   post.imageURL.isNotEmpty
                       ? SizedBox(
-                    height: 150, // Set the desired height
-                    width: double
-                        .infinity, // Match the width of the container
-                    child: Image.network(
-                      post.imageURL,
-                      fit:
-                      BoxFit.cover, // Adjust the image's aspect ratio
-                    ),
-                  )
+                          height: 150, // Set the desired height
+                          width: double
+                              .infinity, // Match the width of the container
+                          child: Image.network(
+                            post.imageURL,
+                            fit:
+                                BoxFit.cover, // Adjust the image's aspect ratio
+                          ),
+                        )
                       : const SizedBox.shrink(),
 
                   const SizedBox(height: 8.0),
@@ -144,8 +146,7 @@ class _BlogScreenState extends State<BlogScreen> {
                   isExpanded
                       ? Text(post.content)
                       : Text(
-                          post.content.substring(
-                              0, 150), 
+                          post.content.substring(0, 150),
                         ),
 
                   const SizedBox(height: 8.0),
@@ -163,7 +164,7 @@ class _BlogScreenState extends State<BlogScreen> {
                     child: Text(
                       isExpanded ? 'Read less' : 'Read more',
                       style: const TextStyle(
-                        color: rBottomBar, 
+                        color: rBottomBar,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

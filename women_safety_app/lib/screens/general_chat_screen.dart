@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/screens/blog.dart';
-import 'package:women_safety_app/screens/chat_bot_screen.dart';
-import 'package:women_safety_app/screens/community_chat.dart';
-import 'package:women_safety_app/screens/video_call_screen.dart';
-import 'package:women_safety_app/utils/color.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/components/app_bar.dart';
+import 'package:Rakshika/screens/blog.dart';
+import 'package:Rakshika/screens/chat_bot_screen.dart';
+import 'package:Rakshika/screens/community_chat.dart';
+import 'package:Rakshika/screens/video_call_screen.dart';
+import 'package:Rakshika/utils/color.dart';
+import 'package:Rakshika/main.dart';
 
 class GeneralChatScreen extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const GeneralChatScreen({Key? key,}) : super(key: key);
+  const GeneralChatScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _GeneralChatScreenState createState() => _GeneralChatScreenState();

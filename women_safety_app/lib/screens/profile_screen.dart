@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/utils/color.dart';
 
 void main() {
   runApp(const MaterialApp(

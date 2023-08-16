@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:women_safety_app/screens/log_in.dart';
-import 'package:women_safety_app/screens/sign_up.dart';
+import 'package:Rakshika/screens/log_in.dart';
+import 'package:Rakshika/screens/sign_up.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/main.dart';
 
 Future<bool> saveObject(dynamic myObject, String objectName) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -29,7 +29,9 @@ dynamic getObject(String objectName) async {
 
 class RegisterScreen extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const RegisterScreen({super.key,});
+  const RegisterScreen({
+    super.key,
+  });
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -239,9 +241,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 visible: !showOtpField,
                                 child: TextButton(
                                   onPressed: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                            builder: (context) => const LoginScreen()));
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginScreen()));
                                   },
                                   child: const Text(
                                     'Already a member? Login',
@@ -335,7 +338,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   // print("\n\n");
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (context) => const SignupScreen(),
+                                      builder: (context) =>
+                                          const SignupScreen(),
                                     ),
                                   );
                                 } else {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:women_safety_app/components/app_bar.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/components/app_bar.dart';
+import 'package:Rakshika/utils/color.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

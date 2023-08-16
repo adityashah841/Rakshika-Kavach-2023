@@ -2,16 +2,16 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:women_safety_app/components/bottom_bar.dart';
-import 'package:women_safety_app/components/bottom_bar_admin.dart';
-import 'package:women_safety_app/components/bottom_bar_male.dart';
+import 'package:Rakshika/components/bottom_bar.dart';
+import 'package:Rakshika/components/bottom_bar_admin.dart';
+import 'package:Rakshika/components/bottom_bar_male.dart';
 import 'package:record/record.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import 'package:women_safety_app/screens/log_in.dart';
+import 'package:Rakshika/screens/log_in.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-// import 'package:women_safety_app/screens/register.dart';
+// import 'package:Rakshika/screens/register.dart';
 
 final storage = const FlutterSecureStorage();
 

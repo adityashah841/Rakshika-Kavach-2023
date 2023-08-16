@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/screens/analysis_precaution.dart';
-import 'package:women_safety_app/screens/blog.dart';
-import 'package:women_safety_app/screens/e_fir_admin.dart';
-import 'package:women_safety_app/screens/prevention.dart';
-import 'package:women_safety_app/screens/prosecution.dart';
-import 'package:women_safety_app/utils/color.dart';
+import 'package:Rakshika/screens/analysis_precaution.dart';
+import 'package:Rakshika/screens/blog.dart';
+import 'package:Rakshika/screens/e_fir_admin.dart';
+import 'package:Rakshika/screens/prevention.dart';
+import 'package:Rakshika/screens/prosecution.dart';
+import 'package:Rakshika/utils/color.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:women_safety_app/main.dart';
+import 'package:Rakshika/main.dart';
 
 class BottomPageAdmin extends StatefulWidget {
   // final FlutterSecureStorage storage;
-  const BottomPageAdmin({super.key,});
+  const BottomPageAdmin({
+    super.key,
+  });
 
   @override
   State<BottomPageAdmin> createState() => _BottomPageAdminState();
@@ -21,7 +23,7 @@ class _BottomPageAdminState extends State<BottomPageAdmin> {
   int currentIndex = 2;
   // List<Widget> pages = [
   //   const BlogScreen(),
-    // const AnalysisScreenPrevention(),
+  // const AnalysisScreenPrevention(),
   //   const AnalysisScreenPre(),
   //    AnalysisScreenPrevention(),
   //   const AnalysisScreenProsecution(),
@@ -40,6 +42,7 @@ class _BottomPageAdminState extends State<BottomPageAdmin> {
       const EFirAdmin(),
     ];
   }
+
   onTapped(int index) {
     setState(() {
       currentIndex = index;
