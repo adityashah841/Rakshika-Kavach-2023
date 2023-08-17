@@ -10,6 +10,8 @@ import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:Rakshika/main.dart';
+// import 'package:workmanager/workmanager.dart';
+// import 'package:geolocator/geolocator.dart';
 
 // String? GENDER;
 // String? ACCESS_REGISTER;

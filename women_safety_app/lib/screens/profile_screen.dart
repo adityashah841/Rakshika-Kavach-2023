@@ -21,6 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool cameraToggle = false;
   bool nightModeToggle = false;
   bool contactsToggle = false;
+  bool notificationsToggle = false;
 
   List<String> otherAddresses = [
     'Work Address 1',
@@ -146,10 +147,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 itemProfileToggle(
                   'Allow for Notification',
                   CupertinoIcons.bell_circle,
-                  cameraToggle,
+                  // cameraToggle,
+                  notificationsToggle,
                   (value) {
                     setState(() {
                       // cameraToggle = value;
+                      notificationsToggle = value;
                     });
                   },
                 ),
