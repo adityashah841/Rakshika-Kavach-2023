@@ -359,6 +359,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     key: 'access_login', value: x["access"]);
                                 await storage.write(
                                     key: 'gender', value: x["gender"]);
+                                await storage.write(
+                                    key: 'username', value: x['username']);
                               }
                               String? GENDER =
                                   await storage.read(key: 'gender');

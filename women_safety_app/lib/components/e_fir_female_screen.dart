@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:Rakshika/components/app_bar.dart';
 import 'package:file_picker/file_picker.dart';
 import '../utils/color.dart';
+import 'package:http/http.dart' as http;
+import 'package:Rakshika/main.dart';
 
 class EFirFemaleScreen extends StatefulWidget {
   const EFirFemaleScreen({super.key});
@@ -15,6 +17,43 @@ class _EFirFemaleScreenState extends State<EFirFemaleScreen> {
   String _selectedLocation = 'Location A'; // Default location
   String _audioFilePath = ''; // Store the selected audio file path
   String _videoFilePath = ''; // Store the selected video file path
+
+  Future<void> fileEFir(String? authToken, String crime_description, String location, String audioFilePath, String videoFilePath) async {
+    // Create a multipart request
+    var request = http.MultipartRequest('POST', Uri.parse('https://rakshika.onrender.com/efir/file_efir/'));
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $authToken',
+    };
+    request.headers.addAll(headers);
+    // Attach the audio file or an empty field
+    if (audioFilePath != '') {
+      // var audioFile = await http.MultipartFile.fromPath('audio', audioFilePath);
+      request.files.add(await http.MultipartFile.fromPath('audio', audioFilePath));
+    }
+    
+    // Attach the video file or an empty field
+    if (videoFilePath != '') {
+      // var videoFile = await http.MultipartFile.fromPath('video', videoFilePath);
+      request.files.add(await http.MultipartFile.fromPath('video', videoFilePath));
+    }
+
+    request.fields['location'] = location;
+    request.fields['crime_description'] = crime_description;
+    
+    // Send the request
+    var response = await request.send();
+    
+    // Check the response status code
+    if (response.statusCode == 201) {
+      print('Files uploaded successfully');
+    } else {
+      print('Failed to upload files');
+      print(response.reasonPhrase);
+      print(response.stream.toString());
+      throw Exception('Failed to upload files');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +137,16 @@ class _EFirFemaleScreenState extends State<EFirFemaleScreen> {
                 _buildAttachmentField("Attach Video", _videoFilePath),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    String? authToken = await storage.read(key: 'access_login');
+                    await fileEFir(
+                      authToken,
+                      _descriptionController.text,
+                      _selectedLocation,
+                      _audioFilePath,
+                      _videoFilePath,
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF7A7AB6), // Set the background color
                   ),

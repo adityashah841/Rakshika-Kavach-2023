@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Rakshika/components/app_bar.dart';
+import 'package:Rakshika/main.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class EFirAdmin extends StatefulWidget {
   const EFirAdmin({Key? key}) : super(key: key);
@@ -8,131 +11,176 @@ class EFirAdmin extends StatefulWidget {
   _EFirAdminState createState() => _EFirAdminState();
 }
 
+Future<List<Map<String, dynamic>>> getEfirs(String? authToken) async {
+  final response = await http.get(
+    Uri.parse('https://rakshika.onrender.com/efir/get_efirs/all/'),
+    headers: {
+      'accept': 'application/json',
+      // 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxNzI4NDU0LCJpYXQiOjE2OTE0NjkyNTQsImp0aSI6ImY3MzYyMzc5Y2I5MTQ1MTM4OWM0MDU2M2ZlMjY3ODE4IiwidXNlcl9pZCI6NX0.LmamNhJ_rMYSSeygaB677gxVCjSBpsxUSjJU0XaHO9U',
+      'Authorization': 'Bearer $authToken',
+    },
+  );
+
+  if (response.statusCode == 200) {
+    var uname = await storage.read(key: 'username');
+    final data = jsonDecode(response.body);
+    // print(data);
+    final efirs = data.map<Map<String, dynamic>>((efirData) {
+      return {
+        'name': uname,
+        'crime': efirData['crime_description'],
+        'location': efirData['location'],
+        'status': efirData['status'],
+      };
+    }).toList();
+    // print(blogs);
+    return efirs;
+  } else {
+    throw Exception('Failed to load efirs');
+  }
+}
+
 class _EFirAdminState extends State<EFirAdmin> {
   String _selectedTab = 'Pending';
+  List<Map<String, dynamic>> _pendingRequests = [];
 
-  final List<Map<String, dynamic>> _pendingRequests = [
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Anaida Lewis',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Vidhi Kansara',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Vijay Harkare',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Rashi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-    {
-      'name': 'Krishi Shah',
-      'crime': 'Theft',
-      'location': '123 Borivali',
-      'status': 'pending',
-    },
-  ];
+  Future<void> setFIRs() async {
+    String? authToken = await storage.read(key: 'access_login');
+    getEfirs(authToken).then((efirs) {
+      setState(() {
+        _pendingRequests = efirs;
+      });
+    }); 
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setFIRs();
+  }
+
+  // _pendingRequests = [
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Anaida Lewis',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Vidhi Kansara',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Vijay Harkare',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Rashi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  //   {
+  //     'name': 'Krishi Shah',
+  //     'crime': 'Theft',
+  //     'location': '123 Borivali',
+  //     'status': 'pending',
+  //   },
+  // ];
 
   final List<Map<String, dynamic>> _completedRequests = [];
   final List<Map<String, dynamic>> _discardedRequests = [];
