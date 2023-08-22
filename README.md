@@ -90,7 +90,7 @@ Aditya Shah: AI/ML and IoT Developer: https://github.com/adityashah841
   <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/abc574b0-2ff5-440c-806b-99d7e7bbb65f" width = "200">
   <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/bba60164-c7e0-4bee-9dbf-f6c3c92db473" width = "200">
   <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/1dfcd98b-d783-4dea-bae8-56170aafb453" width = "200">
-  <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/70f10ea7-e844-4a49-983a-058c3664ff35" width = "200">
+  <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/70f10ea7-e844-4a49-983a-058c3664ff35" width = "400">
 </p>
 
 <p float="left">
