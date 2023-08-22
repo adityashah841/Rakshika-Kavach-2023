@@ -95,6 +95,7 @@ Aditya Shah: AI/ML and IoT Developer: https://github.com/adityashah841
 
 <p float="left">
 <img src="https://github.com/AnaidaLewis/project2023/assets/91888013/1cf3b1bb-04f8-4b4e-815b-9a59be62786c" width = "200">
+<img src="https://github.com/adityashah841/Kavach2023/assets/80106093/96f37cc7-f50c-49ce-9441-ab107c3c9152" width = "200">
 </p>
 
 
