@@ -1,38 +1,38 @@
 # Rakshika - New Age Women Safety Application🛡️
 
-### Kavach 2023 - A national level hackathon organised by the MoE's Innovation Cell,AICTE in collaboration with Bureau of Police Research and Development (BPR&D)(MHA) and Indian Cybercrime Coordination Centre (I4C)(MHA) to identify innovative concepts and technology solutions for addressing the security challenges of the 21st century faced by Indian intelligence agencies and conceived to challenge India's innovative minds to conceptualise ideas and framework in the domain of cyber security using artificial intelligence, deep learning, machine learning, automation, big data and cloud computing.
-## Introduction:
-<p>Hello Everyone, this is the team Sleep Deprived which consists of 6 members and each stack: Krish Shah, Mohammed Raza, Vidhi Kansara for Flutter(Frontend), Anaida Lewis and Vijay Harkare for Django(Backend), Aditya Shah and Mohammed Raza for AI/ML and Aditya Shah for IOT</p>
+### Kavach 2023 - Rakshika is a revolutionary women's safety application developed as part of Kavach 2023, a prestigious national-level hackathon organized by the Ministry of Education's Innovation Cell (AICTE). In collaboration with the Bureau of Police Research and Development (BPR&D) and the Indian Cybercrime Coordination Centre (I4C), Rakshika aims to tackle the security challenges of the 21st century faced by Indian intelligence agencies. This project harnesses cutting-edge technology including artificial intelligence, deep learning, machine learning, automation, big data, and cloud computing.
 
 ## Problem Statement : 
 
 <p>Design and develop a Women safety app that automatically senses the danger to a mobile user and triggers an SOS alert with location details based on multimodal data from a mobile device such as audio, video, image, motion detection etc., given a situation that the user is not able to operate the mobile.</p>
 
-## Contributors:
-Aditya Shah: https://github.com/adityashah841
-<br />Krish Shah: https://github.com/krish459
-<br />Vidhi Kansara: https://github.com/vidhikansara12
-<br />Mohammed Raza: https://github.com/mohd-raza
-<br />Anaida Lewis: https://github.com/AnaidaLewis
-<br />Vijay Harkare: https://github.com/VijayHarkare21
+## Team - Sleep Deprived 😴:
+We are Team Sleep Deprived, a diverse group of 6 dedicated individuals, each bringing unique expertise to the table
+
+Aditya Shah: AI/ML and IoT Developer: https://github.com/adityashah841
+<br />Krish Shah: Frontend (Flutter) Developer: https://github.com/krish459
+<br />Vidhi Kansara: Frontend (Flutter) Developer: https://github.com/vidhikansara12
+<br />Mohammed Raza: Frontend (Flutter) Developer: https://github.com/mohd-raza
+<br />Anaida Lewis: Backend (Django) Developer: https://github.com/AnaidaLewis
+<br />Vijay Harkare: Backend (Django) Developer: https://github.com/VijayHarkare21
 
 ## Key Features of Rakshika:
-* User Login and Registration using Aadhar Number, Phone Number and OTP.
-* An Automatic triggered SOS button to instantly start video recording and capture the evidence for crime.
-* Live Audio Monitoring.
-* Audio recongnition of specific custom keywords in case of emergency such as Bachao, Rakshika Save me, etc..
-* Safest Navigation Route from one place to another on the basis of the number of police stations, hospitals, schools and crowd.
-* Instant calling for nearest services such as police stations, railway, hospitals, bus stations, pharmacies, and religious centers.
-* A community of rakshika warriors to instantly alert and notify emergency contacts.
-* A Fake call system which records audio of user for 15 seconds and is shared with emergency contacts.
-* A Profile Page for user to add emergency contacts, other work/office addresses & allow permission access.
-* A speech notification send to the user if an emergency contact has accepted is nearby and coming to help.
-* Blog sections to spread awareness to the people about self defence and women safety.
-* Admin view allows the statistics of the crime rate prevention, womens saved, weekly and monthly report & visual dashboards.
-* A network mess of emergency contacts to allow trusted links to help the women in need.
-* Multingual app which allows Hindi and English both.
-* IOT device developed to work in remote place without internet and prevent crime
-* IOT device allows user to give a small amount of electric shock to the criminal in need.
+* User Authentication: Secure login and registration via Aadhar Number, Phone Number, and OTP.
+* Emergency SOS: Instantly triggers video recording and evidence capture.
+* Live Audio Monitoring: Real-time audio surveillance.
+* Custom Audio Recognition: Identifies emergency keywords like "Rakshika Bachao" and "Rakshika Save me."
+* Safe Navigation: Finds the safest routes based on police stations, hospitals, schools, and crowd density.
+* Quick Services: One-touch calls to emergency services, police, hospitals, and more.
+* Community Support: Connects users with a community of Rakshika warriors and emergency contacts.
+* Fake Call System: Simulates a call while recording audio for emergency sharing.
+* Profile Management: Users can add emergency contacts, work addresses, and manage permissions.
+* Proximity Notifications: Alerts when nearby emergency contacts or warriors are on their way
+* Educational Blogs: Empowers users with self-defense and safety awareness.
+* Admin Insights: Provides crime prevention statistics, reports, and visual dashboards.
+* Trusted Network: Establishes a web of emergency contacts for trusted assistance.
+* Multilingual Support: Available in both Hindi and English.
+* IoT Device Integration: Special IoT device for remote areas without internet.
+* Self-Defense Mechanism: IoT device capable of delivering a non-lethal electric shock.
 
 <h2 align="left">Languages and Tools:</h2>
 <p align="left">
