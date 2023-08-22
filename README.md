@@ -18,7 +18,7 @@ Aditya Shah: AI/ML and IoT Developer: https://github.com/adityashah841
 
 ## Key Features of Rakshika:
 * User Authentication: Secure login and registration via Aadhar Number, Phone Number, and OTP.
-* Emergency SOS: Instantly triggers video recording and evidence capture.
+* Emergency SOS: Instantly triggers video recording and evidence capture while sending live location signals to emergency contacts, rakshika warriors in that region and police patrol vans.
 * Live Audio Monitoring: Real-time audio surveillance.
 * Custom Audio Recognition: Identifies emergency keywords like "Rakshika Bachao" and "Rakshika Save me."
 * Safe Navigation: Finds the safest routes based on police stations, hospitals, schools, and crowd density.
