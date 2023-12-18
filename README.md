@@ -9,7 +9,7 @@
 ## Team - Sleep Deprived 😴:
 We are Team Sleep Deprived, a diverse group of 6 dedicated individuals, each bringing unique expertise to the table
 
-Aditya Shah: AI/ML and IoT Developer: https://github.com/adityashah841
+Aditya Shah: AI/ML, Flutter and IoT Developer: https://github.com/adityashah841
 <br />Krish Shah: Frontend (Flutter) Developer: https://github.com/krish459
 <br />Vidhi Kansara: Frontend (Flutter) Developer: https://github.com/vidhikansara12
 <br />Mohammed Raza: Frontend (Flutter) Developer: https://github.com/mohd-raza
