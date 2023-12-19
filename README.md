@@ -6,15 +6,6 @@
 
 <p>Design and develop a Women safety app that automatically senses the danger to a mobile user and triggers an SOS alert with location details based on multimodal data from a mobile device such as audio, video, image, motion detection etc., given a situation that the user is not able to operate the mobile.</p>
 
-## Team - Sleep Deprived 😴:
-We are Team Sleep Deprived, a diverse group of 6 dedicated individuals, each bringing unique expertise to the table
-
-Aditya Shah: AI/ML, Flutter and IoT Developer: https://github.com/adityashah841
-<br />Krish Shah: Frontend (Flutter) Developer: https://github.com/krish459
-<br />Vidhi Kansara: Frontend (Flutter) Developer: https://github.com/vidhikansara12
-<br />Mohammed Raza: Frontend (Flutter) Developer: https://github.com/mohd-raza
-<br />Anaida Lewis: Backend (Django) Developer: https://github.com/AnaidaLewis
-<br />Vijay Harkare: Backend (Django) Developer: https://github.com/VijayHarkare21
 
 ## Key Features of Rakshika:
 * User Authentication: Secure login and registration via Aadhar Number, Phone Number, and OTP.
@@ -98,4 +89,12 @@ Aditya Shah: AI/ML, Flutter and IoT Developer: https://github.com/adityashah841
 <img src="https://github.com/adityashah841/Kavach2023/assets/80106093/96f37cc7-f50c-49ce-9441-ab107c3c9152" width = "400">
 </p>
 
+## Team - Sleep Deprived 😴:
+We are Team Sleep Deprived, a diverse group of 6 dedicated individuals, each bringing unique expertise to the table
 
+Aditya Shah: AI/ML, Flutter and IoT Developer: https://github.com/adityashah841
+<br />Krish Shah: Frontend (Flutter) Developer: https://github.com/krish459
+<br />Vidhi Kansara: Frontend (Flutter) Developer: https://github.com/vidhikansara12
+<br />Mohammed Raza: Frontend (Flutter) Developer: https://github.com/mohd-raza
+<br />Anaida Lewis: Backend (Django) Developer: https://github.com/AnaidaLewis
+<br />Vijay Harkare: Backend (Django) Developer: https://github.com/VijayHarkare21
