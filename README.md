@@ -1,5 +1,8 @@
 # Rakshika - New Age Women Safety Application🛡️
 
+> 🥈 **National Runner-Up, Kavach 2023**: ranked 2nd nationally among 160,000+ participants (AICTE · BPR&D · I4C).
+
+
 ### Kavach 2023 - Rakshika is a revolutionary women's safety application developed as part of Kavach 2023, a prestigious national-level hackathon organized by the Ministry of Education's Innovation Cell (AICTE). In collaboration with the Bureau of Police Research and Development (BPR&D) and the Indian Cybercrime Coordination Centre (I4C), Rakshika aims to tackle the security challenges of the 21st century faced by Indian intelligence agencies. This project harnesses cutting-edge technology including artificial intelligence, deep learning, machine learning, automation, big data, and cloud computing.
 
 ## Problem Statement : 
